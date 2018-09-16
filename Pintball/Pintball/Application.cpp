@@ -4,7 +4,8 @@
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
 #include "ModuleTutorial.h"
-
+#include "ModuleFadeToBlack.h"
+#include "ModulePintball.h"
 
 
 Application::Application()
@@ -14,7 +15,8 @@ Application::Application()
 	modules[2] = input = new ModuleInput();
 	modules[3] = textures = new ModuleTextures();
 	modules[4] = tutorial = new ModuleTutorial();
-
+	modules[5] = fade = new ModuleFadeToBlack();
+	modules[6] = pintball = new ModulePintball();
 
 }
 

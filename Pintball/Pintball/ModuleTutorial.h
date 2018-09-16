@@ -21,8 +21,7 @@ public:
 
 	SDL_Texture * tuto = nullptr;
 	Animation Tutorial;
-	uint fx = 0;
-	Mix_Music * music = nullptr;
+
 };
 
 #endif

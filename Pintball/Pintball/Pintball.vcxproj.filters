@@ -48,6 +48,12 @@
     <ClInclude Include="ModuleTutorial.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleFadeToBlack.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModulePintball.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -72,6 +78,12 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleTutorial.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFadeToBlack.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModulePintball.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
