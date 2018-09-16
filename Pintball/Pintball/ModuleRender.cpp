@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
+#include "ModuleInput.h"
 #include "SDL/include/SDL.h"
 
 ModuleRender::ModuleRender() : Module()
@@ -48,7 +49,15 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::Update()
 {
-	
+	int speed = 3;
+
+	if (App->input->keyboard[SDL_SCANCODE_UP] == 1)
+		camera.y += speed;
+
+	if (App->input->keyboard[SDL_SCANCODE_DOWN] == 1)
+		camera.y -= speed;
+
+	// TODO 1: Make the camera move left and right
 
 	return update_status::UPDATE_CONTINUE;
 }

@@ -16,4 +16,4 @@ public:
 	virtual bool CleanUp() { return true; }
 };
 
-#endif
+#endif // __MODULE_H__

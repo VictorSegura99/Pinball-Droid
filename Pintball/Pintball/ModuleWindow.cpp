@@ -7,12 +7,12 @@ ModuleWindow::ModuleWindow() : Module()
 {
 }
 
-
+// Destructor
 ModuleWindow::~ModuleWindow()
 {
 }
 
-
+// Called before render is available
 bool ModuleWindow::Init()
 {
 	LOG("Init SDL window & surface");

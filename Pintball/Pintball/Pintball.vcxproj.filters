@@ -21,39 +21,51 @@
     <ClInclude Include="p2Point.h">
       <Filter>Containers</Filter>
     </ClInclude>
-    <ClInclude Include="..\Application.h">
+    <ClInclude Include="Application.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Globals.h">
+    <ClInclude Include="Globals.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\MemLeaks.h">
+    <ClInclude Include="MemLeaks.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="..\Module.h">
+    <ClInclude Include="Module.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="..\ModuleWindow.h">
+    <ClInclude Include="ModuleWindow.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="..\ModuleRender.h">
+    <ClInclude Include="ModuleTextures.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleInput.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleRender.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Application.cpp">
+    <ClCompile Include="Application.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Globals.cpp">
+    <ClCompile Include="Globals.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\Main.cpp">
+    <ClCompile Include="Main.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\ModuleWindow.cpp">
+    <ClCompile Include="ModuleWindow.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="..\ModuleRender.cpp">
+    <ClCompile Include="ModuleRender.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleInput.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTextures.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>

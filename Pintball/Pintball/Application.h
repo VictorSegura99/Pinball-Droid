@@ -3,11 +3,12 @@
 
 #include "Globals.h"
 
-#define NUM_MODULES 2
+#define NUM_MODULES 4
 
 class ModuleWindow;
+class ModuleInput;
+class ModuleTextures;
 class ModuleRender;
-
 class Module;
 
 class Application
@@ -17,6 +18,8 @@ public:
 	Module * modules[NUM_MODULES] = { nullptr };
 	ModuleWindow* window = nullptr;
 	ModuleRender* render = nullptr;
+	ModuleInput* input = nullptr;
+	ModuleTextures* textures = nullptr;
 
 
 public:
@@ -30,6 +33,7 @@ public:
 
 };
 
+// Global var made extern for Application ---
 extern Application* App;
 
-#endif 
+#endif // __APPLICATION_H__
