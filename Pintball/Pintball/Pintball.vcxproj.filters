@@ -45,6 +45,9 @@
     <ClInclude Include="ModuleRender.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleTutorial.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -66,6 +69,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleTextures.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTutorial.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
