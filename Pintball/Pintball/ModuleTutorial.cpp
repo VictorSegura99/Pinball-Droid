@@ -4,6 +4,7 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleTutorial.h"
+#include "ModuleFadeToBlack.h"
 #include "SDL\include\SDL.h"
 
 
@@ -11,7 +12,7 @@
 
 ModuleTutorial::ModuleTutorial()
 {
-	Tutorial.PushBack({ 8, 68, 208, 144 });
+	Tutorial.PushBack({ 4, 74, 147, 100 });
 	Tutorial.loop = false;
 }
 
@@ -54,6 +55,10 @@ update_status ModuleTutorial::Update()
 {
 	SDL_RenderClear(App->render->renderer);
 	anim = &Tutorial;
-	App->render->Blit(tuto, 8, 68, &(anim->GetCurrentFrame()));
+	App->render->Blit(tuto, 5, 68, &(anim->GetCurrentFrame()));
+	if ((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN && App->fade->IsFading() == false))
+	{
+		App->fade->FadeToBlack(this, (Module*)App->pintball, 0.0f);
+	}
 	return UPDATE_CONTINUE;
 }
