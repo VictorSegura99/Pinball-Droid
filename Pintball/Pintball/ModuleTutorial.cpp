@@ -22,7 +22,7 @@ ModuleTutorial::~ModuleTutorial()
 bool ModuleTutorial::Start()
 {
 	LOG("Loading space intro");
-	tuto = App->textures->Load("Photos/Tutorial.png");
+	tuto = App->textures->Load("Assets/sprites/Tutorial.png");
 
 	App->render->camera.x = App->render->camera.y = 0;
 	Tutorial.Reset();

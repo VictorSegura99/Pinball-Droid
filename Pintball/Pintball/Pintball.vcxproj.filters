@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Modules\MovingThings">
+      <UniqueIdentifier>{07c7ea82-c99c-4d0e-8cea-77165954a6f2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Animation.h">
@@ -54,6 +57,15 @@
     <ClInclude Include="ModulePintball.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Flecha.h">
+      <Filter>Modules\MovingThings</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleCosas.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Cosa.h">
+      <Filter>Modules\MovingThings</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -85,6 +97,15 @@
     </ClCompile>
     <ClCompile Include="ModulePintball.cpp">
       <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Flecha.cpp">
+      <Filter>Modules\MovingThings</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleCosas.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Cosa.cpp">
+      <Filter>Modules\MovingThings</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

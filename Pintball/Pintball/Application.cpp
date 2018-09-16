@@ -6,6 +6,7 @@
 #include "ModuleTutorial.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePintball.h"
+#include "ModuleCosas.h"
 
 
 Application::Application()
@@ -17,6 +18,7 @@ Application::Application()
 	modules[4] = tutorial = new ModuleTutorial();
 	modules[5] = fade = new ModuleFadeToBlack();
 	modules[6] = pintball = new ModulePintball();
+	modules[7] = cosas = new ModuleCosas();
 
 }
 
