@@ -13,10 +13,6 @@ public:
 	ModuleTutorial();
 	~ModuleTutorial();
 	Animation* anim = nullptr;
-	Animation* anim2 = nullptr;
-	Animation* anim3 = nullptr;
-	Animation* anim4 = nullptr;
-	Animation* anim5 = nullptr;
 	bool Start();
 	update_status Update();
 	bool CleanUp();
@@ -24,7 +20,7 @@ public:
 public:
 
 	SDL_Texture * tuto = nullptr;
-	Animation Neogeo;
+	Animation Tutorial;
 	uint fx = 0;
 	Mix_Music * music = nullptr;
 };
