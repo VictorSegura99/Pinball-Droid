@@ -13,6 +13,11 @@ Flecha::Flecha()
 	hit.PushBack({ 76,0,74,42 });
 	hit.PushBack({ 0, 0, 75,38 });
 	hit.speed = 0.5f;
+
+	rep.PushBack({ 76,0,74,42 });
+	rep.PushBack({ 0, 0, 75,38 });
+	rep.speed = 0.5f;
+	rep.loop = false;
 }
 
 Flecha::~Flecha()
@@ -47,6 +52,12 @@ update_status Flecha::Update()
 	{
 		if (current_animation != &idle) {
 			current_animation = &idle;
+		}
+	}
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT)
+	{
+		if (current_animation != &rep) {
+			current_animation = &rep;
 		}
 	}
 	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
