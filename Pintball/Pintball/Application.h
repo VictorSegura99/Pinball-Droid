@@ -13,6 +13,7 @@ class ModuleTutorial;
 class ModuleFadeToBlack;
 class ModulePintball;
 class Module;
+class Flecha;
 
 class Application
 {
@@ -26,6 +27,7 @@ public:
 	ModuleTutorial* tutorial = nullptr;
 	ModuleFadeToBlack* fade = nullptr;
 	ModulePintball* pintball = nullptr;
+	Flecha* flecha = nullptr;
 
 public:
 

@@ -12,7 +12,7 @@
 
 ModuleTutorial::ModuleTutorial()
 {
-	Tutorial.PushBack({ 4, 74, 147, 100 });
+	Tutorial.PushBack({ 0, 0, 477, 798 });
 	Tutorial.loop = false;
 }
 
@@ -23,7 +23,7 @@ ModuleTutorial::~ModuleTutorial()
 bool ModuleTutorial::Start()
 {
 	LOG("Loading space intro");
-	tuto = App->textures->Load("Assets/sprites/Tutorial.png");
+	tuto = App->textures->Load("Photos/Tutorial.png");
 
 	App->render->camera.x = App->render->camera.y = 0;
 	Tutorial.Reset();
@@ -46,9 +46,6 @@ bool ModuleTutorial::CleanUp()
 
 	return true;
 }
-
-
-
 
 
 update_status ModuleTutorial::Update()

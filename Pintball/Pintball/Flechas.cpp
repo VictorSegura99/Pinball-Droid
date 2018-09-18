@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTextures.h"
+#include "ModuleRender.h"
 #include "Flechas.h"
 #include "ModuleInput.h"
 #include <stdio.h>
@@ -43,5 +44,7 @@ update_status Flecha::Update()
 		}
 	}
 	
+	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
+
 	return UPDATE_CONTINUE;
 }

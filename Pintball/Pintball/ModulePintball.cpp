@@ -10,7 +10,7 @@
 
 ModulePintball::ModulePintball()
 {
-	pin.PushBack({ 0, 0, 156, 260 });
+	pin.PushBack({ 0, 0, 468, 780 });
 	pin.loop = false;
 }
 
@@ -24,7 +24,7 @@ bool ModulePintball::Start()
 
 	
 
-	Pintball = App->textures->Load("Photos/Background.png");
+	Pintball = App->textures->Load("Assets/Sprites/Background.png");
 
 	
 	pin.Reset();
