@@ -10,14 +10,22 @@ Flecha::Flecha()
 {
 	idle.PushBack({ 16,0,74,45 });
 
-	hit.PushBack({ 76,0,74,42 });
-	hit.PushBack({ 0, 0, 75,38 });
+	hit.PushBack({ 14,45,76,45 });
+	hit.PushBack({ 10, 90, 80,45 });
+	/*hit.PushBack({ 2, 126, 88,22 });
+	hit.PushBack({ 1, 148, 90,24 });
+	hit.PushBack({ 9, 172, 81,38 });
+	hit.PushBack({ 18, 211, 72,47 });
+	hit.PushBack({ 9, 172, 81,38 });
+	hit.PushBack({ 1, 148, 90,24 });
+	hit.PushBack({ 2, 126, 88,22 });
+	hit.PushBack({ 10, 87, 80,38 });
+	hit.PushBack({ 14,45,76,42 });*/
 	hit.speed = 0.5f;
 
-	rep.PushBack({ 76,0,74,42 });
-	rep.PushBack({ 0, 0, 75,38 });
+	/*p.PushBack({ 18,211,72,47 });
 	rep.speed = 0.5f;
-	rep.loop = false;
+	rep.loop = false;*/
 }
 
 Flecha::~Flecha()
@@ -54,12 +62,12 @@ update_status Flecha::Update()
 			current_animation = &idle;
 		}
 	}
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT)
+	/* if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT)
 	{
 		if (current_animation != &rep) {
 			current_animation = &rep;
 		}
-	}
+	}*/
 	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
