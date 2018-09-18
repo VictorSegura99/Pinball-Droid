@@ -8,10 +8,12 @@
 
 Flecha::Flecha()
 {
-	idle.PushBack({ 150,0,73,45 });
+	idle.PushBack({ 0,0,100,90 });
 
-	hit.PushBack({ 76,0,74,42 });
-	hit.PushBack({ 0, 0, 75,38 });
+	hit.PushBack({ 0,0,100,90 });
+	hit.PushBack({ 100, 90, 200,180 });
+	hit.PushBack({ 200, 180, 300,270 });
+	hit.PushBack({ 300, 270, 400,360 });
 	hit.speed = 0.5f;
 }
 
