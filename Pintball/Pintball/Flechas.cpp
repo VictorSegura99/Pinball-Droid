@@ -9,6 +9,7 @@
 Flecha::Flecha()
 {
 	idle.PushBack({0, 0, 240,135});
+	idle.PushBack({ 0, 0, 240,135 });
 
 	hit.PushBack({ 241,0,203,134 });
 }
@@ -23,7 +24,6 @@ bool Flecha::Start()
 
 	position.x = 50;
 	position.y = 50;
-
 	return true;
 }
 
@@ -44,7 +44,7 @@ update_status Flecha::Update()
 		}
 	}
 	
-	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
+	//App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
 }
