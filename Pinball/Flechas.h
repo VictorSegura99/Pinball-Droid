@@ -23,6 +23,7 @@ public:
 	Animation* current_animation;
 	Animation idle;
 	Animation hit;
+	Animation rep;
 };
 
 
