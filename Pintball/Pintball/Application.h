@@ -26,7 +26,6 @@ public:
 	ModuleTutorial* tutorial = nullptr;
 	ModuleFadeToBlack* fade = nullptr;
 	ModulePintball* pintball = nullptr;
-	ModuleCosas* cosas = nullptr;
 
 public:
 
