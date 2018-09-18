@@ -2,7 +2,7 @@
 #define __ANIMATION_H__
 
 #include "SDL/include/SDL_rect.h"
-#define MAX_FRAMES 70
+#define MAX_FRAMES 100
 
 class Animation
 {
@@ -31,10 +31,6 @@ public:
 		frames[last_frame++] = rect;
 	}
 
-	void Sprite(const SDL_Rect& rect) {
-		frames[last_frame] = rect;
-	}
-
 	SDL_Rect& GetCurrentFrame()
 	{
 		current_frame += speed;
@@ -56,9 +52,6 @@ public:
 	{
 		loops = 0;
 		current_frame = 0.0f;
-	}
-	int SeeCurrentFrame() {
-		return (int)current_frame;
 	}
 };
 

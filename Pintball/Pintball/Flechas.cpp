@@ -8,10 +8,11 @@
 
 Flecha::Flecha()
 {
-	idle.PushBack({0, 0, 240,135});
-	idle.PushBack({ 0, 0, 240,135 });
+	idle.PushBack({ 150,0,73,45 });
 
-	hit.PushBack({ 241,0,203,134 });
+	hit.PushBack({ 76,0,74,42 });
+	hit.PushBack({ 0, 0, 75,38 });
+	hit.speed = 0.5f;
 }
 
 Flecha::~Flecha()
@@ -21,7 +22,7 @@ Flecha::~Flecha()
 bool Flecha::Start()
 {
 	texture = App->textures->Load("Assets/Sprites/Resorte_Derecho.png");
-
+	current_animation = &idle;
 	position.x = 50;
 	position.y = 50;
 	return true;
@@ -36,15 +37,19 @@ bool Flecha::CleanUp()
 
 update_status Flecha::Update()
 {
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_REPEAT)
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_DOWN)
 	{
 		if (current_animation != &hit) {
-			hit.Reset();
 			current_animation = &hit;
 		}
 	}
-	
-	//App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_UP)
+	{
+		if (current_animation != &idle) {
+			current_animation = &idle;
+		}
+	}
+	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
 }
