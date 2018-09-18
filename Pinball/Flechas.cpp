@@ -8,7 +8,7 @@
 
 Flecha::Flecha()
 {
-	idle.PushBack({ 150,0,73,45 });
+	idle.PushBack({ 16,0,74,45 });
 
 	hit.PushBack({ 76,0,74,42 });
 	hit.PushBack({ 0, 0, 75,38 });
@@ -26,7 +26,7 @@ Flecha::~Flecha()
 
 bool Flecha::Start()
 {
-	texture = App->textures->Load("Assets/Sprites/Resorte_Derecho.png");
+	texture = App->textures->Load("Assets/Sprites/Nuevo Resorte.png");
 	current_animation = &idle;
 	position.x = 50;
 	position.y = 50;

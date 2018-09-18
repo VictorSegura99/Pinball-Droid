@@ -22,7 +22,7 @@ class Application
 public:
 
 	Module * modules[NUM_MODULES] = { nullptr };
-	ModuleWindow* window = nullptr;
+	ModuleWindow* window = nullptr; 
 	ModuleRender* render = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleTextures* textures = nullptr;
