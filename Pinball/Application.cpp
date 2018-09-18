@@ -7,6 +7,7 @@
 #include "ModuleScene.h"
 #include "ModuleFadeToBlack.h"
 #include "Flechas.h"
+#include "Flecha2.h"
 
 Application::Application()
 {
@@ -18,6 +19,7 @@ Application::Application()
 	modules[5] = fade = new ModuleFadeToBlack();
 	modules[6] = scene = new ModuleScene();
 	modules[7] = flecha = new Flecha();
+	modules[8] = flecha2 = new Flecha2();
 }
 
 Application::~Application()
