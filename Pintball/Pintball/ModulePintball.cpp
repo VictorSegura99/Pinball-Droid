@@ -10,7 +10,7 @@
 
 ModulePintball::ModulePintball()
 {
-	pin.PushBack({ 0, 0, 468, 780 });
+	pin.PushBack({ 0, 0, 477, 798 });
 	pin.loop = false;
 }
 

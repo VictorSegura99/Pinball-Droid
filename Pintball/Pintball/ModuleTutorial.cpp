@@ -23,7 +23,7 @@ ModuleTutorial::~ModuleTutorial()
 bool ModuleTutorial::Start()
 {
 	LOG("Loading space intro");
-	tuto = App->textures->Load("Photos/Tutorial.png");
+	tuto = App->textures->Load("Assets/Sprites/Tutorial.png");
 
 	App->render->camera.x = App->render->camera.y = 0;
 	Tutorial.Reset();
@@ -52,7 +52,7 @@ update_status ModuleTutorial::Update()
 {
 	SDL_RenderClear(App->render->renderer);
 	anim = &Tutorial;
-	App->render->Blit(tuto, 5, 68, &(anim->GetCurrentFrame()));
+	App->render->Blit(tuto, 0, 0, &(anim->GetCurrentFrame()));
 	if (((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_M] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_Z] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_UP] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_DOWN) && App->fade->IsFading() == false))
 	{
 		App->fade->FadeToBlack(this, (Module*)App->pintball, 0.0f);
