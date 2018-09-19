@@ -135,6 +135,7 @@
     <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Flecha2.h" />
+    <ClInclude Include="Flecha3.h" />
     <ClInclude Include="Flechas.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="MemLeaks.h" />
@@ -151,6 +152,7 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Flecha2.cpp" />
+    <ClCompile Include="Flecha3.cpp" />
     <ClCompile Include="Flechas.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Main.cpp" />

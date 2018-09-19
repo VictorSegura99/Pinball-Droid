@@ -2,11 +2,11 @@
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
-#include "Flecha2.h"
+#include "Flecha3.h"
 #include "ModuleInput.h"
 #include <stdio.h>
 
-Flecha2::Flecha2()
+Flecha3::Flecha3()
 {
 	idle.PushBack({ 0,0,80,70 });
 
@@ -29,43 +29,43 @@ Flecha2::Flecha2()
 	rep.loop = false;
 }
 
-Flecha2::~Flecha2()
+Flecha3::~Flecha3()
 {
 }
 
-bool Flecha2::Start()
+bool Flecha3::Start()
 {
 	texture = App->textures->Load("Assets/Sprites/Nuevo Resorte_I.png");
 	current_animation = &idle;
-	position.x = 140;
-	position.y = 688;
+	position.x = 39;
+	position.y = 209;
 	return true;
 }
 
-bool Flecha2::CleanUp()
+bool Flecha3::CleanUp()
 {
 	App->textures->Unload(texture);
 
 	return true;
 }
 
-update_status Flecha2::Update()
+update_status Flecha3::Update()
 {
 	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_DOWN)
 	{
 		hit.Reset();
 		if (current_animation != &hit) {
 			current_animation = &hit;
-			
+
 		}
-		
+
 	}
 	if ((App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_STATE::KEY_UP)) {
 		current_animation = &rep;
 		rep.Reset();
-		
+
 	}
-	
+
 	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
