@@ -21,8 +21,7 @@ Flecha::Flecha()
 	hit.PushBack({ 11, 210, 80,70 });
 	hit.PushBack({ 11, 140, 80,70 });
 	hit.PushBack({ 11,70,80,70 });
-	hit.speed = 0.8f;
-
+	hit.speed = 0.5f;
 	/*p.PushBack({ 18,211,72,47 });
 	rep.speed = 0.5f;
 	rep.loop = false;*/
@@ -36,8 +35,8 @@ bool Flecha::Start()
 {
 	texture = App->textures->Load("Assets/Sprites/Nuevo Resorte.png");
 	current_animation = &idle;
-	position.x = 50;
-	position.y = 50;
+	position.x = 258;
+	position.y = 688;
 	return true;
 }
 
