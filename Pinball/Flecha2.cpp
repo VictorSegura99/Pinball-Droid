@@ -56,16 +56,11 @@ update_status Flecha2::Update()
 	if (active)
 	{
 		hit.Reset();
-		if (current_animation != &hit) {
-			current_animation = &hit;
-
-		}
-
+		current_animation = &hit;
 	}
 	if (noactive) {
 		current_animation = &rep;
 		rep.Reset();
-
 	}
 	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
 

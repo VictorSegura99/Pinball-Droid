@@ -56,11 +56,7 @@ update_status Flecha::Update()
 	if (active)
 	{
 		hit.Reset();
-		if (current_animation != &hit) {
-			current_animation = &hit;
-
-		}
-
+		current_animation = &hit;
 	}
 	if (noactive) {
 		current_animation = &rep;
