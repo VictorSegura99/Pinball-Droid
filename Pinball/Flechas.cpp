@@ -51,7 +51,9 @@ bool Flecha::CleanUp()
 
 update_status Flecha::Update()
 {
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_DOWN)
+	bool active = App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_DOWN || App->input->keyboard[SDL_SCANCODE_M] == KEY_STATE::KEY_DOWN;
+	bool noactive = App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_UP || App->input->keyboard[SDL_SCANCODE_M] == KEY_STATE::KEY_UP;
+	if (active)
 	{
 		hit.Reset();
 		if (current_animation != &hit) {
@@ -60,7 +62,7 @@ update_status Flecha::Update()
 		}
 
 	}
-	if ((App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_STATE::KEY_UP)) {
+	if (noactive) {
 		current_animation = &rep;
 		rep.Reset();
 
