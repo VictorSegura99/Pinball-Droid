@@ -17,7 +17,7 @@ Flecha3::Flecha3()
 	hit.PushBack({ 0, 280, 80,70 });
 	hit.PushBack({ 0, 350, 80,70 });
 	hit.PushBack({ 0, 420, 80,70 });
-	hit.speed = 0.25f;
+	hit.speed = 0.7f;
 	hit.loop = false;
 
 	rep.PushBack({ 0, 350, 80,70 });
@@ -25,7 +25,7 @@ Flecha3::Flecha3()
 	rep.PushBack({ 0, 210, 80,70 });
 	rep.PushBack({ 0, 140, 80,70 });
 	rep.PushBack({ 0,70,80,70 });
-	rep.speed = 0.25f;
+	rep.speed = 0.7f;
 	rep.loop = false;
 }
 

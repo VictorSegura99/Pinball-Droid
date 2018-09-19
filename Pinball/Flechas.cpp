@@ -17,7 +17,7 @@ Flecha::Flecha()
 	hit.PushBack({ 11, 280, 80,70 });
 	hit.PushBack({ 11, 350, 80,70 });
 	hit.PushBack({ 11, 420, 80,70 });
-	hit.speed = 0.25f;
+	hit.speed = 0.7f;
 	hit.loop = false;
 
 	rep.PushBack({ 11, 350, 80,70 });
@@ -25,7 +25,7 @@ Flecha::Flecha()
 	rep.PushBack({ 11, 210, 80,70 });
 	rep.PushBack({ 11, 140, 80,70 });
 	rep.PushBack({ 11,70,80,70 });
-	rep.speed = 0.25f;
+	rep.speed = 0.7f;
 	rep.loop = false;
 }
 
@@ -61,7 +61,6 @@ update_status Flecha::Update()
 	if (noactive) {
 		current_animation = &rep;
 		rep.Reset();
-
 	}
 
 	App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame()));
