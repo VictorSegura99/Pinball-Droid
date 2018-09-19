@@ -8,20 +8,20 @@
 
 Flecha::Flecha()
 {
-	idle.PushBack({ 16,0,74,45 });
+	idle.PushBack({ 11,0,80,70 });
 
-	hit.PushBack({ 14,45,76,45 });
-	hit.PushBack({ 10, 90, 80,45 });
-	/*hit.PushBack({ 2, 126, 88,22 });
-	hit.PushBack({ 1, 148, 90,24 });
-	hit.PushBack({ 9, 172, 81,38 });
-	hit.PushBack({ 18, 211, 72,47 });
-	hit.PushBack({ 9, 172, 81,38 });
-	hit.PushBack({ 1, 148, 90,24 });
-	hit.PushBack({ 2, 126, 88,22 });
-	hit.PushBack({ 10, 87, 80,38 });
-	hit.PushBack({ 14,45,76,42 });*/
-	hit.speed = 0.5f;
+	hit.PushBack({ 11,70,80,70 });
+	hit.PushBack({ 11, 140, 80,70 });
+	hit.PushBack({ 11, 210, 80,70 });
+	hit.PushBack({ 11, 280, 80,70 });
+	hit.PushBack({ 11, 350, 80,70 });
+	hit.PushBack({ 11, 420, 80,70 });
+	hit.PushBack({ 11, 350, 80,70 });
+	hit.PushBack({ 11, 280, 80,70 });
+	hit.PushBack({ 11, 210, 80,70 });
+	hit.PushBack({ 11, 140, 80,70 });
+	hit.PushBack({ 11,70,80,70 });
+	hit.speed = 0.8f;
 
 	/*p.PushBack({ 18,211,72,47 });
 	rep.speed = 0.5f;
