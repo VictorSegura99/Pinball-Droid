@@ -63,6 +63,9 @@
     <ClInclude Include="Flecha3.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModulePhysics.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp">
@@ -102,6 +105,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="Flecha3.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModulePhysics.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>
