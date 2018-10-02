@@ -3,10 +3,11 @@
 
 #include "Globals.h"
 
-#define NUM_MODULES 10
+#define NUM_MODULES 11
 
 class ModuleWindow;
 class ModuleInput;
+class ModulePhysics;
 class ModuleTextures;
 class ModuleRender;
 class ModuleTutorial;
@@ -26,6 +27,7 @@ public:
 	ModuleWindow* window = nullptr; 
 	ModuleRender* render = nullptr;
 	ModuleInput* input = nullptr;
+	ModulePhysics* physics = nullptr;
 	ModuleTextures* textures = nullptr;
 	Flecha* flecha = nullptr;
 	Flecha2* flecha2 = nullptr;
