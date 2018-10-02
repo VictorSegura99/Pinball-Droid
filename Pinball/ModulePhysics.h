@@ -22,7 +22,6 @@ class b2Body;
 class ModulePhysics : public Module
 {
 public:
-	ModulePhysics(Application* app, bool start_enabled = true);
 	ModulePhysics();
 	~ModulePhysics();
 

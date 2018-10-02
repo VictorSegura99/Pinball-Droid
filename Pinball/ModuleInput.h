@@ -18,6 +18,9 @@ enum KEY_STATE
 
 class ModuleInput : public Module
 {
+private:
+	int mouse_x;
+	int mouse_y;
 public:
 
 	ModuleInput();
@@ -26,6 +29,16 @@ public:
 	bool Init();
 	update_status PreUpdate();
 	bool CleanUp();
+
+	int GetMouseX() const
+	{
+		return mouse_x;
+	}
+
+	int GetMouseY() const
+	{
+		return mouse_y;
+	}
 
 public:
 	KEY_STATE keyboard[MAX_KEYS];

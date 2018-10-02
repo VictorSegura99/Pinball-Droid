@@ -8,20 +8,19 @@
 #include "Box2D\Box2D\Box2D.h"
 
 #ifdef _DEBUG
-#pragma comment( lib, "Box2D/libx86/Debug/Box2D.lib" )
-#else
-#pragma comment( lib, "Box2D/libx86/Release/Box2D.lib" )
+#pragma comment (lib, "Box2d\libx86\Debug\Box2D.lib")
+#else 
+#pragma comment (lib, "Box2D\libx86\Release\Box2D.lib")
 #endif
 
-ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
+
+
+ModulePhysics::ModulePhysics():Module()
 {
 	world = NULL;
 	debug = true;
 }
 
-ModulePhysics::ModulePhysics()
-{
-}
 
 // Destructor
 ModulePhysics::~ModulePhysics()
@@ -67,7 +66,7 @@ update_status ModulePhysics::PreUpdate()
 update_status ModulePhysics::PostUpdate()
 {
 	// On space bar press, create a circle on mouse position
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
+	if (App->input->keyboard[SDL_SCANCODE_1] == KEY_DOWN)
 	{
 		b2BodyDef body;
 		body.type = b2_dynamicBody;
