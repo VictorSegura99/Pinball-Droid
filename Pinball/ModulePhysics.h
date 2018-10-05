@@ -30,6 +30,8 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
+public:
+	void CreateBall();
 
 private:
 

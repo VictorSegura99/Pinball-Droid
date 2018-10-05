@@ -8,9 +8,9 @@
 #include "Box2D\Box2D\Box2D.h"
 
 #ifdef _DEBUG
-#pragma comment (lib, "Box2d\libx86\Debug\Box2D.lib")
+#pragma comment (lib, "Box2d/libx86/Debug/Box2D.lib")
 #else
-#pragma comment (lib, "Box2D\libx86\Release\Box2D.lib")
+#pragma comment (lib, "Box2D/libx86/Release/Box2D.lib")
 #endif
 
 
@@ -66,22 +66,22 @@ update_status ModulePhysics::PreUpdate()
 update_status ModulePhysics::PostUpdate()
 {
 	// On space bar press, create a circle on mouse position
-	if (App->input->keyboard[SDL_SCANCODE_1] == KEY_DOWN)
-	{
-		b2BodyDef body;
-		body.type = b2_dynamicBody;
-		float radius = PIXEL_TO_METERS(25);
-		body.position.Set(PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()));
 	
-		b2Body* b = world->CreateBody(&body);
+		
+	b2BodyDef body;
+	body.type = b2_dynamicBody;
+	float radius = PIXEL_TO_METERS(25);
+	body.position.Set(PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()));
 
-		b2CircleShape shape;
-		shape.m_radius = radius;
-		b2FixtureDef fixture;
-		fixture.shape = &shape;
+	b2Body* b = world->CreateBody(&body);
 
-		b->CreateFixture(&fixture);
-	}
+	b2CircleShape shape;
+	shape.m_radius = radius;
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+
+	b->CreateFixture(&fixture);
+
 
 
 	if (!debug)
@@ -172,4 +172,9 @@ bool ModulePhysics::CleanUp()
 	delete world;
 
 	return true;
+}
+
+void ModulePhysics::CreateBall()
+{
+
 }

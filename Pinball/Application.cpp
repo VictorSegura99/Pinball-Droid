@@ -16,14 +16,14 @@ Application::Application()
 	modules[0] = window = new ModuleWindow();
 	modules[1] = render = new ModuleRender();
 	modules[2] = input = new ModuleInput();
-	modules[3] = physics = new ModulePhysics();
-	modules[4] = textures = new ModuleTextures();
-	modules[5] = tutorial = new ModuleTutorial();
-	modules[6] = fade = new ModuleFadeToBlack();
-	modules[7] = scene = new ModuleScene();
-	modules[8] = flecha = new Flecha();
-	modules[9] = flecha2 = new Flecha2();
-	modules[10] = flecha3 = new Flecha3();
+	modules[3] = textures = new ModuleTextures();
+	modules[4] = tutorial = new ModuleTutorial();
+	modules[5] = fade = new ModuleFadeToBlack();
+	modules[6] = scene = new ModuleScene();
+	modules[7] = flecha = new Flecha();
+	modules[8] = flecha2 = new Flecha2();
+	modules[9] = flecha3 = new Flecha3();
+	modules[10] = physics = new ModulePhysics();
 }
 
 Application::~Application()
