@@ -4,14 +4,12 @@
 #include "ModuleInput.h"
 #include "ModuleRender.h"
 #include "ModuleTutorial.h"
-#include "ModuleFadeToBlack.h"
 #include "SDL\include\SDL.h"
-#include "Flechas.h"
 #include "ModulePhysics.h"
 
 
 
-ModuleTutorial::ModuleTutorial()
+ModuleTutorial::ModuleTutorial(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	Tutorial.PushBack({ 0, 0, 477, 798 });
 	Tutorial.loop = false;
@@ -26,7 +24,7 @@ bool ModuleTutorial::Start()
 	LOG("Loading space intro");
 	tuto = App->textures->Load("Assets/Sprites/Tutorial.png");
 
-	App->render->camera.x = App->render->camera.y = 0;
+	App->renderer->camera.x = App->renderer->camera.y = 0;
 	Tutorial.Reset();
 
 
@@ -51,9 +49,9 @@ bool ModuleTutorial::CleanUp()
 
 update_status ModuleTutorial::Update()
 {
-	SDL_RenderClear(App->render->renderer);
+	SDL_RenderClear(App->renderer->renderer);
 	anim = &Tutorial;
-	App->render->Blit(tuto, 0, 0, &(anim->GetCurrentFrame()));
+	App->renderer->Blit(tuto, 0, 0, &(anim->GetCurrentFrame()));
 	if (((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_M] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_Z] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_UP] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_DOWN || App->input->keyboard[SDL_SCANCODE_H] == KEY_DOWN) && App->fade->IsFading() == false))
 	{
 		App->physics->Enable();
