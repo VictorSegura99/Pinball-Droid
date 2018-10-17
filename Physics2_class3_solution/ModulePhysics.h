@@ -57,4 +57,5 @@ private:
 
 	bool debug;
 	b2World* world;
+	p2List<PhysBody*>pivotes;
 };

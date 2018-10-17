@@ -15,7 +15,7 @@
 ModulePhysics::ModulePhysics(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	world = NULL;
-	debug = true;
+	debug = false;
 }
 
 // Destructor
@@ -30,7 +30,7 @@ bool ModulePhysics::Start()
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	// TODO 3: You need to make ModulePhysics class a contact listener
 	world->SetContactListener(this);
-
+	
 	int Background[54] = {
 		316, 189,
 		310, 189,
@@ -60,7 +60,7 @@ bool ModulePhysics::Start()
 		330, 194,
 		321, 190
 	};
-	CreateChain(0, 0, Background, 54,b2BodyType::b2_staticBody);
+	pivotes.add(CreateChain(0, 0, Background, 54,b2BodyType::b2_staticBody));
 
 
 	return true;
@@ -287,6 +287,8 @@ bool ModulePhysics::CleanUp()
 {
 	LOG("Destroying physics world");
 
+	pivotes.clear();
+	
 	// Delete the whole physics world!
 	delete world;
 
