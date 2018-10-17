@@ -31,23 +31,37 @@ bool ModulePhysics::Start()
 	// TODO 3: You need to make ModulePhysics class a contact listener
 	world->SetContactListener(this);
 
-	// big static circle as "ground" in the middle of the screen
-	int x = SCREEN_WIDTH / 2;
-	int y = SCREEN_HEIGHT / 1.5f;
-	int diameter = SCREEN_WIDTH / 2;
+	int Background[54] = {
+		316, 189,
+		310, 189,
+		305, 191,
+		300, 193,
+		295, 196,
+		291, 200,
+		289, 206,
+		291, 212,
+		294, 216,
+		300, 220,
+		297, 224,
+		297, 229,
+		300, 233,
+		307, 238,
+		312, 239,
+		317, 239,
+		323, 238,
+		328, 235,
+		331, 230,
+		331, 225,
+		328, 219,
+		333, 217,
+		337, 212,
+		338, 205,
+		335, 199,
+		330, 194,
+		321, 190
+	};
+	CreateChain(0, 0, Background, 54,b2BodyType::b2_staticBody);
 
-	b2BodyDef body;
-	body.type = b2_staticBody;
-	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
-
-	b2Body* b = world->CreateBody(&body);
-
-	b2CircleShape shape;
-	shape.m_radius = PIXEL_TO_METERS(diameter) * 0.2f;
-
-	b2FixtureDef fixture;
-	fixture.shape = &shape;
-	b->CreateFixture(&fixture);
 
 	return true;
 }
@@ -149,10 +163,10 @@ PhysBody* ModulePhysics::CreateRectangleSensor(int x, int y, int width, int heig
 	return pbody;
 }
 
-PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size)
+PhysBody* ModulePhysics::CreateChain(int x, int y, int* points, int size, b2BodyType type)
 {
 	b2BodyDef body;
-	body.type = b2_dynamicBody;
+	body.type = type;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);

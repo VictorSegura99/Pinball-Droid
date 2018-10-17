@@ -96,7 +96,7 @@ update_status ModuleSceneIntro::Update()
 
 		ricks.add(App->physics->CreateChain(App->input->GetMouseX(), App->input->GetMouseY(), rick_head, 64));
 	}
-
+	// Pivot 0.000000, 0.000000
 
 
 	// Prepare for raycast ------------------------------------------------------
@@ -137,6 +137,8 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(rick, x, y, NULL, 1.0f, c->data->GetRotation());
 		c = c->next;
 	}
+
+
 
 	return UPDATE_CONTINUE;
 }
