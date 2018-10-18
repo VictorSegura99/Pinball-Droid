@@ -58,4 +58,5 @@ private:
 	bool debug;
 	b2World* world;
 	p2List<PhysBody*>pivotes;
+	p2List<PhysBody*> background;
 };
