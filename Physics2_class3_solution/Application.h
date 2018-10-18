@@ -13,6 +13,7 @@ class ModulePlayer;
 class ModuleSceneIntro;
 class ModulePhysics;
 class ModuleTutorial;
+class ModuleFadeToBlack;
 
 class Application
 {
@@ -26,7 +27,7 @@ public:
 	ModuleSceneIntro* scene_intro;
 	ModulePhysics* physics;
 	ModuleTutorial* tutorial;
-
+	ModuleFadeToBlack* fade;
 private:
 
 	p2List<Module*> list_modules;
