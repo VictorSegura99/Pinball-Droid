@@ -2,6 +2,7 @@
 #include "Module.h"
 #include "p2List.h"
 #include "p2Point.h"
+#include "ModuleTextures.h"
 #include "Globals.h"
 
 class PhysBody;
@@ -31,10 +32,14 @@ public:
 	
 	SDL_Texture* circle;
 	SDL_Texture* background;
+	SDL_Texture* flipper;
+
 	float velocity = 5.0f;
 	bool StartVelocity = false;
 	
 	
 	uint bonus_fx;
 	uint time = 0;
+
+
 };

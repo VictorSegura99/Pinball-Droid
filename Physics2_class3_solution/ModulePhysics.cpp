@@ -570,29 +570,13 @@ void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right
 	bodyDefA.type = b2_dynamicBody;
 	bodyDefA.gravityScale = 3;
 	bodyDefA.bullet = true;
-	// Pivot 0.000000, 0.000000
-	int Flipper[18] = {
-		3, 27,
-		59, 1,
-		70, 1,
-		75, 7,
-		76, 14,
-		71, 22,
-		11, 39,
-		2, 38,
-		0, 33
-	};
-
-	//App->scene_intro->RightFlipper = CreateChain(0, 0, Flipper, 18, b2BodyType::b2_dynamicBody);
 
 	b2FixtureDef fixtureDef;
 	fixtureDef.density = 1;
-	//two shapes
 	b2PolygonShape boxShape;
 	boxShape.SetAsBox(PIXEL_TO_METERS(32), PIXEL_TO_METERS(7));
 	b2CircleShape circleShape;
 	circleShape.m_radius = PIXEL_TO_METERS(10);
-	//and circle a little to the right
 	if (Right)
 		bodyDefB.position.Set(PIXEL_TO_METERS(317), PIXEL_TO_METERS(735));
 	else
@@ -601,7 +585,6 @@ void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right
 	fixtureDef.shape = &circleShape;
 	b2Body* bodyB = world->CreateBody(&bodyDefB);
 	bodyB->CreateFixture(&fixtureDef);
-	//make box a little to the left
 	if (Right)
 		bodyDefA.position.Set(PIXEL_TO_METERS(317), PIXEL_TO_METERS(733));
 	else
@@ -629,7 +612,7 @@ void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right
 		revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(32), PIXEL_TO_METERS(0));
 	else
 		revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(-32), PIXEL_TO_METERS(0));
-	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(0));//center of the circle
+	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(0));
 	b2RevoluteJoint*joint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
 	pbodyA->body = bodyA;
 	bodyA->SetUserData(pbodyA);

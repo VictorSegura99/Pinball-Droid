@@ -21,4 +21,5 @@ public:
 
 	PhysBody * ball;
 	iPoint BallPosition;
+	
 };

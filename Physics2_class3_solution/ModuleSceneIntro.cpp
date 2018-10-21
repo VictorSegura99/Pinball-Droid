@@ -25,7 +25,7 @@ bool ModuleSceneIntro::Start()
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 
 	circle = App->textures->Load("pinball/Bola.png"); 
-
+	flipper = App->textures->Load("pinball/Resorte.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
 	App->physics->CreatePinballWalls();
@@ -50,7 +50,8 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-
+	
+	
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) 
 		RightFlipper->body->ApplyTorque(500, true);
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -78,10 +79,14 @@ update_status ModuleSceneIntro::Update()
 
 
 	//RENDERER
+	int x, y;
 	App->renderer->Blit(background, -1, 0, NULL);
 	if (App->player->ball)
 		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
-
+	LeftCircle->GetPosition(x, y);
+	App->renderer->Blit(flipper, x, y, NULL, 1.0f, LeftFlipper->GetRotation());
+	RightCircle->GetPosition(x, y);
+	App->renderer->Blit(flipper, x, y, NULL, 1.0f, RightFlipper->GetRotation());
 	return UPDATE_CONTINUE;
 }
 
