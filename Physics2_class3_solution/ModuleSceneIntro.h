@@ -24,7 +24,10 @@ public:
 	PhysBody* pivote3;
 	PhysBody* pivote4;
 	PhysBody* Background;
-
+	PhysBody* RightCircle;
+	PhysBody* RightFlipper;
+	PhysBody* LeftCircle;
+	PhysBody* LeftFlipper;
 	
 	SDL_Texture* circle;
 	SDL_Texture* background;

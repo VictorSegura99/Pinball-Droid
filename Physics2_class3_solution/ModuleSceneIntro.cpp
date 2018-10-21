@@ -29,7 +29,12 @@ bool ModuleSceneIntro::Start()
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
 	App->physics->CreatePinballWalls();
-	
+	RightCircle = new PhysBody;
+	RightFlipper = new PhysBody;
+	App->physics->CreateFlipper(RightFlipper, RightCircle, true);
+	LeftCircle = new PhysBody;
+	LeftFlipper = new PhysBody;
+	App->physics->CreateFlipper(LeftFlipper, LeftCircle, false);
 	
 	return ret;
 }
@@ -46,6 +51,10 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) 
+		RightFlipper->body->ApplyTorque(500, true);
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+		LeftFlipper->body->ApplyTorque(-500, true);
 	
 
 
@@ -63,16 +72,15 @@ update_status ModuleSceneIntro::Update()
 
 
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
-		time++;
+		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP) {
-		
-	}
+
 
 
 	//RENDERER
 	App->renderer->Blit(background, -1, 0, NULL);
-	App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
+	if (App->player->ball)
+		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
 
 	return UPDATE_CONTINUE;
 }

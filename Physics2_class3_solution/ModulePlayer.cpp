@@ -38,7 +38,7 @@ void ModulePlayer::StartBall()
 {
 	ball = App->physics->CreateCircle(454, 421, 15, b2BodyType::b2_dynamicBody);
 	ball->listener = this;
-	//ball->body->SetBullet(true);
+	//ball->body->SetBullet(false);
 }
 
 // Update: draw background
