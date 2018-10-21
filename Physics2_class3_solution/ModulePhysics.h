@@ -37,7 +37,7 @@ public:
 class ModulePhysics : public Module, public b2ContactListener // TODO
 {
 public:
-	ModulePhysics(Application* app, bool start_enabled = true);
+	ModulePhysics(Application* app, bool start_enabled = false);
 	~ModulePhysics();
 
 	bool Start();
@@ -45,7 +45,7 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-	PhysBody* CreateCircle(int x, int y, int radius);
+	PhysBody* CreateCircle(int x, int y, int radius, b2BodyType type = b2BodyType::b2_dynamicBody);
 	PhysBody* CreateRectangle(int x, int y, int width, int height);
 	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
 	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type=b2BodyType::b2_dynamicBody);
@@ -53,10 +53,11 @@ public:
 	// b2ContactListener ---
 	void BeginContact(b2Contact* contact);
 
+	void CreatePinballWalls();
+
 private:
 
 	bool debug;
 	b2World* world;
-	p2List<PhysBody*>pivotes;
-	p2List<PhysBody*> background;
+	
 };

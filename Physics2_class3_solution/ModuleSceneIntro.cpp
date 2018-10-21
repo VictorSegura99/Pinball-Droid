@@ -6,6 +6,7 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
+#include "ModulePlayer.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -27,6 +28,9 @@ bool ModuleSceneIntro::Start()
 
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
+	App->physics->CreatePinballWalls();
+	
+	
 	return ret;
 }
 
@@ -42,31 +46,34 @@ bool ModuleSceneIntro::CleanUp()
 update_status ModuleSceneIntro::Update()
 {
 
-	App->renderer->Blit(background, -1, 0, NULL);
-	if(App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN)
-	{
-		circles.add(App->physics->CreateCircle(App->input->GetMouseX(), App->input->GetMouseY(), 15));
-		// TODO 8: Make sure to add yourself as collision callback to the circle you creates
-		circles.getLast()->data->listener = this;
-	}
-
 	
+
+
 	iPoint mouse;
 	mouse.x = App->input->GetMouseX();
 	mouse.y = App->input->GetMouseY();
 
 	fVector normal(0.0f, 0.0f);
 
-	// All draw functions ------------------------------------------------------
-	p2List_item<PhysBody*>* c = circles.getFirst();
+	
 
-	while(c != NULL)
-	{
-		int x, y;
-		c->data->GetPosition(x, y);
-		App->renderer->Blit(circle, x, y, NULL, 1.0f, c->data->GetRotation());
-		c = c->next;
+
+	
+		
+
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
+		time++;
 	}
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_UP) {
+		
+	}
+
+
+	//RENDERER
+	App->renderer->Blit(background, -1, 0, NULL);
+	App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
+
 	return UPDATE_CONTINUE;
 }
 
