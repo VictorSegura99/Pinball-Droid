@@ -574,11 +574,11 @@ void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right
 	b2FixtureDef fixtureDef;
 	fixtureDef.density = 1;
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(PIXEL_TO_METERS(32), PIXEL_TO_METERS(7));
+	boxShape.SetAsBox(PIXEL_TO_METERS(35), PIXEL_TO_METERS(9));
 	b2CircleShape circleShape;
 	circleShape.m_radius = PIXEL_TO_METERS(10);
 	if (Right)
-		bodyDefB.position.Set(PIXEL_TO_METERS(317), PIXEL_TO_METERS(735));
+		bodyDefB.position.Set(PIXEL_TO_METERS(325), PIXEL_TO_METERS(723));
 	else
 		bodyDefB.position.Set(PIXEL_TO_METERS(165), PIXEL_TO_METERS(735));
 

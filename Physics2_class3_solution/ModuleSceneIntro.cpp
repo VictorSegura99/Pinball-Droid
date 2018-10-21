@@ -83,10 +83,10 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(background, -1, 0, NULL);
 	if (App->player->ball)
 		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
-	LeftCircle->GetPosition(x, y);
-	App->renderer->Blit(flipper, x, y, NULL, 1.0f, LeftFlipper->GetRotation());
-	RightCircle->GetPosition(x, y);
-	App->renderer->Blit(flipper, x, y, NULL, 1.0f, RightFlipper->GetRotation());
+	/*LeftCircle->GetPosition(x, y);
+	App->renderer->Blit(flipper, x, y, NULL, 1.0f, LeftFlipper->GetRotation(), SDL_FLIP_HORIZONTAL);*/
+	RightFlipper->GetPosition(x, y);
+	App->renderer->Blit(flipper, x -35, y -20, NULL, 1.0f, RightFlipper->GetRotation());
 	return UPDATE_CONTINUE;
 }
 
