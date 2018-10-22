@@ -56,10 +56,10 @@ update_status ModuleTutorial::Update()
 	App->renderer->Blit(tuto, 0, 0, &(anim->GetCurrentFrame()));
 	if (((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) && App->fade->IsFading() == false))
 	{
-		App->fade->FadeToBlack(this, (Module*)App->scene_intro, 0.0f);
 		App->physics->Enable();
 		App->player->Enable();
 		App->player->StartBall();
+		App->fade->FadeToBlack(this, (Module*)App->scene_intro, 0.0f);
 	}
 	return UPDATE_CONTINUE;
 }
