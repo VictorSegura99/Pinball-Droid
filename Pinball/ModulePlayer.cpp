@@ -40,10 +40,19 @@ bool ModulePlayer::CleanUp()
 
 void ModulePlayer::StartBall()
 {
+	if (Hole1) {
+		ball = App->physics->CreateCircle(210, 60, 15, b2BodyType::b2_dynamicBody);
+		ball->listener = this;
+		ball->body->ApplyLinearImpulse({ 0,5 }, { 0,0 }, true);
+		ball->body->SetBullet(false);
+		Hole1 = false;
+	}
+	else {
+		ball = App->physics->CreateCircle(454, 421, 15, b2BodyType::b2_dynamicBody);
+		ball->listener = this;
+		ball->body->SetBullet(false);
+	}
 
-	ball = App->physics->CreateCircle(454, 421, 15, b2BodyType::b2_dynamicBody);
-	ball->listener = this;
-	ball->body->SetBullet(false);
 	
 
 }
@@ -55,7 +64,6 @@ update_status ModulePlayer::Update()
 {
 
 	if (DesappearBall) {
-		
 		App->physics->DestroyBall();
 		DesappearBall = false;
 	}
@@ -68,9 +76,9 @@ update_status ModulePlayer::Update()
 void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 {
 	if (bodyB == App->scene_intro->Hole1) {
+		Hole1 = true;
 		DesappearBall = true;
 		App->scene_intro->BallIsStopped = true;
-		App->scene_intro->BallStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		
 	}

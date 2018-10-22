@@ -100,12 +100,9 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 void ModuleSceneIntro::ContinueAfterHole()
 {
-	if (SDL_GetTicks() - time >= StopTime) {
+	if (SDL_GetTicks() - time >= StopTime && App->player->Hole1) {
 		BallIsStopped = false;
-		//App->physics->DestroyBall();
 		App->player->StartBall();
-
-
 		}
 	
 

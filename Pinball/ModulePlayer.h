@@ -23,4 +23,5 @@ public:
 	iPoint BallPosition;
 	bool DesappearBall = false;
 	bool CanCollide = true;
+	bool Hole1 = false;
 };

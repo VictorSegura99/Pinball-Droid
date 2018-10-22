@@ -39,13 +39,11 @@ public:
 
 	float velocity = 5.0f;
 	bool StartVelocity = false;
-	bool God = false;
-	bool BallStopped = false;
 	bool BallIsStopped = false;
 	
 	uint bonus_fx;
 	uint time = 0;
-	uint StopTime = 10;
+	uint StopTime = 2000;
 
 
 };
