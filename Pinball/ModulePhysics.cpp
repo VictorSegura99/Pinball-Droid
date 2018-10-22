@@ -6,6 +6,7 @@
 #include "p2Point.h"
 #include "ModuleSceneIntro.h"
 #include "math.h"
+#include "ModulePlayer.h"
 
 #ifdef _DEBUG
 	#pragma comment( lib, "Box2D/libx86/Debug/Box2D.lib" )
@@ -560,6 +561,23 @@ void ModulePhysics::CreatePinballWalls()
 	};
 
 	App->scene_intro->pivote4 = CreateChain(0, 0, PivoteL, 54, b2BodyType::b2_staticBody);
+
+	// Pivot 0, 0
+	int Hole1[22] = {
+		195, 17,
+		202, 14,
+		211, 15,
+		217, 21,
+		220, 28,
+		218, 38,
+		211, 44,
+		199, 44,
+		191, 38,
+		189, 29,
+		191, 22
+	};
+
+	App->scene_intro->Hole1 = CreateChain(0, 0, Hole1, 22, b2BodyType::b2_staticBody);
 }
 
 void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right)
@@ -621,6 +639,12 @@ void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right
 	pbodyB->body = bodyB;
 	bodyB->SetUserData(pbodyB);
 	pbodyB->width = pbodyB->height = 0;
+}
+
+void ModulePhysics::DestroyBall()
+{
+
+	world->DestroyBody(App->player->ball->body);
 }
 
 // TODO 7: Call the listeners that are not NULL

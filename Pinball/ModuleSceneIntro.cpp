@@ -68,18 +68,16 @@ update_status ModuleSceneIntro::Update()
 	fVector normal(0.0f, 0.0f);
 
 	
-
-
-	
-		
-
-
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
 		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true);
 	}
 
 
 
+	if (BallIsStopped)
+	{
+		ContinueAfterHole();
+	}
 	//RENDERER
 	int x, y;
 	App->renderer->Blit(background, -1, 0, NULL);
@@ -98,4 +96,17 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 	int x, y;
 
 	App->audio->PlayFx(bonus_fx);
+}
+
+void ModuleSceneIntro::ContinueAfterHole()
+{
+	if (SDL_GetTicks() - time >= StopTime) {
+		BallIsStopped = false;
+		//App->physics->DestroyBall();
+		App->player->StartBall();
+
+
+		}
+	
+
 }

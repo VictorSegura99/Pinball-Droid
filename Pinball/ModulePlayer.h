@@ -16,10 +16,11 @@ public:
 	bool CleanUp();
 
 	void StartBall();
-
+	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 public:
 
 	PhysBody * ball;
 	iPoint BallPosition;
-	
+	bool DesappearBall = false;
+	bool CanCollide = true;
 };

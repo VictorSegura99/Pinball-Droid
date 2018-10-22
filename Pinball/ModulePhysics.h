@@ -20,6 +20,7 @@ public:
 	{}
 
 	void GetPosition(int& x, int &y) const;
+	
 	float GetRotation() const;
 	bool Contains(int x, int y) const;
 	int RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const;
@@ -55,8 +56,8 @@ public:
 
 	void CreatePinballWalls();
 	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right);
-
-public:
+	void DestroyBall();
+private:
 
 	bool debug;
 	b2World* world;

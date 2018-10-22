@@ -17,6 +17,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
+	void ContinueAfterHole();
 
 public:
 	
@@ -29,7 +30,8 @@ public:
 	PhysBody* RightFlipper;
 	PhysBody* LeftCircle;
 	PhysBody* LeftFlipper;
-	
+	PhysBody* Hole1;
+
 	SDL_Texture* circle;
 	SDL_Texture* background;
 	SDL_Texture* flipper;
@@ -38,9 +40,12 @@ public:
 	float velocity = 5.0f;
 	bool StartVelocity = false;
 	bool God = false;
+	bool BallStopped = false;
+	bool BallIsStopped = false;
 	
 	uint bonus_fx;
 	uint time = 0;
+	uint StopTime = 10;
 
 
 };
