@@ -69,7 +69,7 @@ update_status ModuleSceneIntro::Update()
 
 	
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
-		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true);
+		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true, false);
 	}
 
 

@@ -220,7 +220,7 @@ public:
 	/// @param impulse the world impulse vector, usually in N-seconds or kg-m/s.
 	/// @param point the world position of the point of application.
 	/// @param wake also wake up the body
-	void ApplyLinearImpulse(const b2Vec2& impulse, const b2Vec2& point, bool wake);
+	void ApplyLinearImpulse(const b2Vec2& impulse, const b2Vec2& point, bool wake, bool AngularVelocity);
 
 	/// Apply an angular impulse.
 	/// @param impulse the angular impulse in units of kg*m*m/s
@@ -792,7 +792,7 @@ inline void b2Body::ApplyTorque(float32 torque, bool wake)
 	}
 }
 
-inline void b2Body::ApplyLinearImpulse(const b2Vec2& impulse, const b2Vec2& point, bool wake)
+inline void b2Body::ApplyLinearImpulse(const b2Vec2& impulse, const b2Vec2& point, bool wake, bool AngularVelocity)
 {
 	if (m_type != b2_dynamicBody)
 	{
@@ -808,7 +808,8 @@ inline void b2Body::ApplyLinearImpulse(const b2Vec2& impulse, const b2Vec2& poin
 	if (m_flags & e_awakeFlag)
 	{
 		m_linearVelocity += m_invMass * impulse;
-		m_angularVelocity += m_invI * b2Cross(point - m_sweep.c, impulse);
+		if (AngularVelocity)
+			m_angularVelocity += m_invI * b2Cross(point - m_sweep.c, impulse);
 	}
 }
 
