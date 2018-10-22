@@ -13,7 +13,7 @@
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
 // Small class to return to other modules to track position and rotation of physics bodies
-class PhysBody
+class PhysBody 
 {
 public:
 	PhysBody() : listener(NULL), body(NULL)
@@ -56,7 +56,7 @@ public:
 	void CreatePinballWalls();
 	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right);
 
-private:
+public:
 
 	bool debug;
 	b2World* world;

@@ -33,10 +33,11 @@ public:
 	SDL_Texture* circle;
 	SDL_Texture* background;
 	SDL_Texture* flipper;
+	SDL_Texture* flipper2;
 
 	float velocity = 5.0f;
 	bool StartVelocity = false;
-	
+	bool God = false;
 	
 	uint bonus_fx;
 	uint time = 0;

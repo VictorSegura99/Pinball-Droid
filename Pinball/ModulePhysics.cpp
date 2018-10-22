@@ -271,6 +271,7 @@ void PhysBody::GetPosition(int& x, int &y) const
 	y = METERS_TO_PIXELS(pos.y) - (height);
 }
 
+
 float PhysBody::GetRotation() const
 {
 	return RADTODEG * body->GetAngle();
@@ -580,7 +581,7 @@ void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right
 	if (Right)
 		bodyDefB.position.Set(PIXEL_TO_METERS(325), PIXEL_TO_METERS(723));
 	else
-		bodyDefB.position.Set(PIXEL_TO_METERS(165), PIXEL_TO_METERS(735));
+		bodyDefB.position.Set(PIXEL_TO_METERS(157), PIXEL_TO_METERS(723));
 
 	fixtureDef.shape = &circleShape;
 	b2Body* bodyB = world->CreateBody(&bodyDefB);

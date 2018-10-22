@@ -26,6 +26,7 @@ bool ModuleSceneIntro::Start()
 
 	circle = App->textures->Load("pinball/Bola.png"); 
 	flipper = App->textures->Load("pinball/Resorte.png");
+	flipper2 = App->textures->Load("pinball/Resorte2.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
 	App->physics->CreatePinballWalls();
@@ -63,6 +64,7 @@ update_status ModuleSceneIntro::Update()
 	mouse.x = App->input->GetMouseX();
 	mouse.y = App->input->GetMouseY();
 
+	
 	fVector normal(0.0f, 0.0f);
 
 	
@@ -83,8 +85,8 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(background, -1, 0, NULL);
 	if (App->player->ball)
 		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
-	/*LeftCircle->GetPosition(x, y);
-	App->renderer->Blit(flipper, x, y, NULL, 1.0f, LeftFlipper->GetRotation(), SDL_FLIP_HORIZONTAL);*/
+	LeftFlipper->GetPosition(x, y);
+	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, LeftFlipper->GetRotation());
 	RightFlipper->GetPosition(x, y);
 	App->renderer->Blit(flipper, x -35, y -20, NULL, 1.0f, RightFlipper->GetRotation());
 	return UPDATE_CONTINUE;
