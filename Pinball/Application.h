@@ -14,6 +14,7 @@ class ModuleSceneIntro;
 class ModulePhysics;
 class ModuleTutorial;
 class ModuleFadeToBlack;
+class ModuleFinish;
 
 class Application
 {
@@ -28,6 +29,7 @@ public:
 	ModulePhysics* physics;
 	ModuleTutorial* tutorial;
 	ModuleFadeToBlack* fade;
+	ModuleFinish* finish;
 private:
 
 	p2List<Module*> list_modules;

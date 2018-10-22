@@ -16,12 +16,14 @@ public:
 	bool CleanUp();
 
 	void StartBall();
+	void SpawnNextBall();
+
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 public:
 
 	PhysBody * ball;
 	iPoint BallPosition;
 	bool DesappearBall = false;
-	bool CanCollide = true;
 	bool Hole1 = false;
+	int lives = 3;
 };

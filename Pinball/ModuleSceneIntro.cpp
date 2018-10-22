@@ -45,6 +45,11 @@ bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
 	App->textures->Unload(background);
+	App->textures->Unload(circle);
+	App->textures->Unload(flipper);
+	App->textures->Unload(flipper2);
+	App->audio->CleanUp();
+
 	return true;
 }
 

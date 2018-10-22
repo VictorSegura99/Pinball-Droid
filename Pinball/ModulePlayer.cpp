@@ -3,6 +3,8 @@
 #include "ModulePlayer.h"
 #include "ModulePhysics.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleFadeToBlack.h"
+#include "ModuleFinish.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -18,6 +20,9 @@ bool ModulePlayer::Start()
 
 	BallPosition.x = 454;
 	BallPosition.y = 421;
+	lives = 3;
+	DesappearBall = false;
+	Hole1 = false;
 
 	return true;
 }
@@ -34,7 +39,11 @@ update_status ModulePlayer::PreUpdate()
 bool ModulePlayer::CleanUp()
 {
 	LOG("Unloading player");
-
+	BallPosition.x = 454;
+	BallPosition.y = 421;
+	lives = 3;
+	DesappearBall = false;
+	Hole1 = false;
 	return true;
 }
 
@@ -54,6 +63,21 @@ void ModulePlayer::StartBall()
 	}
 }
 
+void ModulePlayer::SpawnNextBall()
+{
+	lives--;
+	App->physics->DestroyBall();
+	if (lives > 0) {
+		StartBall();
+	}
+	else {
+		App->finish->Enable();
+		App->fade->FadeToBlack(this, (Module*)App->finish, 0.0f);
+	}
+
+
+}
+
 
 
 // Update: draw background
@@ -66,8 +90,7 @@ update_status ModulePlayer::Update()
 	}
 		
 	if (BallPosition.x >= 169 && BallPosition.x <= 308 && BallPosition.y >= 766) {
-		App->physics->DestroyBall();
-		StartBall();
+		SpawnNextBall();
 	}
 
 	return UPDATE_CONTINUE;

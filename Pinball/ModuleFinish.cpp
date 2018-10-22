@@ -8,26 +8,27 @@
 #include "ModulePhysics.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
+#include "ModuleFinish.h"
 
 
 
-ModuleTutorial::ModuleTutorial(Application* app, bool start_enabled) : Module(app, start_enabled)
+ModuleFinish::ModuleFinish(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	Tutorial.PushBack({ 0, 0, 477, 798 });
-	Tutorial.loop = false;
+	Finish.PushBack({ 0, 0, 477, 798 });
+	Finish.loop = false;
 }
 
-ModuleTutorial::~ModuleTutorial()
+ModuleFinish::~ModuleFinish()
 {}
 
 
-bool ModuleTutorial::Start()
+bool ModuleFinish::Start()
 {
 	LOG("Loading space intro");
-	tuto = App->textures->Load("pinball/Tutorial.png");
+	finish = App->textures->Load("pinball/Well_Done.png");
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-	Tutorial.Reset();
+	Finish.Reset();
 
 
 
@@ -36,12 +37,12 @@ bool ModuleTutorial::Start()
 }
 
 // UnLoad assets
-bool ModuleTutorial::CleanUp()
+bool ModuleFinish::CleanUp()
 {
 	LOG("Unloading space scene");
 
-	App->textures->Unload(tuto);
-	Tutorial.Reset();
+	App->textures->Unload(finish);
+	Finish.Reset();
 
 
 
@@ -49,17 +50,15 @@ bool ModuleTutorial::CleanUp()
 }
 
 
-update_status ModuleTutorial::Update()
+update_status ModuleFinish::Update()
 {
 	SDL_RenderClear(App->renderer->renderer);
-	anim = &Tutorial;
-	App->renderer->Blit(tuto, 0, 0, &(anim->GetCurrentFrame()));
+	anim = &Finish;
+	App->renderer->Blit(finish, 0, 0, &(anim->GetCurrentFrame()));
 	if (((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_M) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_Z) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_UP) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_DOWN || App->input->GetKey(SDL_SCANCODE_H) == KEY_DOWN) && App->fade->IsFading() == false))
 	{
-		App->fade->FadeToBlack(this, (Module*)App->scene_intro, 0.0f);
-		App->physics->Enable();
-		App->player->Enable();
-		App->player->StartBall();
+		App->finish->Disable();
+		App->fade->FadeToBlack(this, (Module*)App->tutorial, 0.0f);
 	}
 	return UPDATE_CONTINUE;
 }
