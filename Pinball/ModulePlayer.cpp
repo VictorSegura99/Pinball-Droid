@@ -52,9 +52,6 @@ void ModulePlayer::StartBall()
 		ball->listener = this;
 		ball->body->SetBullet(false);
 	}
-
-	
-
 }
 
 
@@ -68,6 +65,10 @@ update_status ModulePlayer::Update()
 		DesappearBall = false;
 	}
 		
+	if (BallPosition.x >= 169 && BallPosition.x <= 308 && BallPosition.y >= 766) {
+		App->physics->DestroyBall();
+		StartBall();
+	}
 
 	return UPDATE_CONTINUE;
 }

@@ -580,43 +580,40 @@ void ModulePhysics::CreatePinballWalls()
 	App->scene_intro->Hole1 = CreateChain(0, 0, Hole1, 22, b2BodyType::b2_staticBody);
 }
 
-void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right)
+void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right)
 {
-	b2BodyDef bodyDefB;
-	bodyDefB.type = b2_staticBody;
+	b2BodyDef B;
+	B.type = b2_staticBody;
 
-	b2BodyDef bodyDefA;
-	bodyDefA.type = b2_dynamicBody;
-	bodyDefA.gravityScale = 3;
-	bodyDefA.bullet = true;
+	b2BodyDef A;
+	A.type = b2_dynamicBody;
+	A.gravityScale = 3;
+	A.bullet = true;
 
-	b2FixtureDef fixtureDef;
-	fixtureDef.density = 1;
+	b2FixtureDef fixture;
+	fixture.density = 1;
 	b2PolygonShape boxShape;
 	boxShape.SetAsBox(PIXEL_TO_METERS(35), PIXEL_TO_METERS(9));
 	b2CircleShape circleShape;
 	circleShape.m_radius = PIXEL_TO_METERS(10);
 	if (Right)
-		bodyDefB.position.Set(PIXEL_TO_METERS(325), PIXEL_TO_METERS(723));
+		B.position.Set(PIXEL_TO_METERS(325), PIXEL_TO_METERS(723));
 	else
-		bodyDefB.position.Set(PIXEL_TO_METERS(157), PIXEL_TO_METERS(723));
+		B.position.Set(PIXEL_TO_METERS(157), PIXEL_TO_METERS(723));
 
-	fixtureDef.shape = &circleShape;
-	b2Body* bodyB = world->CreateBody(&bodyDefB);
-	bodyB->CreateFixture(&fixtureDef);
-	if (Right)
-		bodyDefA.position.Set(PIXEL_TO_METERS(317), PIXEL_TO_METERS(733));
-	else
-		bodyDefA.position.Set(PIXEL_TO_METERS(317), PIXEL_TO_METERS(733));
-	fixtureDef.shape = &boxShape;
-	b2Body* bodyA = world->CreateBody(&bodyDefA);
-	bodyA->CreateFixture(&fixtureDef);
+	fixture.shape = &circleShape;
+	b2Body* bodyB = world->CreateBody(&B);
+	bodyB->CreateFixture(&fixture);
+	A.position.Set(PIXEL_TO_METERS(317), PIXEL_TO_METERS(733));
+	fixture.shape = &boxShape;
+	b2Body* bodyA = world->CreateBody(&A);
+	bodyA->CreateFixture(&fixture);
 	b2RevoluteJointDef revoluteJointDef;
 	revoluteJointDef.bodyA = bodyA;
 	revoluteJointDef.bodyB = bodyB;
-	revoluteJointDef.collideConnected = false;
 	revoluteJointDef.enableLimit = true;
 	revoluteJointDef.referenceAngle = 0;
+	revoluteJointDef.collideConnected = false;
 	if (Right)
 	{
 		revoluteJointDef.lowerAngle = -20 * DEGTORAD;
@@ -632,18 +629,17 @@ void ModulePhysics::CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right
 	else
 		revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(-32), PIXEL_TO_METERS(0));
 	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(0));
-	b2RevoluteJoint*joint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
-	pbodyA->body = bodyA;
-	bodyA->SetUserData(pbodyA);
-	pbodyA->width = pbodyA->height = 0;
-	pbodyB->body = bodyB;
-	bodyB->SetUserData(pbodyB);
-	pbodyB->width = pbodyB->height = 0;
+	b2RevoluteJoint* joint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);
+	BodyA->body = bodyA;
+	bodyA->SetUserData(BodyA);
+	BodyA->width = BodyA->height = 0;
+	BodyB->body = bodyB;
+	bodyB->SetUserData(BodyB);
+	BodyB->width = BodyB->height = 0;
 }
 
 void ModulePhysics::DestroyBall()
 {
-
 	world->DestroyBody(App->player->ball->body);
 }
 
