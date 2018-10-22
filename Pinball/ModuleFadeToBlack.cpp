@@ -6,7 +6,7 @@
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
 
-ModuleFadeToBlack::ModuleFadeToBlack()
+ModuleFadeToBlack::ModuleFadeToBlack(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	screen = { 0, 0, SCREEN_WIDTH * SCREEN_SIZE, SCREEN_HEIGHT * SCREEN_SIZE };
 }
@@ -18,7 +18,7 @@ ModuleFadeToBlack::~ModuleFadeToBlack()
 bool ModuleFadeToBlack::Start()
 {
 	LOG("Preparing Fade Screen");
-	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
+	SDL_SetRenderDrawBlendMode(App->renderer->renderer, SDL_BLENDMODE_BLEND);
 	return true;
 }
 
@@ -55,8 +55,8 @@ update_status ModuleFadeToBlack::Update()
 	}
 
 
-	SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
-	SDL_RenderFillRect(App->render->renderer, &screen);
+	SDL_SetRenderDrawColor(App->renderer->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
+	SDL_RenderFillRect(App->renderer->renderer, &screen);
 
 	return UPDATE_CONTINUE;
 }

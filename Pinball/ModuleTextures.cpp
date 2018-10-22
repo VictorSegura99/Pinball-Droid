@@ -3,14 +3,11 @@
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
 
-#include "SDL/include/SDL.h"
 #include "SDL_image/include/SDL_image.h"
 #pragma comment( lib, "SDL_image/libx86/SDL2_image.lib" )
 
-ModuleTextures::ModuleTextures() : Module()
+ModuleTextures::ModuleTextures(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
-	for (uint i = 0; i < MAX_TEXTURES; ++i)
-		textures[i] = nullptr;
 }
 
 // Destructor
@@ -27,7 +24,7 @@ bool ModuleTextures::Init()
 	int flags = IMG_INIT_PNG;
 	int init = IMG_Init(flags);
 
-	if ((init & flags) != flags)
+	if((init & flags) != flags)
 	{
 		LOG("Could not initialize Image lib. IMG_Init: %s", IMG_GetError());
 		ret = false;
@@ -36,15 +33,20 @@ bool ModuleTextures::Init()
 	return ret;
 }
 
-// Called before q	uitting
+// Called before quitting
 bool ModuleTextures::CleanUp()
 {
 	LOG("Freeing textures and Image library");
 
-	for (uint i = 0; i < MAX_TEXTURES; ++i)
-		if (textures[i] != nullptr)
-			SDL_DestroyTexture(textures[i]);
+	p2List_item<SDL_Texture*>* item = textures.getFirst();
 
+	while(item != NULL)
+	{
+		SDL_DestroyTexture(item->data);
+		item = item->next;
+	}
+
+	textures.clear();
 	IMG_Quit();
 	return true;
 }
@@ -55,21 +57,21 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 	SDL_Texture* texture = NULL;
 	SDL_Surface* surface = IMG_Load(path);
 
-	if (surface == NULL)
+	if(surface == NULL)
 	{
 		LOG("Could not load surface with path: %s. IMG_Load: %s", path, IMG_GetError());
 	}
 	else
 	{
-		texture = SDL_CreateTextureFromSurface(App->render->renderer, surface);
+		texture = SDL_CreateTextureFromSurface(App->renderer->renderer, surface);
 
-		if (texture == NULL)
+		if(texture == NULL)
 		{
 			LOG("Unable to create texture from surface! SDL Error: %s\n", SDL_GetError());
 		}
 		else
 		{
-			textures[last_texture++] = texture;
+			textures.add(texture);
 		}
 
 		SDL_FreeSurface(surface);
@@ -78,21 +80,19 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 	return texture;
 }
 
-// Load new texture from file path
-bool ModuleTextures::Unload(SDL_Texture* texture)
+// Free texture from memory
+void ModuleTextures::Unload(SDL_Texture* texture)
 {
-	bool ret = false;
+	p2List_item<SDL_Texture*>* item = textures.getFirst();
 
-	for (uint i = 0; i < MAX_TEXTURES; ++i)
+	while(item != NULL)
 	{
-		if (texture == textures[i])
+		if(item->data == texture)
 		{
-			SDL_DestroyTexture(textures[i]);
-			textures[i] = nullptr;
-			ret = true;
+			SDL_DestroyTexture(item->data);
+			textures.del(item);
 			break;
 		}
+		item = item->next;
 	}
-
-	return ret;
 }

@@ -1,26 +1,32 @@
-#ifndef __MODULE_H__
-#define __MODULE_H__
+#pragma once
+
+#include "Globals.h"
+
+class Application;
+class PhysBody;
 
 class Module
 {
-private:
-	bool enabled = true;
+private :
+	bool enabled;
 
 public:
-	virtual ~Module() {}
+	Application* App;
 
-	virtual bool Init() { return true; }
-	virtual bool Start() { return true; }
-	virtual update_status PreUpdate() { return update_status::UPDATE_CONTINUE; }
-	virtual update_status Update() { return update_status::UPDATE_CONTINUE; }
-	virtual update_status PostUpdate() { return update_status::UPDATE_CONTINUE; }
-	virtual bool CleanUp() { return true; }
+	Module(Application* parent, bool start_enabled = true) : App(parent), enabled(start_enabled)
+	{}
 
-	bool IsEnabled() const { return enabled; }
+	virtual ~Module()
+	{}
+
+	bool IsEnabled() const
+	{
+		return enabled;
+	}
 
 	void Enable()
 	{
-		if (enabled == false)
+		if(enabled == false)
 		{
 			enabled = true;
 			Start();
@@ -29,12 +35,45 @@ public:
 
 	void Disable()
 	{
-		if (enabled == true)
+		if(enabled == true)
 		{
 			enabled = false;
 			CleanUp();
 		}
 	}
-};
 
-#endif // __MODULE_H__
+	virtual bool Init() 
+	{
+		return true; 
+	}
+
+	virtual bool Start()
+	{
+		return true;
+	}
+
+	virtual update_status PreUpdate()
+	{
+		return UPDATE_CONTINUE;
+	}
+
+	virtual update_status Update()
+	{
+		return UPDATE_CONTINUE;
+	}
+
+	virtual update_status PostUpdate()
+	{
+		return UPDATE_CONTINUE;
+	}
+
+	virtual bool CleanUp() 
+	{ 
+		return true; 
+	}
+
+	// TODO 5: Create a OnCollision method that receives both PhysBodies
+	virtual void OnCollision(PhysBody* bodyA, PhysBody* bodyB)
+	{
+	}
+};

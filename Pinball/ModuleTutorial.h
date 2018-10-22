@@ -10,7 +10,7 @@ struct SDL_Texture;
 class ModuleTutorial : public Module
 {
 public:
-	ModuleTutorial();
+	ModuleTutorial(Application* app, bool start_enabled = true);
 	~ModuleTutorial();
 	Animation* anim = nullptr;
 	bool Start();

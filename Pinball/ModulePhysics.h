@@ -1,8 +1,7 @@
-#ifndef __ModulePhysics_H__
-#define __ModulePhysics_H__
+#pragma once
 #include "Module.h"
 #include "Globals.h"
-#include "Application.h"
+#include "Box2D/Box2D/Box2D.h"
 
 #define GRAVITY_X 0.0f
 #define GRAVITY_Y -7.0f
@@ -13,16 +12,32 @@
 #define METERS_TO_PIXELS(m) ((int) floor(PIXELS_PER_METER * m))
 #define PIXEL_TO_METERS(p)  ((float) METER_PER_PIXEL * p)
 
-class b2World;
-class b2Body;
-
-
-
-
-class ModulePhysics : public Module
+// Small class to return to other modules to track position and rotation of physics bodies
+class PhysBody
 {
 public:
-	ModulePhysics();
+	PhysBody() : listener(NULL), body(NULL)
+	{}
+
+	void GetPosition(int& x, int &y) const;
+	float GetRotation() const;
+	bool Contains(int x, int y) const;
+	int RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& normal_y) const;
+
+public:
+	int width, height;
+	b2Body* body;
+	// TODO 6: Add a pointer to a module that might want to listen to a collision from this body
+	Module* listener;
+};
+
+// Module --------------------------------------
+// TODO 3: Make module physics inherit from b2ContactListener
+// then override void BeginContact(b2Contact* contact)
+class ModulePhysics : public Module, public b2ContactListener // TODO
+{
+public:
+	ModulePhysics(Application* app, bool start_enabled = false);
 	~ModulePhysics();
 
 	bool Start();
@@ -30,12 +45,20 @@ public:
 	update_status PostUpdate();
 	bool CleanUp();
 
-public:
-	void CreateBall();
+	PhysBody* CreateCircle(int x, int y, int radius, b2BodyType type = b2BodyType::b2_dynamicBody);
+	PhysBody* CreateRectangle(int x, int y, int width, int height);
+	PhysBody* CreateRectangleSensor(int x, int y, int width, int height);
+	PhysBody* CreateChain(int x, int y, int* points, int size, b2BodyType type=b2BodyType::b2_dynamicBody);
+
+	// b2ContactListener ---
+	void BeginContact(b2Contact* contact);
+
+	void CreatePinballWalls();
+	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right);
 
 private:
 
 	bool debug;
 	b2World* world;
+	
 };
-#endif

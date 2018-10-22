@@ -1,42 +1,36 @@
-#ifndef __APPLICATION_H__
-#define __APPLICATION_H__
+#pragma once
 
+#include "p2List.h"
 #include "Globals.h"
 
-#define NUM_MODULES 11
-
-class ModuleWindow;
-class ModuleInput;
-class ModulePhysics;
-class ModuleTextures;
+class Module;
 class ModuleRender;
+class ModuleWindow;
+class ModuleTextures;
+class ModuleInput;
+class ModuleAudio;
+class ModulePlayer;
+class ModuleSceneIntro;
+class ModulePhysics;
 class ModuleTutorial;
 class ModuleFadeToBlack;
-class Flecha;
-class Flecha2;
-class Flecha3;
-class ModuleScene;
-class Module;
-
 
 class Application
 {
 public:
+	ModuleRender* renderer;
+	ModuleWindow* window;
+	ModuleTextures* textures;
+	ModuleInput* input;
+	ModuleAudio* audio;
+	ModulePlayer* player;
+	ModuleSceneIntro* scene_intro;
+	ModulePhysics* physics;
+	ModuleTutorial* tutorial;
+	ModuleFadeToBlack* fade;
+private:
 
-	Module * modules[NUM_MODULES] = { nullptr };
-	ModuleWindow* window = nullptr; 
-	ModuleRender* render = nullptr;
-	ModuleInput* input = nullptr;
-	ModulePhysics* physics = nullptr;
-	ModuleTextures* textures = nullptr;
-	Flecha* flecha = nullptr;
-	Flecha2* flecha2 = nullptr;
-	Flecha3* flecha3 = nullptr;
-	ModuleTutorial* tutorial = nullptr;
-	ModuleFadeToBlack* fade = nullptr;
-	ModuleScene* scene = nullptr;
-	//ModulePintball* pintball = nullptr;
-	
+	p2List<Module*> list_modules;
 
 public:
 
@@ -47,9 +41,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
+private:
+
+	void AddModule(Module* mod);
 };
-
-// Global var made extern for Application ---
-extern Application* App;
-
-#endif // __APPLICATION_H__

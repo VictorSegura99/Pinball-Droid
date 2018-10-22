@@ -1,15 +1,20 @@
-#ifndef __GLOBALS_H__
-#define __GLOBALS_H__
+#pragma once
+#include <windows.h>
+#include <stdio.h>
 
 #define LOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
+
 void log(const char file[], int line, const char* format, ...);
 
-#define EXIT_FAILURE 1
-#define EXIT_SUCCESS 0
+#define CAP(n) ((n <= 0.0f) ? n=0.0f : (n >= 1.0f) ? n=1.0f : n=n)
+
+#define DEGTORAD 0.0174532925199432957f
+#define RADTODEG 57.295779513082320876f
 
 #define MIN( a, b ) ( ((a) < (b)) ? (a) : (b) )
 #define MAX( a, b ) ( ((a) > (b)) ? (a) : (b) )
 
+typedef unsigned int uint;
 
 enum update_status
 {
@@ -18,17 +23,13 @@ enum update_status
 	UPDATE_ERROR
 };
 
-// Useful typedefs ---------
-typedef unsigned int uint;
-
 // Configuration -----------
-#define SCREEN_SIZE 1
 #define SCREEN_WIDTH 477
 #define SCREEN_HEIGHT 798
-#define WIN_FULLSCREEN 0
-#define WIN_FULLSCREEN_DESKTOP 0
-#define WIN_BORDERLESS 0
-#define WIN_RESIZABLE 0
-#define REN_VSYNC 1
-
-#endif // __GLOBALS_H__
+#define SCREEN_SIZE 1
+#define WIN_FULLSCREEN false
+#define WIN_RESIZABLE false
+#define WIN_BORDERLESS false
+#define WIN_FULLSCREEN_DESKTOP false
+#define VSYNC true
+#define TITLE "2D Physics Playground"

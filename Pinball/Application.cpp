@@ -1,62 +1,119 @@
-#include "Application.h"
+
+#include "Module.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleInput.h"
 #include "ModuleTextures.h"
-#include "ModuleTutorial.h"
-#include "ModuleScene.h"
-#include "ModuleFadeToBlack.h"
-#include "Flechas.h"
-#include "Flecha2.h"
-#include "Flecha3.h"
+#include "ModuleInput.h"
+#include "ModuleAudio.h"
+#include "ModulePlayer.h"
 #include "ModulePhysics.h"
+#include "ModuleSceneIntro.h"
+#include "ModuleTutorial.h"
+#include "ModuleFadeToBlack.h"
+
+#include "Application.h"
 
 Application::Application()
 {
-	modules[0] = window = new ModuleWindow();
-	modules[1] = render = new ModuleRender();
-	modules[2] = input = new ModuleInput();
-	modules[3] = textures = new ModuleTextures();
-	modules[4] = tutorial = new ModuleTutorial();
-	modules[5] = fade = new ModuleFadeToBlack();
-	modules[6] = scene = new ModuleScene();
-	modules[7] = flecha = new Flecha();
-	modules[8] = flecha2 = new Flecha2();
-	modules[9] = flecha3 = new Flecha3();
-	modules[10] = physics = new ModulePhysics();
+	renderer = new ModuleRender(this);
+	window = new ModuleWindow(this);
+	textures = new ModuleTextures(this);
+	input = new ModuleInput(this);
+	audio = new ModuleAudio(this, true);
+	player = new ModulePlayer(this);
+	scene_intro = new ModuleSceneIntro(this);
+	physics = new ModulePhysics(this);
+	tutorial = new ModuleTutorial(this);
+	fade = new ModuleFadeToBlack(this);
+
+	// The order of calls is very important!
+	// Modules will Init() Start() and Update in this order
+	// They will CleanUp() in reverse order
+
+	// Main Modules
+	AddModule(window);
+	AddModule(physics);
+	AddModule(renderer);
+	AddModule(textures);
+	AddModule(fade);
+	AddModule(input);
+	AddModule(audio);
+	AddModule(tutorial);
+	// Scenes
+	AddModule(scene_intro);
+	
+	// Player
+	AddModule(player);
 }
 
 Application::~Application()
 {
-	for (int i = NUM_MODULES - 1; i >= 0; --i)
-		delete modules[i];
+	p2List_item<Module*>* item = list_modules.getLast();
+
+	while(item != NULL)
+	{
+		delete item->data;
+		item = item->prev;
+	}
 }
 
 bool Application::Init()
 {
 	bool ret = true;
 
-	for (int i = 0; i < NUM_MODULES && ret == true; ++i)
-		ret = modules[i]->Init();
+	// Call Init() in all modules
+	p2List_item<Module*>* item = list_modules.getFirst();
 
-	for (int i = 0; i < NUM_MODULES && ret == true; ++i)
-		ret = modules[i]->Start();
+	while(item != NULL && ret == true)
+	{
+		ret = item->data->Init();
+		item = item->next;
+	}
 
+	// After all Init calls we call Start() in all modules
+	LOG("Application Start --------------");
+	item = list_modules.getFirst();
+
+	while(item != NULL && ret == true)
+	{
+		if(item->data->IsEnabled())
+			ret = item->data->Start();
+		item = item->next;
+	}
+	
 	return ret;
 }
 
+// Call PreUpdate, Update and PostUpdate on all modules
 update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
+	p2List_item<Module*>* item = list_modules.getFirst();
 
-	for (int i = 0; i < NUM_MODULES && ret == UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PreUpdate();
+	while(item != NULL && ret == UPDATE_CONTINUE)
+	{
+		if(item->data->IsEnabled())
+			ret = item->data->PreUpdate();
+		item = item->next;
+	}
 
-	for (int i = 0; i < NUM_MODULES && ret == UPDATE_CONTINUE; ++i)
-		ret = modules[i]->Update();
+	item = list_modules.getFirst();
 
-	for (int i = 0; i < NUM_MODULES && ret == UPDATE_CONTINUE; ++i)
-		ret = modules[i]->PostUpdate();
+	while(item != NULL && ret == UPDATE_CONTINUE)
+	{
+		if(item->data->IsEnabled())
+  			ret = item->data->Update();
+		item = item->next;
+	}
+
+	item = list_modules.getFirst();
+
+	while(item != NULL && ret == UPDATE_CONTINUE)
+	{
+		if(item->data->IsEnabled())
+			ret = item->data->PostUpdate();
+		item = item->next;
+	}
 
 	return ret;
 }
@@ -64,9 +121,17 @@ update_status Application::Update()
 bool Application::CleanUp()
 {
 	bool ret = true;
+	p2List_item<Module*>* item = list_modules.getLast();
 
-	for (int i = NUM_MODULES - 1; i >= 0 && ret == true; --i)
-		ret = modules[i]->CleanUp();
-
+	while(item != NULL && ret == true)
+	{
+		ret = item->data->CleanUp();
+		item = item->prev;
+	}
 	return ret;
+}
+
+void Application::AddModule(Module* mod)
+{
+	list_modules.add(mod);
 }
