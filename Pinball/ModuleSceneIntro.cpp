@@ -30,6 +30,10 @@ bool ModuleSceneIntro::Start()
 	circle = App->textures->Load("pinball/Bola.png"); 
 	flipper = App->textures->Load("pinball/Resorte.png");
 	flipper2 = App->textures->Load("pinball/Resorte2.png");
+	Num0 = App->textures->Load("Pinball/Numbers0.png");
+	Num1 = App->textures->Load("Pinball/Numbers1.png");
+	Num2 = App->textures->Load("Pinball/Numbers2.png");
+	Num3 = App->textures->Load("Pinball/Numbers3.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
 	App->physics->CreatePinballWalls();
@@ -57,6 +61,10 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(lightLeft);
 	App->textures->Unload(lightU);
 	App->textures->Unload(lightRight);
+	App->textures->Unload(Num0);
+	App->textures->Unload(Num1);
+	App->textures->Unload(Num2);
+	App->textures->Unload(Num3);
 	App->audio->CleanUp();
 
 	return true;
