@@ -25,5 +25,8 @@ public:
 	iPoint BallPosition;
 	bool DesappearBall = false;
 	bool Hole1 = false;
+	bool Hole2 = false;
+	bool Hole3 = false;
+	bool Hole4 = false;
 	int lives = 3;
 };
