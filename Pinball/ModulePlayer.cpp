@@ -149,4 +149,34 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->time = SDL_GetTicks();
 
 	}
+	if (bodyB == App->scene_intro->Light1) {
+ 		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light2) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light3) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light4) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light5) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light6) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light7) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light8) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light9) {
+		App->scene_intro->OnLight1 = true;
+	}
+	if (bodyB == App->scene_intro->Light10) {
+		App->scene_intro->OnLight1 = true;
+	}
 }

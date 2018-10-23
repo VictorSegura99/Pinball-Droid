@@ -23,7 +23,7 @@ bool ModuleSceneIntro::Start()
 	bool ret = true;
 	background = App->textures->Load("pinball/Background.png");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
-
+	light = App->textures->Load("pinball/Up_Light.png");
 	circle = App->textures->Load("pinball/Bola.png"); 
 	flipper = App->textures->Load("pinball/Resorte.png");
 	flipper2 = App->textures->Load("pinball/Resorte2.png");
@@ -50,6 +50,7 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(circle);
 	App->textures->Unload(flipper);
 	App->textures->Unload(flipper2);
+	App->textures->Unload(light);
 	App->audio->CleanUp();
 
 	return true;
@@ -58,6 +59,8 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
+	int x, y;
+
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) 
 		RightFlipper->body->ApplyTorque(500, true);
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
@@ -79,7 +82,7 @@ update_status ModuleSceneIntro::Update()
 	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
 		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true, false);
 	}
-
+	
 
 
 	if (BallIsStopped)
@@ -87,7 +90,7 @@ update_status ModuleSceneIntro::Update()
 		ContinueAfterHole();
 	}
 	//RENDERER
-	int x, y;
+	
 	App->renderer->Blit(background, -1, 0, NULL);
 	if (App->player->ball)
 		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
@@ -97,6 +100,10 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(flipper, x -35, y -20, NULL, 1.0f, RightFlipper->GetRotation());
 	UpFlipper->GetPosition(x, y);
 	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, UpFlipper->GetRotation());
+	Light1->GetPosition(x, y);
+	if (OnLight1) {
+	App->renderer->Blit(light, x, y, NULL, 1.0f, Light1->GetRotation());
+	}
 	return UPDATE_CONTINUE;
 }
 

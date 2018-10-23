@@ -60,6 +60,9 @@ public:
 	SDL_Texture* background;
 	SDL_Texture* flipper;
 	SDL_Texture* flipper2;
+	SDL_Texture* light;
+
+	bool OnLight1 = false;
 
 	float velocity = 5.0f;
 	bool StartVelocity = false;
