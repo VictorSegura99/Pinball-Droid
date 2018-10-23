@@ -31,6 +31,7 @@ public:
 	PhysBody* BackgroundU;
 	PhysBody* BackgroundL;
 	PhysBody* BackgroundR;
+	PhysBody* BackgroundLine;
 	PhysBody* ChainL;
 	PhysBody* ChainR;
 	PhysBody* RightCircle;
@@ -38,6 +39,9 @@ public:
 	PhysBody* LeftCircle;
 	PhysBody* LeftFlipper;
 	PhysBody* Hole1;
+	PhysBody* Hole2;
+	PhysBody* Hole3;
+	PhysBody* Hole4;
 
 	SDL_Texture* circle;
 	SDL_Texture* background;

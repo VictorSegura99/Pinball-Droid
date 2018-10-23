@@ -506,6 +506,14 @@ void ModulePhysics::CreatePinballWalls()
 	};
 	App->scene_intro->BackgroundU= CreateChain(0, 0, BackgroundU, 20,b2BodyType::b2_staticBody);
 
+	int BackgroundLine[8] = {
+	272, 220,
+	315, 263,
+	317, 260,
+	275, 218
+	};
+	App->scene_intro->BackgroundLine = CreateChain(0, 0, BackgroundLine, 8, b2BodyType::b2_staticBody);
+
 	int PivoteUR[42] = {
 		287, 170,
 		292, 170,
@@ -635,21 +643,45 @@ void ModulePhysics::CreatePinballWalls()
 	};
 	App->scene_intro->BarraR = CreateChain(0, 0, BarraR, 12, b2BodyType::b2_staticBody);
 
-	int Hole1[22] = {
+	int Hole1[12] = {
 		195, 17,
 		202, 14,
 		211, 15,
 		217, 21,
-		220, 28,
-		218, 38,
-		211, 44,
-		199, 44,
-		191, 38,
 		189, 29,
 		191, 22
 	};
+	App->scene_intro->Hole1 = CreateChain(0, 0, Hole1, 12, b2BodyType::b2_staticBody);
 
-	App->scene_intro->Hole1 = CreateChain(0, 0, Hole1, 22, b2BodyType::b2_staticBody);
+	int Hole2[10] = {
+	400, 55,
+	388, 60,
+	414, 67,
+	412, 62,
+	406, 57
+	};
+	App->scene_intro->Hole2 = CreateChain(0, 0, Hole2, 10, b2BodyType::b2_staticBody);
+
+	int Hole3[14] = {
+	406, 247,
+	427, 266,
+	428, 260,
+	427, 253,
+	424, 249,
+	417, 245,
+	411, 245
+	};
+	App->scene_intro->Hole3 = CreateChain(0, 0, Hole3, 14, b2BodyType::b2_staticBody);
+
+	int Hole4[12] = {
+	36, 719,
+	10, 726,
+	14, 730,
+	21, 733,
+	28, 731,
+	34, 727
+	};
+	App->scene_intro->Hole4 = CreateChain(0, 0, Hole4, 12, b2BodyType::b2_staticBody);
 }
 
 void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right)

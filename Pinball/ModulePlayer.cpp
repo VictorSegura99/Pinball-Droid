@@ -99,7 +99,7 @@ update_status ModulePlayer::Update()
 
 void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 {
-	if (bodyB == App->scene_intro->Hole1) {
+	if (bodyB == App->scene_intro->Hole1|| bodyB == App->scene_intro->Hole2|| bodyB == App->scene_intro->Hole3|| bodyB == App->scene_intro->Hole4) {
 		Hole1 = true;
 		DesappearBall = true;
 		App->scene_intro->BallIsStopped = true;
