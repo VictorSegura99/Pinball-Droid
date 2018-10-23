@@ -153,30 +153,30 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
  		App->scene_intro->OnLight1 = true;
 	}
 	if (bodyB == App->scene_intro->Light2) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight2 = true;
 	}
 	if (bodyB == App->scene_intro->Light3) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight3 = true;
 	}
 	if (bodyB == App->scene_intro->Light4) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight4 = true;
 	}
 	if (bodyB == App->scene_intro->Light5) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight5 = true;
 	}
 	if (bodyB == App->scene_intro->Light6) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight6 = true;
 	}
 	if (bodyB == App->scene_intro->Light7) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight7 = true;
 	}
 	if (bodyB == App->scene_intro->Light8) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight8 = true;
 	}
 	if (bodyB == App->scene_intro->Light9) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight9 = true;
 	}
 	if (bodyB == App->scene_intro->Light10) {
-		App->scene_intro->OnLight1 = true;
+		App->scene_intro->OnLight10 = true;
 	}
 }
