@@ -21,6 +21,8 @@ public:
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 public:
 
+	
+
 	PhysBody * ball;
 	iPoint BallPosition;
 	bool DesappearBall = false;

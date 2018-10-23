@@ -67,6 +67,10 @@ public:
 	SDL_Texture* lightLeft;
 	SDL_Texture* lightU;
 	SDL_Texture* lightRight;
+	SDL_Texture* Num0 = nullptr;
+	SDL_Texture* Num1 = nullptr;
+	SDL_Texture* Num2 = nullptr;
+	SDL_Texture* Num3 = nullptr;
 
 	bool OnLight1 = false;
 	bool OnLight2 = false;

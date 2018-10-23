@@ -6,6 +6,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleFinish.h"
 #include "ModuleRender.h"
+#include "ModuleTextures.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -24,6 +25,7 @@ bool ModulePlayer::Start()
 	lives = 3;
 	DesappearBall = false;
 	Hole1 = false;
+
 
 	return true;
 }
@@ -45,6 +47,7 @@ bool ModulePlayer::CleanUp()
 	lives = 3;
 	DesappearBall = false;
 	Hole1 = false;
+
 	return true;
 }
 
@@ -88,7 +91,7 @@ void ModulePlayer::SpawnNextBall()
 {
 	lives--;
 	App->physics->DestroyBall();
-	if (lives > 0) {
+	if (lives >= 0) {
 		StartBall();
 	}
 	else {
@@ -104,7 +107,18 @@ void ModulePlayer::SpawnNextBall()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-
+	if (lives == 3) {
+		App->renderer->Blit(App->scene_intro->Num3, 455, 710,NULL);
+	}
+	else if (lives == 2) {
+		App->renderer->Blit(App->scene_intro->Num2, 457, 710, NULL);
+	}
+	else if (lives == 1) {
+		App->renderer->Blit(App->scene_intro->Num1, 457, 710, NULL);
+	}
+	else if (lives == 0) {
+		App->renderer->Blit(App->scene_intro->Num0, 458, 710, NULL);
+	}
 	if (DesappearBall) {
 		App->physics->DestroyBall();
 		DesappearBall = false;
