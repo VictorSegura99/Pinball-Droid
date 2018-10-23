@@ -801,7 +801,7 @@ void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right, 
 	if (!Right && !Up)
 		B.position.Set(PIXEL_TO_METERS(157), PIXEL_TO_METERS(723));
 	if (Up)
-		B.position.Set(PIXEL_TO_METERS(55), PIXEL_TO_METERS(250));
+		B.position.Set(PIXEL_TO_METERS(52), PIXEL_TO_METERS(250));
 	fixture.shape = &circleShape;
 	b2Body* bodyB = world->CreateBody(&B);
 	bodyB->CreateFixture(&fixture);
