@@ -794,6 +794,14 @@ void ModulePhysics::CreatePinballWalls()
 	};
 	App->scene_intro->Light10 = CreateChain(0, 0, Light10, 12, b2BodyType::b2_staticBody);
 
+	int Barrier[8] = {
+		5, 672,
+	36, 694,
+	33, 697,
+	5, 677
+	};
+	App->scene_intro->Barrier = CreateChain(0, 0, Barrier, 8, b2BodyType::b2_staticBody);
+
 }
 
 void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right, bool Up)
