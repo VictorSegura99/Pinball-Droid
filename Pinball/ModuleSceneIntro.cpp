@@ -34,9 +34,12 @@ bool ModuleSceneIntro::Start()
 	Num1 = App->textures->Load("Pinball/Numbers1.png");
 	Num2 = App->textures->Load("Pinball/Numbers2.png");
 	Num3 = App->textures->Load("Pinball/Numbers3.png");
+	CircleLight = App->textures->Load("Pinball/Active_Point.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 
 	App->physics->CreatePinballWalls();
+	App->physics->CreateSensors();
+
 	RightCircle = new PhysBody;
 	RightFlipper = new PhysBody;
 	App->physics->CreateFlipper(RightFlipper, RightCircle, true, false);
@@ -65,6 +68,7 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(Num1);
 	App->textures->Unload(Num2);
 	App->textures->Unload(Num3);
+	App->textures->Unload(CircleLight);
 	App->audio->CleanUp();
 
 	return true;
@@ -115,34 +119,43 @@ update_status ModuleSceneIntro::Update()
 	UpFlipper->GetPosition(x, y);
 	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, UpFlipper->GetRotation());
 	if (OnLight1) {
-		App->renderer->Blit(lightUp, 169, 61, NULL, 1.0f, Light1->GetRotation());
+		App->renderer->Blit(lightUp, 169, 61, NULL, 1.0f);
 	}
 	if (OnLight2) {
-		App->renderer->Blit(lightLeft, 70, 343, NULL, 1.0f, Light2->GetRotation());
+		App->renderer->Blit(lightLeft, 70, 343, NULL, 1.0f);
 	}
 	if (OnLight3) {
-		App->renderer->Blit(lightLeft, 80, 326, NULL, 1.0f, Light3->GetRotation());
+		App->renderer->Blit(lightLeft, 80, 326, NULL, 1.0f);
 	}
 	if (OnLight4) {
-		App->renderer->Blit(lightLeft, 90, 307, NULL, 1.0f, Light4->GetRotation());
+		App->renderer->Blit(lightLeft, 90, 307, NULL, 1.0f);
 	}
 	if (OnLight5) {
-		App->renderer->Blit(lightU, 266, 225, NULL, 1.0f, Light5->GetRotation());
+		App->renderer->Blit(lightU, 266, 225, NULL, 1.0f);
 	}
 	if (OnLight6) {
-		App->renderer->Blit(lightU, 281, 240, NULL, 1.0f, Light6->GetRotation());
+		App->renderer->Blit(lightU, 281, 240, NULL, 1.0f);
 	}
 	if (OnLight7) {
-		App->renderer->Blit(lightU, 295, 255, NULL, 1.0f, Light7->GetRotation());
+		App->renderer->Blit(lightU, 295, 255, NULL, 1.0f);
 	}
 	if (OnLight8) {
-		App->renderer->Blit(lightRight, 393, 395, NULL, 1.0f, Light8->GetRotation());
+		App->renderer->Blit(lightRight, 393, 395, NULL, 1.0f);
 	}
 	if (OnLight9) {
-		App->renderer->Blit(lightRight, 403, 413, NULL, 1.0f, Light9->GetRotation());
+		App->renderer->Blit(lightRight, 403, 413, NULL, 1.0f);
 	}
 	if (OnLight10) {
-		App->renderer->Blit(lightRight, 412, 431, NULL, 1.0f, Light10->GetRotation());
+		App->renderer->Blit(lightRight, 412, 431, NULL, 1.0f);
+	}
+	if (Circleup1) {
+		App->renderer->Blit(CircleLight, 264, 65, NULL, 1.0f);
+	}
+	if (Circleup2) {
+		App->renderer->Blit(CircleLight, 304, 65, NULL, 1.0f);
+	}
+	if (Circleup3) {
+		App->renderer->Blit(CircleLight, 344, 65, NULL, 1.0f);
 	}
 	return UPDATE_CONTINUE;
 }

@@ -47,7 +47,6 @@ public:
 	PhysBody* Hole3;
 	PhysBody* Hole4;
 	PhysBody* Barrier;
-
 	PhysBody* Light1;
 	PhysBody* Light2;
 	PhysBody* Light3;
@@ -58,6 +57,12 @@ public:
 	PhysBody* Light8;
 	PhysBody* Light9;
 	PhysBody* Light10;
+
+	//Sensors
+	PhysBody* CircleUp;
+	PhysBody* CircleUp2;
+	PhysBody* CircleUp3;
+
 
 	SDL_Texture* circle;
 	SDL_Texture* background;
@@ -71,6 +76,7 @@ public:
 	SDL_Texture* Num1 = nullptr;
 	SDL_Texture* Num2 = nullptr;
 	SDL_Texture* Num3 = nullptr;
+	SDL_Texture* CircleLight = nullptr;
 
 	bool OnLight1 = false;
 	bool OnLight2 = false;
@@ -82,6 +88,10 @@ public:
 	bool OnLight8 = false;
 	bool OnLight9 = false;
 	bool OnLight10 = false;
+
+	bool Circleup1 = false;
+	bool Circleup2 = false;
+	bool Circleup3 = false;
 
 	float velocity = 5.0f;
 	bool StartVelocity = false;

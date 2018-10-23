@@ -84,6 +84,34 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, b2BodyType type)
 	return pbody;
 }
 
+PhysBody * ModulePhysics::CreateCircleSensor(int x, int y, int radius)
+{
+	b2BodyDef body;
+	body.type = b2_staticBody;
+	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
+
+	b2Body* b = world->CreateBody(&body);
+
+	b2CircleShape shape;
+	shape.m_radius = PIXEL_TO_METERS(radius);
+	
+
+	b2FixtureDef fixture;
+	fixture.shape = &shape;
+	fixture.density = 1.0f;
+	fixture.isSensor = true;
+
+	b->CreateFixture(&fixture);
+
+	PhysBody* pbody = new PhysBody();
+	pbody->body = b;
+	b->SetUserData(pbody);
+	pbody->width = pbody->height = radius;
+
+
+	return pbody;
+}
+
 PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 {
 	b2BodyDef body;
@@ -835,6 +863,15 @@ void ModulePhysics::CreatePinballWalls()
 	5, 677
 	};
 	App->scene_intro->Barrier = CreateChain(0, 0, Barrier, 8, b2BodyType::b2_staticBody);
+
+}
+
+void ModulePhysics::CreateSensors()
+{
+	App->scene_intro->CircleUp = CreateCircleSensor(269, 70, 6);
+	App->scene_intro->CircleUp2 = CreateCircleSensor(309, 70, 6);
+	App->scene_intro->CircleUp3 = CreateCircleSensor(349, 70, 6);
+
 
 }
 

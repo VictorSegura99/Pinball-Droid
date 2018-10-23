@@ -198,4 +198,13 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	if (bodyB == App->scene_intro->Light10) {
 		App->scene_intro->OnLight10 = true;
 	}
+	if (bodyB == App->scene_intro->CircleUp) {
+		App->scene_intro->Circleup1 = true;
+	}
+	if (bodyB == App->scene_intro->CircleUp2) {
+		App->scene_intro->Circleup2 = true;
+	}
+	if (bodyB == App->scene_intro->CircleUp3) {
+		App->scene_intro->Circleup3 = true;
+	}
 }
