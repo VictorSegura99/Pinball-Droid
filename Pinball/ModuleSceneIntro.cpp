@@ -121,19 +121,19 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(lightLeft, 70, 343, NULL, 1.0f, Light2->GetRotation());
 	}
 	if (OnLight3) {
-		App->renderer->Blit(lightLeft, x, y, NULL, 1.0f, Light3->GetRotation());
+		App->renderer->Blit(lightLeft, 80, 326, NULL, 1.0f, Light3->GetRotation());
 	}
 	if (OnLight4) {
-		App->renderer->Blit(lightLeft, x, y, NULL, 1.0f, Light4->GetRotation());
+		App->renderer->Blit(lightLeft, 90, 307, NULL, 1.0f, Light4->GetRotation());
 	}
 	if (OnLight5) {
-		App->renderer->Blit(lightU, x, y, NULL, 1.0f, Light5->GetRotation());
+		App->renderer->Blit(lightU, 266, 225, NULL, 1.0f, Light5->GetRotation());
 	}
 	if (OnLight6) {
-		App->renderer->Blit(lightU, x, y, NULL, 1.0f, Light6->GetRotation());
+		App->renderer->Blit(lightU, 281, 240, NULL, 1.0f, Light6->GetRotation());
 	}
 	if (OnLight7) {
-		App->renderer->Blit(lightU, x, y, NULL, 1.0f, Light7->GetRotation());
+		App->renderer->Blit(lightU, 295, 255, NULL, 1.0f, Light7->GetRotation());
 	}
 	if (OnLight8) {
 		App->renderer->Blit(lightRight, x, y, NULL, 1.0f, Light8->GetRotation());
