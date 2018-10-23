@@ -64,9 +64,9 @@ void ModulePlayer::StartBall()
 		Hole2 = false;
 	}
 	else if (Hole3) {
-		ball = App->physics->CreateCircle(412, 264, 15, b2BodyType::b2_dynamicBody);
+		ball = App->physics->CreateCircle(400, 270, 15, b2BodyType::b2_dynamicBody);
 		ball->listener = this;
-		ball->body->ApplyLinearImpulse({ -2,5 }, { 0,0 }, true, true);
+		ball->body->ApplyLinearImpulse({ -3,5 }, { 0,0 }, true, true);
 		ball->body->SetBullet(false);
 		Hole3 = false;
 	}
