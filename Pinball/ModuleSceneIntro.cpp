@@ -110,7 +110,7 @@ update_status ModuleSceneIntro::Update()
 	//RENDERER
 	
 	App->renderer->Blit(background, -1, 0, NULL);
-	if (App->player->ball)
+	if (App->player->ball) {}
 		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
 	LeftFlipper->GetPosition(x, y);
 	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, LeftFlipper->GetRotation());
@@ -156,6 +156,15 @@ update_status ModuleSceneIntro::Update()
 	}
 	if (Circleup3) {
 		App->renderer->Blit(CircleLight, 344, 65, NULL, 1.0f);
+	}
+	if (ActiveHole1) {
+		App->renderer->Blit(circle, 189, 15, NULL, 1.0f);
+	}
+	if (ActiveHole2) {
+		App->renderer->Blit(circle, 384, 55, NULL, 1.0f);
+	}
+	if (ActiveHole3) {
+		App->renderer->Blit(circle, 399, 244, NULL, 1.0f);
 	}
 	return UPDATE_CONTINUE;
 }

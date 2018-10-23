@@ -93,6 +93,10 @@ public:
 	bool Circleup2 = false;
 	bool Circleup3 = false;
 
+	bool ActiveHole1 = false;
+	bool ActiveHole2 = false;
+	bool ActiveHole3 = false;
+
 	float velocity = 5.0f;
 	bool StartVelocity = false;
 	bool BallIsStopped = false;
