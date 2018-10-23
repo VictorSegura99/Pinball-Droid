@@ -25,7 +25,14 @@ public:
 	PhysBody* pivote2;
 	PhysBody* pivote3;
 	PhysBody* pivote4;
+	PhysBody* BarraL;
+	PhysBody* BarraR;
 	PhysBody* Background;
+	PhysBody* BackgroundU;
+	PhysBody* BackgroundL;
+	PhysBody* BackgroundR;
+	PhysBody* ChainL;
+	PhysBody* ChainR;
 	PhysBody* RightCircle;
 	PhysBody* RightFlipper;
 	PhysBody* LeftCircle;
