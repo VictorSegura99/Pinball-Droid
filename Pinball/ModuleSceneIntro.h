@@ -43,6 +43,17 @@ public:
 	PhysBody* Hole3;
 	PhysBody* Hole4;
 
+	PhysBody* Light1;
+	PhysBody* Light2;
+	PhysBody* Light3;
+	PhysBody* Light4;
+	PhysBody* Light5;
+	PhysBody* Light6;
+	PhysBody* Light7;
+	PhysBody* Light8;
+	PhysBody* Light9;
+	PhysBody* Light10;
+
 	SDL_Texture* circle;
 	SDL_Texture* background;
 	SDL_Texture* flipper;

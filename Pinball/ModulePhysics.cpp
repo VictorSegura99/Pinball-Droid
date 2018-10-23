@@ -682,6 +682,102 @@ void ModulePhysics::CreatePinballWalls()
 	34, 727
 	};
 	App->scene_intro->Hole4 = CreateChain(0, 0, Hole4, 12, b2BodyType::b2_staticBody);
+
+	int Light1[12] = {
+		168, 62,
+	185, 62,
+	185, 67,
+	182, 71,
+	172, 71,
+	168, 67
+	};
+	App->scene_intro->Light1 = CreateChain(0, 0, Light1, 12, b2BodyType::b2_staticBody);
+
+	int Light2[10] = {
+		68, 355,
+	76, 340,
+	81, 344,
+	81, 353,
+	73, 357
+	};
+	App->scene_intro->Light2 = CreateChain(0, 0, Light2, 10, b2BodyType::b2_staticBody);
+
+	int Light3[10] = {
+		78, 337,
+	87, 322,
+	92, 328,
+	91, 335,
+	86, 339
+	};
+	App->scene_intro->Light3 = CreateChain(0, 0, Light3, 10, b2BodyType::b2_staticBody);
+
+	int Light4[8] = {
+	88, 319,
+	97, 304,
+	103, 313,
+	98, 322
+	};
+	App->scene_intro->Light4 = CreateChain(0, 0, Light4, 8, b2BodyType::b2_staticBody);
+
+	int Light5[12] = {
+		270, 223,
+	282, 236,
+	278, 239,
+	272, 239,
+	266, 233,
+	266, 226
+	};
+	App->scene_intro->Light5 = CreateChain(0, 0, Light5, 12, b2BodyType::b2_staticBody);
+
+	int Light6[12] = {
+		285, 238,
+	297, 251,
+	293, 254,
+	287, 254,
+	281, 247,
+	281, 241
+	};
+	App->scene_intro->Light6 = CreateChain(0, 0, Light6, 12, b2BodyType::b2_staticBody);
+
+	int Light7[12] = {
+		300, 253,
+	313, 266,
+	306, 270,
+	302, 269,
+	296, 263,
+	296, 256
+	};
+	App->scene_intro->Light7 = CreateChain(0, 0, Light7, 12, b2BodyType::b2_staticBody);
+
+	int Light8[10] = {
+		400, 394,
+	407, 410,
+	399, 411,
+	393, 403,
+	394, 396
+	};
+	App->scene_intro->Light8 = CreateChain(0, 0, Light8, 10, b2BodyType::b2_staticBody);
+
+	int Light9[12] = {
+		409, 412,
+	418, 428,
+	412, 429,
+	406, 428,
+	403, 420,
+	405, 415
+	};
+	App->scene_intro->Light9 = CreateChain(0, 0, Light9, 12, b2BodyType::b2_staticBody);
+
+	int Light10[12] = {
+		419, 430,
+	427, 445,
+	422, 448,
+	416, 446,
+	413, 439,
+	414, 432
+	};
+	App->scene_intro->Light10 = CreateChain(0, 0, Light10, 12, b2BodyType::b2_staticBody);
+
 }
 
 void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right)
