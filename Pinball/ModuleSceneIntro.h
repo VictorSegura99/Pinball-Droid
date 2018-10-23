@@ -46,6 +46,7 @@ public:
 	PhysBody* Hole2;
 	PhysBody* Hole3;
 	PhysBody* Hole4;
+	PhysBody* Barrier;
 
 	PhysBody* Light1;
 	PhysBody* Light2;
