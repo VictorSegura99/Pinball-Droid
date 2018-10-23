@@ -161,7 +161,12 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 
 	}
 	if (bodyB == App->scene_intro->BouncyL) {
-		ball->body->ApplyLinearImpulse({ 1,-2 }, { 0,0 }, true, true);
+		ball->body->ApplyLinearImpulse({ 2,-2.5f }, { 0,0 }, false, false);
+		
+	}
+	if (bodyB == App->scene_intro->BouncyR) {
+		ball->body->ApplyLinearImpulse({ -2,-2.5f }, { 0,0 }, false, false);
+
 	}
 	if (bodyB == App->scene_intro->Light1) {
  		App->scene_intro->OnLight1 = true;
