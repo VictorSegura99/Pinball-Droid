@@ -56,8 +56,6 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-	
-	
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) 
 		RightFlipper->body->ApplyTorque(500, true);
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -105,7 +103,7 @@ void ModuleSceneIntro::OnCollision(PhysBody* bodyA, PhysBody* bodyB)
 
 void ModuleSceneIntro::ContinueAfterHole()
 {
-	if (SDL_GetTicks() - time >= StopTime && App->player->Hole1) {
+	if (SDL_GetTicks() - time >= StopTime && (App->player->Hole1 || App->player->Hole2 || App->player->Hole3 || App->player->Hole4)) {
 		BallIsStopped = false;
 		App->player->StartBall();
 		}
