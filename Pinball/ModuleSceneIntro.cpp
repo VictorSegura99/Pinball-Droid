@@ -136,13 +136,13 @@ update_status ModuleSceneIntro::Update()
 		App->renderer->Blit(lightU, x, y, NULL, 1.0f, Light7->GetRotation());
 	}
 	if (OnLight8) {
-		App->renderer->Blit(lightRight, x, y, NULL, 1.0f, Light8->GetRotation());
+		App->renderer->Blit(lightRight, 393, 395, NULL, 1.0f, Light8->GetRotation());
 	}
 	if (OnLight9) {
-		App->renderer->Blit(lightRight, x, y, NULL, 1.0f, Light9->GetRotation());
+		App->renderer->Blit(lightRight, 403, 413, NULL, 1.0f, Light9->GetRotation());
 	}
 	if (OnLight10) {
-		App->renderer->Blit(lightRight, x, y, NULL, 1.0f, Light10->GetRotation());
+		App->renderer->Blit(lightRight, 412, 431, NULL, 1.0f, Light10->GetRotation());
 	}
 	return UPDATE_CONTINUE;
 }
