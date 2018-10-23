@@ -39,7 +39,7 @@ public:
 	PhysBody* RightCircle;
 	PhysBody* RightFlipper;
 	PhysBody* LeftCircle;
-	PhysBody* LeftFlipper;
+	PhysBody* LeftFlipper; 
 	PhysBody* UpCircle;
 	PhysBody* UpFlipper;
 	PhysBody* Hole1;

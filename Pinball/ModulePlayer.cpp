@@ -146,6 +146,9 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->time = SDL_GetTicks();
 
 	}
+	if (bodyB == App->scene_intro->BouncyL) {
+		ball->body->ApplyLinearImpulse({ 1,-2 }, { 0,0 }, true, true);
+	}
 	if (bodyB == App->scene_intro->Light1) {
  		App->scene_intro->OnLight1 = true;
 	}

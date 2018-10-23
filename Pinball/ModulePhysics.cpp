@@ -32,6 +32,9 @@ bool ModulePhysics::Start()
 	world = new b2World(b2Vec2(GRAVITY_X, -GRAVITY_Y));
 	world->SetContactListener(this);
 
+	b2BodyDef bd;
+	ground = world->CreateBody(&bd);
+
 	return true;
 }
 
@@ -175,7 +178,7 @@ update_status ModulePhysics::PostUpdate()
 
 	if(!debug)
 		return UPDATE_CONTINUE;
-
+	b2Vec2 mouse_position(PIXEL_TO_METERS(App->input->GetMouseX()), PIXEL_TO_METERS(App->input->GetMouseY()));
 	// Bonus code: this will iterate all objects in the world and draw the circles
 	// You need to provide your own macro to translate meters to pixels
 	for(b2Body* b = world->GetBodyList(); b; b = b->GetNext())
@@ -245,9 +248,40 @@ update_status ModulePhysics::PostUpdate()
 				}
 				break;
 			}
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && body_clicked == nullptr && f->GetShape()->TestPoint(b->GetTransform(), mouse_position))
+			{
+				body_clicked = b;
+			}
 		}
 	}
+	if (body_clicked != nullptr)
+	{
+		if (!createdJoint) {
+			b2MouseJointDef def;
+			def.bodyA = ground;
+			def.bodyB = body_clicked;
+			def.target = mouse_position;
+			def.dampingRatio = 0.5f;
+			def.frequencyHz = 2.0f;
+			def.maxForce = 100.0f * body_clicked->GetMass();
+			mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
+			createdJoint = true;
+		}
+		else
+		{
+			mouse_joint->SetTarget(mouse_position);
+			App->renderer->DrawLine(METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().x), METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().y), App->input->GetMouseX(), App->input->GetMouseY(), 255, 0, 0);
+		}
 
+		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
+		{
+			world->DestroyJoint(mouse_joint);
+			mouse_joint = nullptr;
+			body_clicked = nullptr;
+			createdJoint = false;
+		}
+
+	}
 	return UPDATE_CONTINUE;
 }
 
