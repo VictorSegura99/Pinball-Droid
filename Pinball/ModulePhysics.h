@@ -55,7 +55,7 @@ public:
 	void BeginContact(b2Contact* contact);
 
 	void CreatePinballWalls();
-	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right);
+	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right, bool Up);
 	void DestroyBall();
 private:
 

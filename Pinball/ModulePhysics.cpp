@@ -780,7 +780,7 @@ void ModulePhysics::CreatePinballWalls()
 
 }
 
-void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right)
+void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right, bool Up)
 {
 	b2BodyDef B;
 	B.type = b2_staticBody;
@@ -796,11 +796,12 @@ void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right)
 	boxShape.SetAsBox(PIXEL_TO_METERS(35), PIXEL_TO_METERS(9));
 	b2CircleShape circleShape;
 	circleShape.m_radius = PIXEL_TO_METERS(10);
-	if (Right)
+	if (Right && !Up)
 		B.position.Set(PIXEL_TO_METERS(325), PIXEL_TO_METERS(723));
-	else
+	if (!Right && !Up)
+		B.position.Set(PIXEL_TO_METERS(55), PIXEL_TO_METERS(250));
+	if (Up)
 		B.position.Set(PIXEL_TO_METERS(157), PIXEL_TO_METERS(723));
-
 	fixture.shape = &circleShape;
 	b2Body* bodyB = world->CreateBody(&B);
 	bodyB->CreateFixture(&fixture);
@@ -819,14 +820,14 @@ void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right)
 		revoluteJointDef.lowerAngle = -20 * DEGTORAD;
 		revoluteJointDef.upperAngle = 32 * DEGTORAD;
 	}
-	else
+	if (!Right)
 	{
 		revoluteJointDef.lowerAngle = -32 * DEGTORAD;
 		revoluteJointDef.upperAngle = 20 * DEGTORAD;
 	}
 	if (Right)
 		revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(32), PIXEL_TO_METERS(0));
-	else
+	if (!Right)
 		revoluteJointDef.localAnchorA.Set(PIXEL_TO_METERS(-32), PIXEL_TO_METERS(0));
 	revoluteJointDef.localAnchorB.Set(PIXEL_TO_METERS(0), PIXEL_TO_METERS(0));
 	b2RevoluteJoint* joint = (b2RevoluteJoint*)world->CreateJoint(&revoluteJointDef);

@@ -32,11 +32,13 @@ bool ModuleSceneIntro::Start()
 	App->physics->CreatePinballWalls();
 	RightCircle = new PhysBody;
 	RightFlipper = new PhysBody;
-	App->physics->CreateFlipper(RightFlipper, RightCircle, true);
+	App->physics->CreateFlipper(RightFlipper, RightCircle, true, false);
 	LeftCircle = new PhysBody;
 	LeftFlipper = new PhysBody;
-	App->physics->CreateFlipper(LeftFlipper, LeftCircle, false);
-	
+	App->physics->CreateFlipper(LeftFlipper, LeftCircle, false, false);
+	UpCircle = new PhysBody;
+	UpFlipper = new PhysBody;
+	App->physics->CreateFlipper(UpFlipper, UpCircle, false, true);
 	return ret;
 }
 
@@ -58,8 +60,11 @@ update_status ModuleSceneIntro::Update()
 {
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) 
 		RightFlipper->body->ApplyTorque(500, true);
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		LeftFlipper->body->ApplyTorque(-500, true);
+		UpFlipper->body->ApplyTorque(-500, true);
+	}
+		
 	
 
 
@@ -90,6 +95,8 @@ update_status ModuleSceneIntro::Update()
 	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, LeftFlipper->GetRotation());
 	RightFlipper->GetPosition(x, y);
 	App->renderer->Blit(flipper, x -35, y -20, NULL, 1.0f, RightFlipper->GetRotation());
+	UpFlipper->GetPosition(x, y);
+	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, UpFlipper->GetRotation());
 	return UPDATE_CONTINUE;
 }
 
