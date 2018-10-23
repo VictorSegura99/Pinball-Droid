@@ -34,6 +34,8 @@ public:
 	PhysBody* BackgroundLine;
 	PhysBody* ChainL;
 	PhysBody* ChainR;
+	PhysBody* BouncyL;
+	PhysBody* BouncyR;
 	PhysBody* RightCircle;
 	PhysBody* RightFlipper;
 	PhysBody* LeftCircle;

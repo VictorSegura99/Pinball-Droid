@@ -623,6 +623,22 @@ void ModulePhysics::CreatePinballWalls()
 	};
 	App->scene_intro->pivote4 = CreateChain(0, 0, PivoteL, 54, b2BodyType::b2_staticBody);
 
+	int BouncyL[8] = {
+		93, 522,
+	96, 523,
+	154, 646,
+	152, 648
+	};
+	App->scene_intro->BouncyL = CreateChain(0, 0, BouncyL, 8, b2BodyType::b2_staticBody);
+
+	int BouncyR[8] = {
+		380, 522,
+	377, 522,
+	319, 646,
+	320, 649
+	};
+	App->scene_intro->BouncyR = CreateChain(0, 0, BouncyR, 8, b2BodyType::b2_staticBody);
+
 	int BarraL[12] = {
 	288, 56,
 	286, 61,
