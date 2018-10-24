@@ -85,7 +85,21 @@ update_status ModuleSceneIntro::Update()
 		LeftFlipper->body->ApplyTorque(-500, true);
 		UpFlipper->body->ApplyTorque(-500, true);
 	}
-		
+	if (OnLight2 && OnLight3 && OnLight4) {
+		OnLight2 = false;
+		OnLight3 = false;
+		OnLight4 = false;
+	}
+	if (OnLight5 && OnLight6 && OnLight7) {
+		OnLight5 = false;
+		OnLight6 = false;
+		OnLight7 = false;
+	}
+	if (OnLight8 && OnLight9 && OnLight10) {
+		OnLight8 = false;
+		OnLight9 = false;
+		OnLight10 = false;
+	}
 	
 
 
