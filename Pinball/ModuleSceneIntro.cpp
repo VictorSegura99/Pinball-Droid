@@ -41,6 +41,7 @@ bool ModuleSceneIntro::Start()
 	CircleLight = App->textures->Load("pinball/Active_Point.png");
 	k5 = App->textures->Load("pinball/5k.png");
 	k10 = App->textures->Load("pinball/10k.png");
+	k20 = App->textures->Load("pinball/20k.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
@@ -78,6 +79,7 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(right);
 	App->textures->Unload(k5);
 	App->textures->Unload(k10);
+	App->textures->Unload(k20);
 	App->textures->Unload(up);
 	App->audio->CleanUp();
 
@@ -103,8 +105,19 @@ update_status ModuleSceneIntro::Update()
 		OnLight9 = false;
 		OnLight10 = false;
 	}
-
-	
+	if (!OnLight1 && Barrier == nullptr) {
+		int barrier[8] = {
+			5, 672,
+			36, 694,
+			33, 697,
+			5, 677
+		};
+		Barrier = App->physics->CreateChain(0, 0, barrier, 8, b2BodyType::b2_staticBody);
+	}
+	else if (Barrier != nullptr) {
+		App->physics->DestroyBody(Barrier);
+		Barrier = nullptr;
+	}
 	
 
 	
@@ -182,6 +195,7 @@ void ModuleSceneIntro::BlitAll()
 	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, UpFlipper->GetRotation());
 	if (OnLight1) {
 		App->renderer->Blit(lightUp, 169, 61, NULL, 1.0f);
+		App->renderer->Blit(k20, 2, 614, NULL, 1.0f);
 		TimeLight1++;
 	}
 	if (OnLight2)

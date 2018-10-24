@@ -49,7 +49,7 @@ public:
 	PhysBody* Hole2;
 	PhysBody* Hole3;
 	PhysBody* Hole4;
-	PhysBody* Barrier;
+	PhysBody* Barrier = nullptr;
 	PhysBody* Light1;
 	PhysBody* Light2;
 	PhysBody* Light3;
@@ -86,6 +86,7 @@ public:
 	SDL_Texture* CircleLight = nullptr;
 	SDL_Texture* k5 = nullptr;
 	SDL_Texture* k10 = nullptr;
+	SDL_Texture* k20 = nullptr;
 
 	bool OnLight1 = false;
 	bool OnLight2 = false;
