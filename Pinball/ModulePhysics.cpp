@@ -79,7 +79,7 @@ PhysBody* ModulePhysics::CreateCircle(int x, int y, int radius, b2BodyType type)
 	pbody->body = b;
 	b->SetUserData(pbody);
 	pbody->width = pbody->height = radius;
-	
+	pbody->MaxSpeed = { 2,2 };
 
 	return pbody;
 }
@@ -393,7 +393,13 @@ int PhysBody::RayCast(int x1, int y1, int x2, int y2, float& normal_x, float& no
 
 	return ret;
 }
-
+void ModulePhysics::SpeedBall(PhysBody * Pbody)
+{
+	if (Pbody->body->GetLinearVelocity().x > Pbody->MaxSpeed.x && Pbody->body->GetLinearVelocity().y > Pbody->MaxSpeed.y)
+	{
+		Pbody->body->SetLinearVelocity(Pbody->MaxSpeed);
+	}
+}
 // TODO 3
 void ModulePhysics::BeginContact(b2Contact* contact)
 {

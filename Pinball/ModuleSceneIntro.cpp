@@ -120,18 +120,21 @@ update_status ModuleSceneIntro::Update()
 		OnLight3 = false;
 		OnLight4 = false;
 		pinball++;
+		App->ui->Score += 1500 * App->player->bonus;
 	}
 	if (OnLight5 && OnLight6 && OnLight7) {
 		OnLight5 = false;
 		OnLight6 = false;
 		OnLight7 = false;
 		pinball++;
+		App->ui->Score += 1500 * App->player->bonus;
 	}
 	if (OnLight8 && OnLight9 && OnLight10) {
 		OnLight8 = false;
 		OnLight9 = false;
 		OnLight10 = false;
 		pinball++;
+		App->ui->Score += 1500 * App->player->bonus;
 	}
 	if (!OnLight1 && Barrier == nullptr) {
 		int barrier[8] = {

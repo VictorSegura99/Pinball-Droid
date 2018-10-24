@@ -97,6 +97,7 @@ void ModulePlayer::StartBall()
 void ModulePlayer::SpawnNextBall()
 {
 	lives--;
+	int bonus = 1;
 	App->physics->DestroyBody(ball);
 	App->scene_intro->ActiveBonus = false;
 	if (lives >= 0) {
@@ -142,6 +143,7 @@ update_status ModulePlayer::Update()
 		App->finish->Enable();
 		App->fade->FadeToBlack(this, (Module*)App->finish, 0.0f);
 	}
+	App->physics->SpeedBall(ball);
 	return UPDATE_CONTINUE;
 }
 
@@ -154,7 +156,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole1 = true;
-		
+		App->ui->Score += 1000 * bonus;
 	}
 
 	if (bodyB == App->scene_intro->Hole2) {
@@ -163,6 +165,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole2 = true;
+		App->ui->Score += 1000 * bonus;
 	}
 	if (bodyB == App->scene_intro->Hole3) {
 		Hole3 = true;
@@ -170,6 +173,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole3 = true;
+		App->ui->Score += 1000 * bonus;
 	}
 	if (bodyB == App->scene_intro->Hole4) {
 		Hole4 = true;
@@ -177,54 +181,67 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole4 = true;
-
+		App->ui->Score += 1000 * bonus;
 	}
 	if (bodyB == App->scene_intro->BouncyL) {
 		ball->body->ApplyLinearImpulse({ 2,-2.5f }, { 0,0 }, false, false);
-		
+		App->ui->Score += 200 * bonus;
 	}
 	if (bodyB == App->scene_intro->BouncyR) {
 		ball->body->ApplyLinearImpulse({ -2,-2.5f }, { 0,0 }, false, false);
+		App->ui->Score += 200 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light1) {
-		App->ui->Score += 1;
  		App->scene_intro->OnLight1 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light2) {
 		App->scene_intro->OnLight2 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light3) {
 		App->scene_intro->OnLight3 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light4) {
 		App->scene_intro->OnLight4 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light5) {
 		App->scene_intro->OnLight5 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light6) {
 		App->scene_intro->OnLight6 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light7) {
 		App->scene_intro->OnLight7 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light8) {
 		App->scene_intro->OnLight8 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light9) {
 		App->scene_intro->OnLight9 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->Light10) {
 		App->scene_intro->OnLight10 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->CircleUp) {
 		App->scene_intro->Circleup1 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->CircleUp2) {
 		App->scene_intro->Circleup2 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->CircleUp3) {
 		App->scene_intro->Circleup3 = true;
+		App->ui->Score += 500 * bonus;
 	}
 	if (bodyB == App->scene_intro->SensorUp) {
 		int x, y;
@@ -232,10 +249,12 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		if (x > BallPosition.x) {
 			App->scene_intro->Left = true;
 			App->scene_intro->TimeLeft = 1;
+			App->ui->Score += 500 * bonus;
 		}
 		if (x < BallPosition.x) {
 			App->scene_intro->Right = true;
 			App->scene_intro->TimeRight = 1;
+			App->ui->Score += 500 * bonus;
 		}
 	}
 	if (bodyB == App->scene_intro->SensorUp2) {
@@ -244,6 +263,13 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		if (y < BallPosition.y) {
 			App->scene_intro->TimeUp = 1;
 			App->scene_intro->Up = true;
+			App->ui->Score += 500 * bonus;
 		}
+	}
+	if (bodyB == App->scene_intro->pivote || bodyB == App->scene_intro->pivote2 || bodyB == App->scene_intro->pivote3 || bodyB == App->scene_intro->pivote4) {
+		b2Vec2 vec;
+		App->ui->Score += 200 * bonus;
+		vec = ball->body->GetLinearVelocity();
+		ball->body->ApplyLinearImpulse(-vec, { 0,0 }, true, false);
 	}
 }

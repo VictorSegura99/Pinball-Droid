@@ -30,5 +30,6 @@ public:
 	bool Hole2 = false;
 	bool Hole3 = false;
 	bool Hole4 = false;
+	int bonus = 1;
 	int lives = 3;
 };

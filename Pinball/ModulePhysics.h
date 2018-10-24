@@ -28,6 +28,7 @@ public:
 public:
 	int width, height;
 	b2Body* body;
+	b2Vec2 MaxSpeed;
 	// TODO 6: Add a pointer to a module that might want to listen to a collision from this body
 	Module* listener;
 };
@@ -59,6 +60,7 @@ public:
 	void CreateSensors();
 	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right, bool Up);
 	void DestroyBody(PhysBody* body);
+	void SpeedBall(PhysBody* body);
 
 private:
 
