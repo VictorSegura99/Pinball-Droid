@@ -22,7 +22,7 @@ public:
 public:
 
 	
-
+	SDL_Texture *bouncerHit;
 	PhysBody * ball;
 	iPoint BallPosition;
 	bool DesappearBall = false;
