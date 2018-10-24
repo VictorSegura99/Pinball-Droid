@@ -7,6 +7,8 @@
 #include "ModuleAudio.h"
 #include "ModulePhysics.h"
 #include "ModulePlayer.h"
+#include "ModuleFonts.h"
+#include "ModuleUi.h"
 
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
@@ -303,6 +305,20 @@ void ModuleSceneIntro::BlitAll()
 	if (ActiveBonus) {
 		App->renderer->Blit(bonusx2, 75, 619, NULL, 1.0f);
 	}
+	if (App->ui->Score >= 10 && App->ui->Score <100) {
+		App->fonts->BlitText(205, 773, App->ui->font, App->ui->score);
+	}
+	else if (App->ui->Score >= 100 && App->ui->Score < 1000) {
+		App->fonts->BlitText(195, 773, App->ui->font, App->ui->score);
+	}
+	else if (App->ui->Score >= 1000 && App->ui->Score < 10000) {
+		App->fonts->BlitText(185, 773, App->ui->font, App->ui->score);
+	}
+	else if (App->ui->Score >= 10000) {
+		App->fonts->BlitText(175, 773, App->ui->font, App->ui->score);
+	}
+	else App->fonts->BlitText(215, 773, App->ui->font, App->ui->score);
+
 	if (App->player->ball)
 		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
 }

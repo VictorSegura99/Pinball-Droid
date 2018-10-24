@@ -11,6 +11,8 @@
 #include "ModuleTutorial.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleFinish.h"
+#include "ModuleFonts.h"
+#include "ModuleUi.h"
 #include "Application.h"
 
 Application::Application()
@@ -26,6 +28,8 @@ Application::Application()
 	tutorial = new ModuleTutorial(this);
 	fade = new ModuleFadeToBlack(this);
 	finish = new ModuleFinish(this);
+	fonts = new ModuleFonts(this);
+	ui = new ModuleUi(this);
 
 	// The order of calls is very important!
 	// Modules will Init() Start() and Update in this order
@@ -48,7 +52,8 @@ Application::Application()
 	AddModule(player);
 	AddModule(tutorial);
 	AddModule(finish);
-
+	AddModule(fonts);
+	AddModule(ui);
 }
 
 Application::~Application()

@@ -7,6 +7,8 @@
 #include "ModuleFinish.h"
 #include "ModuleRender.h"
 #include "ModuleTextures.h"
+#include "ModuleUi.h"
+#include "ModuleInput.h"
 
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -135,6 +137,11 @@ update_status ModulePlayer::Update()
 	if (BallPosition.x >= 169 && BallPosition.x <= 308 && BallPosition.y >= 766) {
 		SpawnNextBall();
 	}
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
+		App->scene_intro->pinball = 0;
+		App->finish->Enable();
+		App->fade->FadeToBlack(this, (Module*)App->finish, 0.0f);
+	}
 	return UPDATE_CONTINUE;
 }
 
@@ -178,9 +185,9 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	}
 	if (bodyB == App->scene_intro->BouncyR) {
 		ball->body->ApplyLinearImpulse({ -2,-2.5f }, { 0,0 }, false, false);
-
 	}
 	if (bodyB == App->scene_intro->Light1) {
+		App->ui->Score += 1;
  		App->scene_intro->OnLight1 = true;
 	}
 	if (bodyB == App->scene_intro->Light2) {
