@@ -87,6 +87,17 @@ public:
 	SDL_Texture* k5 = nullptr;
 	SDL_Texture* k10 = nullptr;
 	SDL_Texture* k20 = nullptr;
+	SDL_Texture* P = nullptr;
+	SDL_Texture* PI = nullptr;
+	SDL_Texture* PIN = nullptr;
+	SDL_Texture* PINB = nullptr;
+	SDL_Texture* PINBA = nullptr;
+	SDL_Texture* PINBAL = nullptr;
+	SDL_Texture* PINBALL = nullptr;
+	SDL_Texture* PINBALLD = nullptr;
+	SDL_Texture* PINBALLDR = nullptr;
+	SDL_Texture* PINBALLDROI = nullptr;
+	SDL_Texture* PINBALLDROID = nullptr;
 
 	bool OnLight1 = false;
 	bool OnLight2 = false;
@@ -124,6 +135,7 @@ public:
 	uint TimeLeft = 0;
 	uint TimeLight1 = 0;
 	uint StopTime = 2000;
+	uint pinball = 0;
 
 
 };

@@ -100,6 +100,7 @@ void ModulePlayer::SpawnNextBall()
 		StartBall();
 	}
 	else {
+		App->scene_intro->pinball = 0;
 		App->finish->Enable();
 		App->fade->FadeToBlack(this, (Module*)App->finish, 0.0f);
 	}

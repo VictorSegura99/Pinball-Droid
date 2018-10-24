@@ -42,10 +42,20 @@ bool ModuleSceneIntro::Start()
 	k5 = App->textures->Load("pinball/5k.png");
 	k10 = App->textures->Load("pinball/10k.png");
 	k20 = App->textures->Load("pinball/20k.png");
+	P = App->textures->Load("pinball/P.png");
+	PI = App->textures->Load("pinball/PI.png");
+	PIN = App->textures->Load("pinball/PIN.png");
+	PINB = App->textures->Load("pinball/PINB.png");
+	PINBA = App->textures->Load("pinball/PINBA.png");
+	PINBAL = App->textures->Load("pinball/PINBAL.png");
+	PINBALL = App->textures->Load("pinball/PINBALL.png");
+	PINBALLD = App->textures->Load("pinball/PINBALLD.png");
+	PINBALLDR = App->textures->Load("pinball/PINBALLDR.png");
+	PINBALLDROI = App->textures->Load("pinball/PINBALLDOI.png");
+	PINBALLDROID = App->textures->Load("pinball/PINBALLDOID.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
-
 	RightCircle = new PhysBody;
 	RightFlipper = new PhysBody;
 	App->physics->CreateFlipper(RightFlipper, RightCircle, true, false);
@@ -81,12 +91,23 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(k10);
 	App->textures->Unload(k20);
 	App->textures->Unload(up);
+	App->textures->Unload(P);
+	App->textures->Unload(PI);
+	App->textures->Unload(PIN);
+	App->textures->Unload(PINB);
+	App->textures->Unload(PINBA);
+	App->textures->Unload(PINBAL);
+	App->textures->Unload(PINBALL);
+	App->textures->Unload(PINBALLD);
+	App->textures->Unload(PINBALLDR);
+	App->textures->Unload(PINBALLDROI);
+	App->textures->Unload(PINBALLDROID);
 	App->audio->CleanUp();
 
 	return true;
 }
 
-// Update: draw background
+
 update_status ModuleSceneIntro::Update()
 {
 	
@@ -94,16 +115,19 @@ update_status ModuleSceneIntro::Update()
 		OnLight2 = false;
 		OnLight3 = false;
 		OnLight4 = false;
+		pinball++;
 	}
 	if (OnLight5 && OnLight6 && OnLight7) {
 		OnLight5 = false;
 		OnLight6 = false;
 		OnLight7 = false;
+		pinball++;
 	}
 	if (OnLight8 && OnLight9 && OnLight10) {
 		OnLight8 = false;
 		OnLight9 = false;
 		OnLight10 = false;
+		pinball++;
 	}
 	if (!OnLight1 && Barrier == nullptr) {
 		int barrier[8] = {
@@ -185,7 +209,31 @@ void ModuleSceneIntro::BlitAll()
 {
 	//RENDERER
 	int x, y;
-	App->renderer->Blit(background, -1, 0, NULL);
+	if (pinball == 1) 
+		App->renderer->Blit(P, -1, 0, NULL);
+	else if (pinball == 2) 
+		App->renderer->Blit(PI, -1, 0, NULL);
+	else if (pinball == 3) 
+		App->renderer->Blit(PIN, -1, 0, NULL);
+	else if (pinball == 4) 
+		App->renderer->Blit(PINB, -1, 0, NULL);
+	else if (pinball == 5) 
+		App->renderer->Blit(PINBA, -1, 0, NULL);
+	else if (pinball == 6) 
+		App->renderer->Blit(PINBAL, -1, 0, NULL);
+	else if (pinball == 7) 
+		App->renderer->Blit(PINBALL, -1, 0, NULL);
+	else if (pinball == 8) 
+		App->renderer->Blit(PINBALLD, -1, 0, NULL);
+	else if (pinball == 9) 
+		App->renderer->Blit(PINBALLDR, -1, 0, NULL);
+	else if (pinball == 10) 
+		App->renderer->Blit(PINBALLDROI, -1, 0, NULL);
+	else if (pinball >= 11) 
+		App->renderer->Blit(PINBALLDROID, -1, 0, NULL);
+	else App->renderer->Blit(background, -1, 0, NULL);
+		
+	
 
 	LeftFlipper->GetPosition(x, y);
 	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, LeftFlipper->GetRotation());
