@@ -8,6 +8,7 @@
 #include "ModulePhysics.h"
 #include "ModulePlayer.h"
 
+
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
 	circle = NULL;
@@ -24,19 +25,23 @@ bool ModuleSceneIntro::Start()
 	background = App->textures->Load("pinball/Background.png");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	lightUp = App->textures->Load("pinball/Up_Light.png");
+	up = App->textures->Load("pinball/Up.png");
+	right = App->textures->Load("pinball/left.png");
+	left = App->textures->Load("pinball/right.png");
 	lightU = App->textures->Load("pinball/U_light.png");
 	lightLeft = App->textures->Load("pinball/L_Light.png");
 	lightRight = App->textures->Load("pinball/R_light.png");
 	circle = App->textures->Load("pinball/Bola.png"); 
 	flipper = App->textures->Load("pinball/Resorte.png");
 	flipper2 = App->textures->Load("pinball/Resorte2.png");
-	Num0 = App->textures->Load("Pinball/Numbers0.png");
-	Num1 = App->textures->Load("Pinball/Numbers1.png");
-	Num2 = App->textures->Load("Pinball/Numbers2.png");
-	Num3 = App->textures->Load("Pinball/Numbers3.png");
-	CircleLight = App->textures->Load("Pinball/Active_Point.png");
+	Num0 = App->textures->Load("pinball/Numbers0.png");
+	Num1 = App->textures->Load("pinball/Numbers1.png");
+	Num2 = App->textures->Load("pinball/Numbers2.png");
+	Num3 = App->textures->Load("pinball/Numbers3.png");
+	CircleLight = App->textures->Load("pinball/Active_Point.png");
+	k5 = App->textures->Load("pinball/5k.png");
+	k10 = App->textures->Load("pinball/10k.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
-
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
 
@@ -69,6 +74,11 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(Num2);
 	App->textures->Unload(Num3);
 	App->textures->Unload(CircleLight);
+	App->textures->Unload(left);
+	App->textures->Unload(right);
+	App->textures->Unload(k5);
+	App->textures->Unload(k10);
+	App->textures->Unload(up);
 	App->audio->CleanUp();
 
 	return true;
@@ -77,14 +87,7 @@ bool ModuleSceneIntro::CleanUp()
 // Update: draw background
 update_status ModuleSceneIntro::Update()
 {
-	int x, y;
-
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) 
-		RightFlipper->body->ApplyTorque(500, true);
-	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
-		LeftFlipper->body->ApplyTorque(-500, true);
-		UpFlipper->body->ApplyTorque(-500, true);
-	}
+	
 	if (OnLight2 && OnLight3 && OnLight4) {
 		OnLight2 = false;
 		OnLight3 = false;
@@ -100,20 +103,15 @@ update_status ModuleSceneIntro::Update()
 		OnLight9 = false;
 		OnLight10 = false;
 	}
+
 	
-
-
-	iPoint mouse;
-	mouse.x = App->input->GetMouseX();
-	mouse.y = App->input->GetMouseY();
+	
 
 	
 	fVector normal(0.0f, 0.0f);
 
 	
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT) {
-		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true, false);
-	}
+	
 	
 
 
@@ -121,65 +119,15 @@ update_status ModuleSceneIntro::Update()
 	{
 		ContinueAfterHole();
 	}
-	//RENDERER
-	
-	App->renderer->Blit(background, -1, 0, NULL);
-	if (App->player->ball) {}
-		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
-	LeftFlipper->GetPosition(x, y);
-	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, LeftFlipper->GetRotation());
-	RightFlipper->GetPosition(x, y);
-	App->renderer->Blit(flipper, x -35, y -20, NULL, 1.0f, RightFlipper->GetRotation());
-	UpFlipper->GetPosition(x, y);
-	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, UpFlipper->GetRotation());
-	if (OnLight1) {
-		App->renderer->Blit(lightUp, 169, 61, NULL, 1.0f);
-	}
-	if (OnLight2) {
-		App->renderer->Blit(lightLeft, 70, 343, NULL, 1.0f);
-	}
-	if (OnLight3) {
-		App->renderer->Blit(lightLeft, 80, 326, NULL, 1.0f);
-	}
-	if (OnLight4) {
-		App->renderer->Blit(lightLeft, 90, 307, NULL, 1.0f);
-	}
-	if (OnLight5) {
-		App->renderer->Blit(lightU, 266, 225, NULL, 1.0f);
-	}
-	if (OnLight6) {
-		App->renderer->Blit(lightU, 281, 240, NULL, 1.0f);
-	}
-	if (OnLight7) {
-		App->renderer->Blit(lightU, 295, 255, NULL, 1.0f);
-	}
-	if (OnLight8) {
-		App->renderer->Blit(lightRight, 393, 395, NULL, 1.0f);
-	}
-	if (OnLight9) {
-		App->renderer->Blit(lightRight, 403, 413, NULL, 1.0f);
-	}
-	if (OnLight10) {
-		App->renderer->Blit(lightRight, 412, 431, NULL, 1.0f);
-	}
-	if (Circleup1) {
-		App->renderer->Blit(CircleLight, 264, 65, NULL, 1.0f);
-	}
-	if (Circleup2) {
-		App->renderer->Blit(CircleLight, 304, 65, NULL, 1.0f);
-	}
-	if (Circleup3) {
-		App->renderer->Blit(CircleLight, 344, 65, NULL, 1.0f);
-	}
-	if (ActiveHole1) {
-		App->renderer->Blit(circle, 189, 15, NULL, 1.0f);
-	}
-	if (ActiveHole2) {
-		App->renderer->Blit(circle, 384, 55, NULL, 1.0f);
-	}
-	if (ActiveHole3) {
-		App->renderer->Blit(circle, 399, 244, NULL, 1.0f);
-	}
+
+	iPoint mouse;
+	mouse.x = App->input->GetMouseX();
+	mouse.y = App->input->GetMouseY();
+
+	BlitAll();
+	ControlTime();
+	ControlBall();
+
 	return UPDATE_CONTINUE;
 }
 
@@ -197,6 +145,104 @@ void ModuleSceneIntro::ContinueAfterHole()
 		BallIsStopped = false;
 		App->player->StartBall();
 		}
-	
+}
+
+void ModuleSceneIntro::ControlTime()
+{
+	if (TimeUp >= 500 && TimeUp > 0) {
+		TimeUp = 0;
+		Up = false;
+	}
+	if (TimeLeft >= 500 && TimeLeft > 0) {
+		TimeLeft = 0;
+		Left = false;
+	}
+	if (TimeRight >= 500 && TimeRight > 0) {
+		TimeRight = 0;
+		Right = false;
+	}
+	if (TimeLight1 >= 500 && TimeLight1 > 0) {
+		TimeLight1 = 0;
+		OnLight1 = false;
+	}
+
+}
+
+void ModuleSceneIntro::BlitAll()
+{
+	//RENDERER
+	int x, y;
+	App->renderer->Blit(background, -1, 0, NULL);
+
+	LeftFlipper->GetPosition(x, y);
+	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, LeftFlipper->GetRotation());
+	RightFlipper->GetPosition(x, y);
+	App->renderer->Blit(flipper, x - 35, y - 20, NULL, 1.0f, RightFlipper->GetRotation());
+	UpFlipper->GetPosition(x, y);
+	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, UpFlipper->GetRotation());
+	if (OnLight1) {
+		App->renderer->Blit(lightUp, 169, 61, NULL, 1.0f);
+		TimeLight1++;
+	}
+	if (OnLight2)
+		App->renderer->Blit(lightLeft, 70, 343, NULL, 1.0f);
+	if (OnLight3)
+		App->renderer->Blit(lightLeft, 80, 326, NULL, 1.0f);
+	if (OnLight4)
+		App->renderer->Blit(lightLeft, 90, 307, NULL, 1.0f);
+	if (OnLight5)
+		App->renderer->Blit(lightU, 266, 225, NULL, 1.0f);
+	if (OnLight6)
+		App->renderer->Blit(lightU, 281, 240, NULL, 1.0f);
+	if (OnLight7)
+		App->renderer->Blit(lightU, 295, 255, NULL, 1.0f);
+	if (OnLight8)
+		App->renderer->Blit(lightRight, 393, 395, NULL, 1.0f);
+	if (OnLight9)
+		App->renderer->Blit(lightRight, 403, 413, NULL, 1.0f);
+	if (OnLight10)
+		App->renderer->Blit(lightRight, 412, 431, NULL, 1.0f);
+	if (Circleup1)
+		App->renderer->Blit(CircleLight, 264, 65, NULL, 1.0f);
+	if (Circleup2)
+		App->renderer->Blit(CircleLight, 304, 65, NULL, 1.0f);
+	if (Circleup3)
+		App->renderer->Blit(CircleLight, 344, 65, NULL, 1.0f);
+	if (ActiveHole1)
+		App->renderer->Blit(circle, 189, 15, NULL, 1.0f);
+	if (ActiveHole2)
+		App->renderer->Blit(circle, 384, 55, NULL, 1.0f);
+	if (ActiveHole3)
+		App->renderer->Blit(circle, 399, 244, NULL, 1.0f);
+	if (Right) {
+		App->renderer->Blit(right, 96, 21, NULL, 1.0f);
+		App->renderer->Blit(k5, 388, 91, NULL, 1.0f);
+		TimeRight++;
+	}
+	if (Left) {
+		App->renderer->Blit(left, 4, 21, NULL, 1.0f);
+		App->renderer->Blit(k5, 192, 46, NULL, 1.0f);
+		TimeLeft++;
+	}
+	if (Up) {
+		App->renderer->Blit(up, 10, 232, NULL, 1.0f);
+		App->renderer->Blit(k10, 381, 266, NULL, 1.0f);
+		TimeUp++;
+	}
+	if (App->player->ball)
+		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
+}
+
+void ModuleSceneIntro::ControlBall()
+{
+
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+		RightFlipper->body->ApplyTorque(500, true);
+	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
+		LeftFlipper->body->ApplyTorque(-500, true);
+		UpFlipper->body->ApplyTorque(-500, true);
+	}
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT | App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true, false);
 
 }

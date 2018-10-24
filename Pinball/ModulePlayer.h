@@ -17,6 +17,7 @@ public:
 
 	void StartBall();
 	void SpawnNextBall();
+	//void Destroy();
 
 	void OnCollision(PhysBody* bodyA, PhysBody* bodyB);
 public:

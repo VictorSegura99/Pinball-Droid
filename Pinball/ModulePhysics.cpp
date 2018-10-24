@@ -871,7 +871,8 @@ void ModulePhysics::CreateSensors()
 	App->scene_intro->CircleUp = CreateCircleSensor(269, 70, 6);
 	App->scene_intro->CircleUp2 = CreateCircleSensor(309, 70, 6);
 	App->scene_intro->CircleUp3 = CreateCircleSensor(349, 70, 6);
-
+	App->scene_intro->SensorUp = CreateCircleSensor(84, 20, 6);
+	App->scene_intro->SensorUp2 = CreateCircleSensor(20, 230, 6);
 
 }
 
@@ -934,9 +935,9 @@ void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right, 
 	BodyB->width = BodyB->height = 0;
 }
 
-void ModulePhysics::DestroyBall()
+void ModulePhysics::DestroyBody(PhysBody* body)
 {
-	world->DestroyBody(App->player->ball->body);
+	world->DestroyBody(body->body);
 }
 
 // TODO 7: Call the listeners that are not NULL

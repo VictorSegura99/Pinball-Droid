@@ -94,7 +94,7 @@ void ModulePlayer::StartBall()
 void ModulePlayer::SpawnNextBall()
 {
 	lives--;
-	App->physics->DestroyBall();
+	App->physics->DestroyBody(ball);
 	if (lives >= 0) {
 		StartBall();
 	}
@@ -105,6 +105,8 @@ void ModulePlayer::SpawnNextBall()
 
 
 }
+
+
 
 
 
@@ -124,7 +126,7 @@ update_status ModulePlayer::Update()
 		App->renderer->Blit(App->scene_intro->Num0, 458, 710, NULL);
 	}
 	if (DesappearBall) {
-		App->physics->DestroyBall();
+		App->physics->DestroyBody(ball);
 		DesappearBall = false;
 	}
 		
@@ -176,6 +178,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 
 	}
 	if (bodyB == App->scene_intro->Light1) {
+	
  		App->scene_intro->OnLight1 = true;
 	}
 	if (bodyB == App->scene_intro->Light2) {
@@ -213,5 +216,25 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	}
 	if (bodyB == App->scene_intro->CircleUp3) {
 		App->scene_intro->Circleup3 = true;
+	}
+	if (bodyB == App->scene_intro->SensorUp) {
+		int x, y;
+		App->scene_intro->SensorUp->GetPosition(x, y);
+		if (x > BallPosition.x) {
+			App->scene_intro->Left = true;
+			App->scene_intro->TimeLeft = 1;
+		}
+		if (x < BallPosition.x) {
+			App->scene_intro->Right = true;
+			App->scene_intro->TimeRight = 1;
+		}
+	}
+	if (bodyB == App->scene_intro->SensorUp2) {
+		int x, y;
+		App->scene_intro->SensorUp2->GetPosition(x, y);
+		if (y < BallPosition.y) {
+			App->scene_intro->TimeUp = 1;
+			App->scene_intro->Up = true;
+		}
 	}
 }

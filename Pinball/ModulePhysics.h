@@ -58,7 +58,7 @@ public:
 	void CreatePinballWalls();
 	void CreateSensors();
 	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right, bool Up);
-	void DestroyBall();
+	void DestroyBody(PhysBody* body);
 
 private:
 
