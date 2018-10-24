@@ -105,6 +105,7 @@ public:
 	bool ActiveHole1 = false;
 	bool ActiveHole2 = false;
 	bool ActiveHole3 = false;
+	bool ActiveHole4 = false;
 
 	bool Right = false;
 	bool Left = false;

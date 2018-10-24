@@ -214,6 +214,8 @@ void ModuleSceneIntro::BlitAll()
 		App->renderer->Blit(circle, 384, 55, NULL, 1.0f);
 	if (ActiveHole3)
 		App->renderer->Blit(circle, 399, 244, NULL, 1.0f);
+	if (ActiveHole4)
+		App->renderer->Blit(circle, 5, 704, NULL, 1.0f);
 	if (Right) {
 		App->renderer->Blit(right, 96, 21, NULL, 1.0f);
 		App->renderer->Blit(k5, 388, 91, NULL, 1.0f);
