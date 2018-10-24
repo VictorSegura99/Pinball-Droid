@@ -15,6 +15,8 @@ class ModulePhysics;
 class ModuleTutorial;
 class ModuleFadeToBlack;
 class ModuleFinish;
+class ModuleFonts;
+class ModuleUi;
 
 class Application
 {
@@ -30,6 +32,9 @@ public:
 	ModuleTutorial* tutorial;
 	ModuleFadeToBlack* fade;
 	ModuleFinish* finish;
+	ModuleFonts* fonts;
+	ModuleUi* ui;
+
 private:
 
 	p2List<Module*> list_modules;
