@@ -25,7 +25,7 @@ ModuleFinish::~ModuleFinish()
 bool ModuleFinish::Start()
 {
 	LOG("Loading space intro");
-	finish = App->textures->Load("pinball/Well_Done.png");
+	finish = App->textures->Load("pinball/Score Screen.png");
 
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	Finish.Reset();

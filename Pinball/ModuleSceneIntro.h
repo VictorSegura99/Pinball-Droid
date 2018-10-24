@@ -87,6 +87,7 @@ public:
 	SDL_Texture* k5 = nullptr;
 	SDL_Texture* k10 = nullptr;
 	SDL_Texture* k20 = nullptr;
+	SDL_Texture* bonusx2 = nullptr;
 	SDL_Texture* P = nullptr;
 	SDL_Texture* PI = nullptr;
 	SDL_Texture* PIN = nullptr;
@@ -113,6 +114,7 @@ public:
 	bool Circleup1 = false;
 	bool Circleup2 = false;
 	bool Circleup3 = false;
+	bool ActiveBonus = false;
 
 	bool ActiveHole1 = false;
 	bool ActiveHole2 = false;

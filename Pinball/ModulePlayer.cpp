@@ -96,6 +96,7 @@ void ModulePlayer::SpawnNextBall()
 {
 	lives--;
 	App->physics->DestroyBody(ball);
+	App->scene_intro->ActiveBonus = false;
 	if (lives >= 0) {
 		StartBall();
 	}

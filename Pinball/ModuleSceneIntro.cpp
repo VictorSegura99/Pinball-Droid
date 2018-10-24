@@ -53,6 +53,7 @@ bool ModuleSceneIntro::Start()
 	PINBALLDR = App->textures->Load("pinball/PINBALLDR.png");
 	PINBALLDROI = App->textures->Load("pinball/PINBALLDOI.png");
 	PINBALLDROID = App->textures->Load("pinball/PINBALLDOID.png");
+	bonusx2 = App->textures->Load("pinball/x2 Bonus.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
@@ -102,6 +103,7 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(PINBALLDR);
 	App->textures->Unload(PINBALLDROI);
 	App->textures->Unload(PINBALLDROID);
+	App->textures->Unload(bonusx2);
 	App->audio->CleanUp();
 
 	return true;
@@ -142,8 +144,13 @@ update_status ModuleSceneIntro::Update()
 		App->physics->DestroyBody(Barrier);
 		Barrier = nullptr;
 	}
+	if (Circleup1 && Circleup2 && Circleup3) {
+		ActiveBonus = true;
+		Circleup1 = false;
+		Circleup2 = false;
+		Circleup3 = false;
+	}
 	
-
 	
 	fVector normal(0.0f, 0.0f);
 
@@ -292,6 +299,9 @@ void ModuleSceneIntro::BlitAll()
 		App->renderer->Blit(up, 10, 232, NULL, 1.0f);
 		App->renderer->Blit(k10, 381, 266, NULL, 1.0f);
 		TimeUp++;
+	}
+	if (ActiveBonus) {
+		App->renderer->Blit(bonusx2, 75, 619, NULL, 1.0f);
 	}
 	if (App->player->ball)
 		App->renderer->Blit(circle, App->player->BallPosition.x, App->player->BallPosition.y, NULL, 1.0f, App->player->ball->GetRotation());
