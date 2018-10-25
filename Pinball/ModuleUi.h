@@ -14,9 +14,13 @@ public:
 	bool CleanUp();
 
 public:
+	int cont = 0;
 	int font = 0;
 	int Score = 0;
-	int HighScore = 00000;
+	int LastScore = 0;
+	int HighScore = 0;
+	int Aux[100];
 	char score[10];
+	char lastscore[10];
 	char highscore[10];
 };

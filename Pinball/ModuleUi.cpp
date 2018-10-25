@@ -20,7 +20,7 @@ bool ModuleUi::Start()
 {
 	LOG("Loading UI");
 	font = App->fonts->Load("pinball/fonts.png", "0123456789", 1);
-
+	Aux[0] = 0;
 	return true;
 }
 
@@ -38,18 +38,20 @@ update_status ModuleUi::Update()
 	
 	sprintf_s(score, 7, "%1d", Score);
 	sprintf_s(highscore, 7, "%1d", HighScore);
-	
+	sprintf_s(lastscore, 7, "%1d", LastScore);
 
 	
 
 
 	if (App->player->lives < 0)
 	{
+		Aux[cont + 1] = Score;
 		if (Score > HighScore)
 		{
 			HighScore = Score;
 		}
-		
+		LastScore = Aux[cont];
+		cont++;
 		//Score[cont] = 0;
 	}
 
