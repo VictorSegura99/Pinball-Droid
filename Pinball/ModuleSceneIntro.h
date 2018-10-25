@@ -131,6 +131,8 @@ public:
 	bool ActiveBonus = false;
 
 	bool Barrier2Created = false;
+	bool BarrierBonus = false;
+	bool BallInHole = false;
 
 	bool ActiveHole1 = false;
 	bool ActiveHole2 = false;

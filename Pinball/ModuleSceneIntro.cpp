@@ -150,7 +150,7 @@ update_status ModuleSceneIntro::Update()
 		pinball++;
 		App->ui->Score += 1500 * App->player->bonus;
 	}
-	if (!OnLight1 && Barrier == nullptr) {
+	if (!OnLight1 && Barrier == nullptr && !BarrierBonus && !BallInHole) {
 		int barrier[8] = {
 			5, 672,
 			36, 694,
@@ -158,11 +158,14 @@ update_status ModuleSceneIntro::Update()
 			5, 677
 		};
 		Barrier = App->physics->CreateChain(0, 0, barrier, 8, b2BodyType::b2_staticBody);
+		BarrierBonus = true;
 	}
-	else if (Barrier != nullptr) {
+	if (OnLight1 && BarrierBonus) {
 		App->physics->DestroyBody(Barrier);
+		BarrierBonus = false;
 		Barrier = nullptr;
 	}
+
 	
 	if (Circleup1 && Circleup2 && Circleup3) {
 		contbonus++;

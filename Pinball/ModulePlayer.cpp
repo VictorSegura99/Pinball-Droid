@@ -97,6 +97,7 @@ void ModulePlayer::StartBall()
 		ball->body->ApplyLinearImpulse({ 13,0 }, { 0,0 }, true, true);
 		ball->body->SetBullet(false);
 		Hole4 = false;
+		App->scene_intro->BallInHole = false;
 		App->audio->PlayFx(exhole);
 	}
 	else {
@@ -111,6 +112,7 @@ void ModulePlayer::SpawnNextBall()
 {
 	lives--;
 	App->physics->DestroyBody(App->scene_intro->Barrier2);
+	App->scene_intro->Barrier2Created = false;
 	App->scene_intro->LightsOff();
 	App->scene_intro->space = true;
 	App->scene_intro->contbonus = 0;
@@ -206,6 +208,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole4 = true;
 		App->ui->Score += 20000 * bonus;
+		App->scene_intro->BallInHole = true;
 		App->audio->PlayFx(enthole);
 	}
 	if (bodyB == App->scene_intro->BouncyL) {
