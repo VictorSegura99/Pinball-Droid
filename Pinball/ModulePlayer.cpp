@@ -313,7 +313,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->ui->Score += 200 * bonus;
 		App->scene_intro->printp2 = true;
 		vec = ball->body->GetLinearVelocity();
-		ball->body->ApplyLinearImpulse({-2.0f,-0.5f}, { 0,0 }, true, false);
+		ball->body->ApplyLinearImpulse({2.0f,-0.5f}, { 0,0 }, true, false);
 		App->audio->PlayFx(bouncer);
 	}
 	if (bodyB == App->scene_intro->pivote) {
@@ -329,7 +329,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->ui->Score += 200 * bonus;
 		App->scene_intro->printp3 = true;
 		vec = ball->body->GetLinearVelocity();
-		ball->body->ApplyLinearImpulse({ -2.0f,-0.5f }, { 0,0 }, true, false);
+		ball->body->ApplyLinearImpulse({ 0.0f,-0.5f }, { 0,0 }, true, false);
 		App->audio->PlayFx(bouncer);
 	}
 	if (bodyB == App->scene_intro->pivote4) {
@@ -337,7 +337,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->printp4 = true;
 		App->ui->Score += 200 * bonus;
 		vec = ball->body->GetLinearVelocity();
-		ball->body->ApplyLinearImpulse({ 2.0f,-0.5f }, { 0,0 }, true, false);
+		ball->body->ApplyLinearImpulse({ 0.5f, 0.0f }, { 0,0 }, true, false);
 		App->audio->PlayFx(bouncer);
 	}
 	if (bodyB == App->scene_intro->Space) {
