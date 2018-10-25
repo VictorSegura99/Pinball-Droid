@@ -233,6 +233,22 @@ void ModuleSceneIntro::ControlTime()
 		TimeLight1 = 0;
 		OnLight1 = false;
 	}
+	if (timepivote >= 10) {
+		timepivote = 0;
+		printp = false;
+	}
+	if (timepivote2 >= 10) {
+		timepivote2 = 0;
+		printp2 = false;
+	}
+	if (timepivote3 >= 10) {
+		timepivote3 = 0;
+		printp3 = false;
+	}
+	if (timepivote4 >= 10) {
+		timepivote4 = 0;
+		printp4 = false;
+	}
 
 }
 
@@ -366,7 +382,22 @@ void ModuleSceneIntro::BlitAll()
 			App->player->bonus = 20;
 		}
 	}
-	
+	if (printp) {
+		App->renderer->Blit(bouncerHit, 255, 141, NULL, 1.0f);
+		timepivote++;
+	}
+	if (printp2) {
+		App->renderer->Blit(bouncerHit, 330, 141, NULL, 1.0f);
+		timepivote2++;
+	}
+	if (printp3) {
+		App->renderer->Blit(bouncerHit, 52, 71, NULL, 1.0f);
+		timepivote3++;
+	}
+	if (printp4) {
+		App->renderer->Blit(bouncerHit, 284, 210, NULL, 1.0f);
+		timepivote4++;
+	}
 
 	
 	

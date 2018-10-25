@@ -162,6 +162,14 @@ public:
 	uint StopTime = 2000;
 	uint pinball = 0;
 	uint contbonus = 0;
+	uint timepivote = 0;
+	uint timepivote2 = 0;
+	uint timepivote3 = 0;
+	uint timepivote4 = 0;
 
+	bool printp = false;
+	bool printp2 = false;
+	bool printp3 = false;
+	bool printp4 = false;
 
 };

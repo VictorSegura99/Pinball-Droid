@@ -117,8 +117,8 @@ void ModulePlayer::SpawnNextBall()
 	App->scene_intro->LightsOff();
 	App->scene_intro->space = true;
 	App->scene_intro->contbonus = 0;
+	bonus = 1;
 	App->scene_intro->BArrier = false;
-	int bonus = 1;
 	App->physics->DestroyBody(ball);
 	App->scene_intro->ActiveBonus = false;
 	if (lives >= 0) {
@@ -308,16 +308,33 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 			App->ui->Score += 500 * bonus;
 		}
 	}
-	if (bodyB == App->scene_intro->pivote2 || bodyB == App->scene_intro->pivote3 || bodyB == App->scene_intro->pivote) {
+	if (bodyB == App->scene_intro->pivote2) {
 		b2Vec2 vec;
 		App->ui->Score += 200 * bonus;
-		App->renderer->Blit(App->scene_intro->bouncerHit, 200, 200, NULL, 1.0f);
+		App->scene_intro->printp2 = true;
 		vec = ball->body->GetLinearVelocity();
 		ball->body->ApplyLinearImpulse({-2.0f,-0.5f}, { 0,0 }, true, false);
 		App->audio->PlayFx(bouncer);
 	}
+	if (bodyB == App->scene_intro->pivote) {
+		b2Vec2 vec;
+		App->ui->Score += 200 * bonus;
+		App->scene_intro->printp = true;
+		vec = ball->body->GetLinearVelocity();
+		ball->body->ApplyLinearImpulse({ -2.0f,-0.5f }, { 0,0 }, true, false);
+		App->audio->PlayFx(bouncer);
+	}
+	if (bodyB == App->scene_intro->pivote3) {
+		b2Vec2 vec;
+		App->ui->Score += 200 * bonus;
+		App->scene_intro->printp3 = true;
+		vec = ball->body->GetLinearVelocity();
+		ball->body->ApplyLinearImpulse({ -2.0f,-0.5f }, { 0,0 }, true, false);
+		App->audio->PlayFx(bouncer);
+	}
 	if (bodyB == App->scene_intro->pivote4) {
 		b2Vec2 vec;
+		App->scene_intro->printp4 = true;
 		App->ui->Score += 200 * bonus;
 		vec = ball->body->GetLinearVelocity();
 		ball->body->ApplyLinearImpulse({ 2.0f,-0.5f }, { 0,0 }, true, false);
