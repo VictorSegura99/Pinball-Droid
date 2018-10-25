@@ -51,6 +51,7 @@ public:
 	PhysBody* Hole3;
 	PhysBody* Hole4;
 	PhysBody* Barrier = nullptr;
+	PhysBody* Barrier2 = nullptr;
 	PhysBody* Light1;
 	PhysBody* Light2;
 	PhysBody* Light3;
@@ -70,6 +71,7 @@ public:
 	PhysBody* SensorUp2;
 	PhysBody* Space;
 	PhysBody* Space2;
+	PhysBody* barrier;
 
 	SDL_Texture* up;
 	SDL_Texture* right;
@@ -108,6 +110,7 @@ public:
 	SDL_Texture* PINBALLDR = nullptr;
 	SDL_Texture* PINBALLDROI = nullptr;
 	SDL_Texture* PINBALLDROID = nullptr;
+	SDL_Texture* BARRIER2 = nullptr;
 
 	bool OnLight1 = false;
 	bool OnLight2 = false;
@@ -120,6 +123,7 @@ public:
 	bool OnLight9 = false;
 	bool OnLight10 = false;
 
+	bool BArrier = false;
 
 	bool Circleup1 = false;
 	bool Circleup2 = false;

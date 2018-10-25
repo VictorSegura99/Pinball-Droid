@@ -113,7 +113,7 @@ PhysBody * ModulePhysics::CreateCircleSensor(int x, int y, int radius)
 PhysBody* ModulePhysics::CreateRectangle(int x, int y, int width, int height)
 {
 	b2BodyDef body;
-	body.type = b2_dynamicBody;
+	body.type = b2_staticBody;
 	body.position.Set(PIXEL_TO_METERS(x), PIXEL_TO_METERS(y));
 
 	b2Body* b = world->CreateBody(&body);
@@ -860,13 +860,7 @@ void ModulePhysics::CreatePinballWalls()
 	};
 	App->scene_intro->Light10 = CreateChain(0, 0, Light10, 12, b2BodyType::b2_staticBody);
 
-	/*int Barrier[8] = {
-		5, 672,
-	36, 694,
-	33, 697,
-	5, 677
-	};
-	App->scene_intro->Barrier = CreateChain(0, 0, Barrier, 8, b2BodyType::b2_staticBody);*/
+
 
 }
 
@@ -879,6 +873,7 @@ void ModulePhysics::CreateSensors()
 	App->scene_intro->SensorUp2 = CreateCircleSensor(20, 230, 6);
 	App->scene_intro->Space = CreateCircleSensor(450, 425, 1);
 	App->scene_intro->Space2 = CreateCircleSensor(450, 390, 1);
+	App->scene_intro->barrier = CreateCircleSensor(345, 20, 1);
 }
 
 void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right, bool Up)
