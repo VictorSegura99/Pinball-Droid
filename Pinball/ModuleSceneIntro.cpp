@@ -64,7 +64,6 @@ bool ModuleSceneIntro::Start()
 	bonusHeld = App->textures->Load("pinball/Held Bonus.png");
 	BARRIER2 = App->textures->Load("pinball/Barrier2.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
-	song = App->audio->PlayMusic("pinball/song.ogg");
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
 	RightCircle = new PhysBody;

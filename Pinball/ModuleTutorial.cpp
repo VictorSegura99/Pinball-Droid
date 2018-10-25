@@ -9,6 +9,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 #include "ModuleSceneIntro.h"
+#include "ModuleAudio.h"
 
 
 
@@ -26,7 +27,7 @@ bool ModuleTutorial::Start()
 {
 	LOG("Loading space intro");
 	tuto = App->textures->Load("pinball/Tutorial.png");
-
+	App->scene_intro->song = App->audio->PlayMusic("pinball/song.ogg");
 	App->renderer->camera.x = App->renderer->camera.y = 0;
 	Tutorial.Reset();
 
