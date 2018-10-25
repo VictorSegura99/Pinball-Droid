@@ -882,7 +882,7 @@ void ModulePhysics::CreateSensors()
 	App->scene_intro->SensorUp2 = CreateCircleSensor(20, 230, 6);
 	App->scene_intro->Space = CreateCircleSensor(450, 425, 1);
 	App->scene_intro->Space2 = CreateCircleSensor(450, 390, 1);
-	App->scene_intro->barrier = CreateCircleSensor(360, 20, 1);
+	App->scene_intro->barrier = CreateCircleSensor(370, 20, 1);
 	App->scene_intro->Joint = CreateCircleSensor(210, 80, 3);
 }
 
