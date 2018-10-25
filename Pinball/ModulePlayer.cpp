@@ -1,5 +1,6 @@
 #include "Globals.h"
 #include "Application.h"
+#include "ModuleAudio.h"
 #include "ModulePlayer.h"
 #include "ModulePhysics.h"
 #include "ModuleSceneIntro.h"
@@ -28,6 +29,12 @@ bool ModulePlayer::Start()
 	DesappearBall = false;
 	Hole1 = false;
 	
+	bouncer = App->audio->LoadFx("pinball/Bouncers.wav");
+	triangle = App->audio->LoadFx("pinball/Triangle.wav");
+	enthole = App->audio->LoadFx("pinball/Enter Hole.wav");
+	exhole = App->audio->LoadFx("pinball/Exit Hole.wav");
+	NewBall = App->audio->LoadFx("pinball/New ball.wav");
+	lightfx = App->audio->LoadFx("pinball/Light.wav");
 
 	return true;
 }
@@ -66,6 +73,7 @@ void ModulePlayer::StartBall()
 		ball->body->ApplyLinearImpulse({ 0,5 }, { 0,0 }, true, false);
 		ball->body->SetBullet(false);
 		Hole1 = false;
+		App->audio->PlayFx(exhole);
 	}
 	else if (Hole2) {
 		ball = App->physics->CreateCircle(395, 80, 15, b2BodyType::b2_dynamicBody);
@@ -73,6 +81,7 @@ void ModulePlayer::StartBall()
 		ball->body->ApplyLinearImpulse({ 2,6 }, { 0,0 }, true, false);
 		ball->body->SetBullet(false);
 		Hole2 = false;
+		App->audio->PlayFx(exhole);
 	}
 	else if (Hole3) {
 		ball = App->physics->CreateCircle(400, 270, 15, b2BodyType::b2_dynamicBody);
@@ -80,6 +89,7 @@ void ModulePlayer::StartBall()
 		ball->body->ApplyLinearImpulse({ -3,5 }, { 0,0 }, true, false);
 		ball->body->SetBullet(false);
 		Hole3 = false;
+		App->audio->PlayFx(exhole);
 	}
 	else if (Hole4) {
 		ball = App->physics->CreateCircle(23, 700, 15, b2BodyType::b2_dynamicBody);
@@ -87,11 +97,13 @@ void ModulePlayer::StartBall()
 		ball->body->ApplyLinearImpulse({ 13,0 }, { 0,0 }, true, true);
 		ball->body->SetBullet(false);
 		Hole4 = false;
+		App->audio->PlayFx(exhole);
 	}
 	else {
 		ball = App->physics->CreateCircle(454, 421, 15, b2BodyType::b2_dynamicBody);
 		ball->listener = this;
 		ball->body->SetBullet(false);
+		App->audio->PlayFx(NewBall);
 	}
 }
 
@@ -157,6 +169,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole1 = true;
+		App->audio->PlayFx(enthole);
 		if (App->scene_intro->Left)
 			App->ui->Score += 5000 * bonus;
 		else App->ui->Score += 1000 * bonus;
@@ -168,6 +181,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole2 = true;
+		App->audio->PlayFx(enthole);
 		if (App->scene_intro->Right)
 			App->ui->Score += 2500 * bonus;
 		else App->ui->Score += 500 * bonus;
@@ -179,6 +193,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole3 = true;
+		App->audio->PlayFx(enthole);
 		if (App->scene_intro->Up)
 			App->ui->Score += 10000 * bonus;
 		else App->ui->Score += 1000 * bonus;
@@ -190,55 +205,68 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole4 = true;
 		App->ui->Score += 20000 * bonus;
+		App->audio->PlayFx(enthole);
 	}
 	if (bodyB == App->scene_intro->BouncyL) {
 		ball->body->ApplyLinearImpulse({ 2,-2.5f }, { 0,0 }, false, false);
 		App->ui->Score += 200 * bonus;
 		App->renderer->Blit(App->scene_intro->bouncerHit, 0, 0, NULL,1.0f);
+		App->audio->PlayFx(triangle);
 	}
 	if (bodyB == App->scene_intro->BouncyR) {
 		ball->body->ApplyLinearImpulse({ -2,-2.5f }, { 0,0 }, false, false);
 		App->ui->Score += 200 * bonus;
+		App->audio->PlayFx(triangle);
 	}
 	if (bodyB == App->scene_intro->Light1) {
  		App->scene_intro->OnLight1 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light2) {
 		App->scene_intro->OnLight2 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light3) {
 		App->scene_intro->OnLight3 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light4) {
 		App->scene_intro->OnLight4 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light5) {
 		App->scene_intro->OnLight5 = true;
-		App->ui->Score += 500 * bonus;
+		App->ui->Score += 500 * bonus; 
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light6) {
 		App->scene_intro->OnLight6 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light7) {
 		App->scene_intro->OnLight7 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light8) {
 		App->scene_intro->OnLight8 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light9) {
 		App->scene_intro->OnLight9 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->Light10) {
 		App->scene_intro->OnLight10 = true;
 		App->ui->Score += 500 * bonus;
+		App->audio->PlayFx(lightfx);
 	}
 	if (bodyB == App->scene_intro->CircleUp) {
 		App->scene_intro->Circleup1 = true;
@@ -280,6 +308,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->ui->Score += 200 * bonus;
 		vec = ball->body->GetLinearVelocity();
 		ball->body->ApplyLinearImpulse(-vec, { 0,0 }, true, false);
+		App->audio->PlayFx(bouncer);
 	}
 	if (bodyB == App->scene_intro->Space) {
 		App->scene_intro->space = true;
