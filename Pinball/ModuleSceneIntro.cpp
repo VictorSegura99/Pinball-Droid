@@ -318,6 +318,7 @@ void ModuleSceneIntro::BlitAll()
 		App->renderer->Blit(CircleLight, 304, 65, NULL, 1.0f);
 	if (Circleup3)
 		App->renderer->Blit(CircleLight, 344, 65, NULL, 1.0f);
+#ifdef _DEBUG //We don't know why in release this isn't needed and in debug it is.
 	if (ActiveHole1)
 		App->renderer->Blit(circle, 189, 15, NULL, 1.0f);
 	if (ActiveHole2)
@@ -326,6 +327,9 @@ void ModuleSceneIntro::BlitAll()
 		App->renderer->Blit(circle, 399, 244, NULL, 1.0f);
 	if (ActiveHole4)
 		App->renderer->Blit(circle, 5, 704, NULL, 1.0f);
+
+#endif 
+	
 	if (Right) {
 		App->renderer->Blit(right, 96, 21, NULL, 1.0f);
 		App->renderer->Blit(k5, 388, 91, NULL, 1.0f);

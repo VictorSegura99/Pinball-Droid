@@ -733,7 +733,7 @@ void ModulePhysics::CreatePinballWalls()
 	332, 58
 	};
 	App->scene_intro->BarraR = CreateChain(0, 0, BarraR, 12, b2BodyType::b2_staticBody);
-
+#ifdef _DEBUG //We don't know why these numbers change when we are in release and debug, so we have diferents colliders in debug/release
 	int Hole1[12] = {
 		195, 17,
 		202, 14,
@@ -745,34 +745,44 @@ void ModulePhysics::CreatePinballWalls()
 	App->scene_intro->Hole1 = CreateChain(0, 0, Hole1, 12, b2BodyType::b2_staticBody);
 
 	int Hole2[10] = {
-	400, 55,
-	388, 60,
-	414, 67,
-	412, 62,
-	406, 57
+		400, 55,
+		388, 60,
+		414, 67,
+		412, 62,
+		406, 57
 	};
 	App->scene_intro->Hole2 = CreateChain(0, 0, Hole2, 10, b2BodyType::b2_staticBody);
 
 	int Hole3[14] = {
-	406, 247,
-	427, 266,
-	428, 260,
-	427, 253,
-	424, 249,
-	417, 245,
-	411, 245
+		406, 247,
+		427, 266,
+		428, 260,
+		427, 253,
+		424, 249,
+		417, 245,
+		411, 245
 	};
 	App->scene_intro->Hole3 = CreateChain(0, 0, Hole3, 14, b2BodyType::b2_staticBody);
 
 	int Hole4[12] = {
-	36, 719,
-	10, 726,
-	14, 730,
-	21, 733,
-	28, 731,
-	34, 727
+		36, 719,
+		10, 726,
+		14, 730,
+		21, 733,
+		28, 731,
+		34, 727
 	};
 	App->scene_intro->Hole4 = CreateChain(0, 0, Hole4, 12, b2BodyType::b2_staticBody);
+#else //We don't know why these numbers change when we are in release and debug, so we have diferents colliders in debug/release
+
+	App->scene_intro->Hole1 = CreateRectangle(205, 15, 11, 1);
+	App->scene_intro->Hole2 = CreateRectangle(399, 56, 1, 1);
+	App->scene_intro->Hole3 = CreateRectangle(422, 250, 1, 1);
+	App->scene_intro->Hole4 = CreateRectangle(16, 736, 1, 1);
+	
+#endif //We don't know why these numbers change when we are in release and debug, so we have diferents colliders in debug/release
+	
+	
 
 	int Light1[12] = {
 		168, 62,
