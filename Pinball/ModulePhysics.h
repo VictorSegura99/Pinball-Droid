@@ -65,13 +65,14 @@ public:
 
 public:
 
+
 	
 	b2World* world;
-	b2Body* body_clicked = nullptr;
-	b2MouseJoint* mouse_joint;
+	b2Body* BodyClicked = nullptr;
+	b2MouseJoint* MouseJoint;
 	b2Body* ground;
-	bool clicked;
-	bool createdJoint = false;
+	bool Clicked;
+	bool JointCreated = false;
 public:
 	bool debug;
 };

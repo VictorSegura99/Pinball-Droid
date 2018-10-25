@@ -274,37 +274,37 @@ update_status ModulePhysics::PostUpdate()
 				}
 				break;
 			}
-			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && body_clicked == nullptr && f->GetShape()->TestPoint(b->GetTransform(), mouse_position))
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_DOWN && BodyClicked == nullptr && f->GetShape()->TestPoint(b->GetTransform(), mouse_position))
 			{
-				body_clicked = b;
+				BodyClicked = b;
 			}
 		}
 	}
 	if (App->player->jointOn) {
-		if (body_clicked != nullptr)
+		if (BodyClicked != nullptr)
 		{
-			if (!createdJoint) {
+			if (!JointCreated) {
 				b2MouseJointDef def;
 				def.bodyA = ground;
-				def.bodyB = body_clicked;
+				def.bodyB = BodyClicked;
 				def.target = mouse_position;
 				def.dampingRatio = 0.5f;
 				def.frequencyHz = 2.0f;
-				def.maxForce = 100.0f * body_clicked->GetMass();
-				mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
-				createdJoint = true;
+				def.maxForce = 100.0f * BodyClicked->GetMass();
+				MouseJoint = (b2MouseJoint*)world->CreateJoint(&def);
+				JointCreated = true;
 			}
 			else
 			{
-				mouse_joint->SetTarget(mouse_position);
-				App->renderer->DrawLine(METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().x), METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().y), App->input->GetMouseX(), App->input->GetMouseY(), 255, 0, 0);
+				MouseJoint->SetTarget(mouse_position);
+				App->renderer->DrawLine(METERS_TO_PIXELS(MouseJoint->GetBodyB()->GetPosition().x), METERS_TO_PIXELS(MouseJoint->GetBodyB()->GetPosition().y), App->input->GetMouseX(), App->input->GetMouseY(), 255, 0, 0);
 			}
 			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP || !App->player->jointOn)
 			{
-				world->DestroyJoint(mouse_joint);
-				mouse_joint = nullptr;
-				body_clicked = nullptr;
-				createdJoint = false;
+				world->DestroyJoint(MouseJoint);
+				MouseJoint = nullptr;
+				BodyClicked = nullptr;
+				JointCreated = false;
 			}
 		}
 		}

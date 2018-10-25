@@ -19,6 +19,7 @@ ModuleTutorial::ModuleTutorial(Application* app, bool start_enabled) : Module(ap
 	Tutorial.loop = false;
 }
 
+
 ModuleTutorial::~ModuleTutorial()
 {}
 

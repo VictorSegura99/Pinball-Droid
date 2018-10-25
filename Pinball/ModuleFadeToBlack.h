@@ -17,6 +17,7 @@ public:
 
 private:
 
+
 	enum fade_step
 	{
 		none,

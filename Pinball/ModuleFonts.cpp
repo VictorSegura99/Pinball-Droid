@@ -19,6 +19,7 @@ int ModuleFonts::Load(const char* texture_path, const char* characters, uint row
 {
 	int id = -1;
 
+
 	if (texture_path == nullptr || characters == nullptr || rows == 0)
 	{
 		LOG("Could not load font");
