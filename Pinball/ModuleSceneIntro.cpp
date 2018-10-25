@@ -55,6 +55,7 @@ bool ModuleSceneIntro::Start()
 	PINBALLDR = App->textures->Load("pinball/PINBALLDR.png");
 	PINBALLDROI = App->textures->Load("pinball/PINBALLDOI.png");
 	PINBALLDROID = App->textures->Load("pinball/PINBALLDOID.png");
+	bouncerHit = App->textures->Load("pinball/Bouncer Hit.png");
 	bonusx2 = App->textures->Load("pinball/x2 Bonus.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	App->physics->CreatePinballWalls();

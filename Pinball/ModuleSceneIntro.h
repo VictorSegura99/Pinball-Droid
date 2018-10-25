@@ -79,6 +79,7 @@ public:
 	SDL_Texture* lightLeft;
 	SDL_Texture* lightU;
 	SDL_Texture* lightRight;
+	SDL_Texture* bouncerHit = nullptr;
 	SDL_Texture* Num0 = nullptr;
 	SDL_Texture* Num1 = nullptr;
 	SDL_Texture* Num2 = nullptr;

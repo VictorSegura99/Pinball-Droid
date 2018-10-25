@@ -27,7 +27,7 @@ bool ModulePlayer::Start()
 	lives = 3;
 	DesappearBall = false;
 	Hole1 = false;
-	bouncerHit = App->textures->Load("pinball/Bouncer Hit.png");
+	
 
 	return true;
 }
@@ -190,7 +190,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	if (bodyB == App->scene_intro->BouncyL) {
 		ball->body->ApplyLinearImpulse({ 2,-2.5f }, { 0,0 }, false, false);
 		App->ui->Score += 200 * bonus;
-		App->renderer->Blit(bouncerHit, 0, 0, NULL,1.0f);
+		App->renderer->Blit(App->scene_intro->bouncerHit, 0, 0, NULL,1.0f);
 	}
 	if (bodyB == App->scene_intro->BouncyR) {
 		ball->body->ApplyLinearImpulse({ -2,-2.5f }, { 0,0 }, false, false);
