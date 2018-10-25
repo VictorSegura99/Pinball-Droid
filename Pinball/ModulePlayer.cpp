@@ -312,7 +312,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		b2Vec2 vec;
 		App->ui->Score += 200 * bonus;
 		vec = ball->body->GetLinearVelocity();
-		ball->body->ApplyLinearImpulse(-vec, { 0,0 }, true, false);
+		ball->body->ApplyLinearImpulse({-2.0f,-1.0f}, { 0,0 }, true, false);
 		App->audio->PlayFx(bouncer);
 	}
 	if (bodyB == App->scene_intro->Space) {
