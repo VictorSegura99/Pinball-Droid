@@ -103,6 +103,7 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(k10);
 	App->textures->Unload(k20);
 	App->textures->Unload(up);
+	App->textures->Unload(bouncerHit);
 	App->textures->Unload(P);
 	App->textures->Unload(PI);
 	App->textures->Unload(PIN);
@@ -178,11 +179,6 @@ update_status ModuleSceneIntro::Update()
 	
 	
 	fVector normal(0.0f, 0.0f);
-
-	
-	
-	
-
 
 	if (BallIsStopped)
 	{

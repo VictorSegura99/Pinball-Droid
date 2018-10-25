@@ -311,6 +311,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	if (bodyB == App->scene_intro->pivote || bodyB == App->scene_intro->pivote2 || bodyB == App->scene_intro->pivote3 || bodyB == App->scene_intro->pivote4) {
 		b2Vec2 vec;
 		App->ui->Score += 200 * bonus;
+		App->renderer->Blit(App->scene_intro->bouncerHit, 200, 200, NULL, 1.0f);
 		vec = ball->body->GetLinearVelocity();
 		ball->body->ApplyLinearImpulse({-2.0f,-1.0f}, { 0,0 }, true, false);
 		App->audio->PlayFx(bouncer);

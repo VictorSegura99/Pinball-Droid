@@ -939,5 +939,3 @@ void ModulePhysics::DestroyBody(PhysBody* body)
 {
 	world->DestroyBody(body->body);
 }
-
-// TODO 7: Call the listeners that are not NULL
