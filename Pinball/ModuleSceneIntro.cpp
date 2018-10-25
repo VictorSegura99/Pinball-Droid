@@ -161,6 +161,7 @@ update_status ModuleSceneIntro::Update()
 		Barrier = nullptr;
 	}
 	if (Circleup1 && Circleup2 && Circleup3) {
+		contbonus++;
 		ActiveBonus = true;
 		Circleup1 = false;
 		Circleup2 = false;
@@ -317,13 +318,51 @@ void ModuleSceneIntro::BlitAll()
 		TimeUp++;
 	}
 	if (ActiveBonus) {
-		App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
+		if (contbonus == 1) {
+			App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
+			App->player->bonus = 2;
+		}
+		else if (contbonus == 2) {
+			App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
+			App->renderer->Blit(bonusx4, 109, 649, NULL, 1.0f);
+			App->player->bonus = 4;
+		}
+		else if (contbonus == 3) {
+			App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
+			App->renderer->Blit(bonusx4, 109, 649, NULL, 1.0f);
+			App->renderer->Blit(bonusx6, 139, 670, NULL, 1.0f);
+			App->player->bonus = 6;
+		}
+		else if (contbonus == 4) {
+			App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
+			App->renderer->Blit(bonusx4, 109, 649, NULL, 1.0f);
+			App->renderer->Blit(bonusx6, 139, 670, NULL, 1.0f);
+			App->renderer->Blit(bonusx8, 314, 670, NULL, 1.0f);
+			App->player->bonus = 8;
+		}
+		else if (contbonus == 5) {
+			App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
+			App->renderer->Blit(bonusx4, 109, 649, NULL, 1.0f);
+			App->renderer->Blit(bonusx6, 139, 670, NULL, 1.0f);
+			App->renderer->Blit(bonusx8, 314, 670, NULL, 1.0f);
+			App->renderer->Blit(bonusx10, 340, 650, NULL, 1.0f);
+			App->player->bonus = 10;
+		}
+		else  {
+			App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
+			App->renderer->Blit(bonusx4, 109, 649, NULL, 1.0f);
+			App->renderer->Blit(bonusx6, 139, 670, NULL, 1.0f);
+			App->renderer->Blit(bonusx8, 314, 670, NULL, 1.0f);
+			App->renderer->Blit(bonusx10, 340, 650, NULL, 1.0f);
+			App->renderer->Blit(bonusHeld, 370, 630, NULL, 1.0f);
+			App->player->bonus = 20;
+		}
 	}
-	App->renderer->Blit(bonusx4, 109, 649, NULL, 1.0f);
-	App->renderer->Blit(bonusx6, 139, 670, NULL, 1.0f);
-	App->renderer->Blit(bonusx8, 314, 670, NULL, 1.0f);
-	App->renderer->Blit(bonusx10, 340, 650, NULL, 1.0f);
-	App->renderer->Blit(bonusHeld, 370, 630, NULL, 1.0f);
+	
+
+	
+	
+	
 	if (App->ui->Score >= 10 && App->ui->Score <100) {
 		App->fonts->BlitText(205, 773, App->ui->font, App->ui->score);
 	}

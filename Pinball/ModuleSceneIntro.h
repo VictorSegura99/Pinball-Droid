@@ -149,6 +149,7 @@ public:
 	uint TimeLight1 = 0;
 	uint StopTime = 2000;
 	uint pinball = 0;
+	uint contbonus = 0;
 
 
 };

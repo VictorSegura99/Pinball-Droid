@@ -99,6 +99,7 @@ void ModulePlayer::SpawnNextBall()
 {
 	lives--;
 	App->scene_intro->space = true;
+	App->scene_intro->contbonus = 0;
 	int bonus = 1;
 	App->physics->DestroyBody(ball);
 	App->scene_intro->ActiveBonus = false;
