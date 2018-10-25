@@ -80,8 +80,10 @@ update_status ModuleInput::PreUpdate()
 				mouse_buttons[i] = KEY_IDLE;
 		}
 	}
-	if(keyboard[SDL_SCANCODE_ESCAPE] == KEY_UP)
-		return UPDATE_STOP;
+	SDL_PollEvent(&Events);
+
+	if (keyboard[SDL_SCANCODE_ESCAPE] || Events.type == SDL_QUIT)
+		return update_status::UPDATE_STOP;
 
 	SDL_GetMouseState(&mouse_x, &mouse_y);
 	mouse_x /= SCREEN_SIZE;
@@ -94,6 +96,7 @@ update_status ModuleInput::PreUpdate()
 bool ModuleInput::CleanUp()
 {
 	LOG("Quitting SDL input event subsystem");
+
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }

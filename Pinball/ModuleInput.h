@@ -1,7 +1,7 @@
 #pragma once
 #include "Module.h"
 #include "Globals.h"
-
+#include "SDL/include/SDL_events.h"
 #define MAX_MOUSE_BUTTONS 5
 #define MAX_KEYS 300
 
@@ -46,6 +46,7 @@ public:
 
 private:
 	KEY_STATE* keyboard;
+	SDL_Event Events;
 	KEY_STATE mouse_buttons[MAX_MOUSE_BUTTONS];
 	int mouse_x;
 	int mouse_y;
