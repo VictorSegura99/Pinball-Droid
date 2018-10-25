@@ -57,6 +57,11 @@ bool ModuleSceneIntro::Start()
 	PINBALLDROID = App->textures->Load("pinball/PINBALLDOID.png");
 	bouncerHit = App->textures->Load("pinball/Bouncer Hit.png");
 	bonusx2 = App->textures->Load("pinball/x2 Bonus.png");
+	bonusx4 = App->textures->Load("pinball/x4 Bonus.png");
+	bonusx6 = App->textures->Load("pinball/x6 Bonus.png");
+	bonusx8 = App->textures->Load("pinball/x8 Bonus.png");
+	bonusx10 = App->textures->Load("pinball/x10 Bonus.png");
+	bonusHeld = App->textures->Load("pinball/Held Bonus.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
@@ -107,6 +112,11 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(PINBALLDROI);
 	App->textures->Unload(PINBALLDROID);
 	App->textures->Unload(bonusx2);
+	App->textures->Unload(bonusx4);
+	App->textures->Unload(bonusx6);
+	App->textures->Unload(bonusx8);
+	App->textures->Unload(bonusx10);
+	App->textures->Unload(bonusHeld);
 	App->audio->CleanUp();
 
 	return true;
@@ -307,8 +317,13 @@ void ModuleSceneIntro::BlitAll()
 		TimeUp++;
 	}
 	if (ActiveBonus) {
-		App->renderer->Blit(bonusx2, 75, 619, NULL, 1.0f);
+		App->renderer->Blit(bonusx2, 80, 626, NULL, 1.0f);
 	}
+	App->renderer->Blit(bonusx4, 109, 649, NULL, 1.0f);
+	App->renderer->Blit(bonusx6, 139, 670, NULL, 1.0f);
+	App->renderer->Blit(bonusx8, 314, 670, NULL, 1.0f);
+	App->renderer->Blit(bonusx10, 340, 650, NULL, 1.0f);
+	App->renderer->Blit(bonusHeld, 370, 630, NULL, 1.0f);
 	if (App->ui->Score >= 10 && App->ui->Score <100) {
 		App->fonts->BlitText(205, 773, App->ui->font, App->ui->score);
 	}

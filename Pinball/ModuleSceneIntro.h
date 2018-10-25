@@ -91,6 +91,11 @@ public:
 	SDL_Texture* k10 = nullptr;
 	SDL_Texture* k20 = nullptr;
 	SDL_Texture* bonusx2 = nullptr;
+	SDL_Texture* bonusx4 = nullptr;
+	SDL_Texture* bonusx6 = nullptr;
+	SDL_Texture* bonusx8 = nullptr;
+	SDL_Texture* bonusx10 = nullptr;
+	SDL_Texture* bonusHeld= nullptr;
 	SDL_Texture* P = nullptr;
 	SDL_Texture* PI = nullptr;
 	SDL_Texture* PIN = nullptr;
