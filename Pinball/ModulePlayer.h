@@ -32,4 +32,11 @@ public:
 	bool Hole4 = false;
 	int bonus = 1;
 	int lives = 3;
+
+	uint bouncer;
+	uint NewBall;
+	uint enthole;
+	uint exhole;
+	uint triangle;
+	uint lightfx;
 };

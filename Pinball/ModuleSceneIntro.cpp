@@ -65,6 +65,7 @@ bool ModuleSceneIntro::Start()
 	BARRIER2 = App->textures->Load("pinball/Barrier2.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	song = App->audio->PlayMusic("pinball/song.ogg");
+	flipperfx = App->audio->LoadFx("pinball/flipper.wav");
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
 	RightCircle = new PhysBody;
@@ -169,6 +170,7 @@ update_status ModuleSceneIntro::Update()
 		Circleup1 = false;
 		Circleup2 = false;
 		Circleup3 = false;
+		App->audio->PlayFx(bonus_fx);
 	}
 	
 	
@@ -393,11 +395,14 @@ void ModuleSceneIntro::BlitAll()
 
 void ModuleSceneIntro::ControlBall()
 {
-	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT) {
 		RightFlipper->body->ApplyTorque(500, true);
+		App->audio->PlayFx(flipperfx);
+	}
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		LeftFlipper->body->ApplyTorque(-500, true);
 		UpFlipper->body->ApplyTorque(-500, true);
+		App->audio->PlayFx(flipperfx);
 	}
 	if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) && space)
 		App->player->ball->body->ApplyLinearImpulse({ 0, -0.8f }, { 0,0 }, true, false);
