@@ -17,6 +17,6 @@ public:
 	int font = 0;
 	int Score = 0;
 	int HighScore = 00000;
-	char score[7];
-	char highscore[7];
+	char score[10];
+	char highscore[10];
 };
