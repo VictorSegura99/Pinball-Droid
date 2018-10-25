@@ -1,15 +1,25 @@
-﻿Pinball Droid
+﻿##Pinball Droid
 
-Our (and probably upgraded) version of the game Pinball Droid: https://www.classicgame.com/game/Pinball+Droid.
+Our version of the game Pinball Droid.
 
-Controls:
-
-- (<-) or Z for left Arrows
-- (->) or M for right Arrow
-
+____________________________
 Developers:
--Víctor Segura Blanco
--Oriol Capdevila Salinas
+-Víctor Segura Blanco (Github: https://github.com/VictorSegura99).
+-Oriol Capdevila Salinas(Github: https://github.com/OriolCS2).
+
+Our Repository: https://github.com/VictorSegura99/Pinball-Droid
+
+Original Game: : https://www.classicgame.com/game/Pinball+Droid.
+
+_____________________________
+Differences with the original:
+
+
+_____________________________
+Controls:
+- (<-) or Z for left Flippers
+- (->) or M for right Flipper
+- Down Arrow or SPACE to impuls the ball at the begining
 
 ___________________
 Sources:
