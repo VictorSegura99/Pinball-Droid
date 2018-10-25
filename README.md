@@ -1,4 +1,4 @@
-﻿##Pinball Droid
+﻿## Pinball Droid
 
 Our version of the game Pinball Droid.
 
@@ -13,7 +13,7 @@ Original Game: : https://www.classicgame.com/game/Pinball+Droid.
 
 _____________________________
 Differences with the original:
-- We don't have a menu or a Pause
+- We can't Open Menu
 - Physics don't work exactly the same way
 - Some sfx that we could not extract from the original Game
 
