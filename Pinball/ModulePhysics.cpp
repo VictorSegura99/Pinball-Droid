@@ -42,8 +42,6 @@ bool ModulePhysics::Start()
 update_status ModulePhysics::PreUpdate()
 {
 	world->Step(1.0f / 60.0f, 6, 2);
-
-	// TODO: HomeWork
 	for(b2Contact* c = world->GetContactList(); c; c = c->GetNext())
 	{
 		if(c->GetFixtureA()->IsSensor() && c->IsTouching())

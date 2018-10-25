@@ -134,6 +134,7 @@ public:
 	float velocity = 5.0f;
 	bool StartVelocity = false;
 	bool BallIsStopped = false;
+
 	
 	uint bonus_fx;
 	uint time = 0;
