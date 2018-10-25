@@ -32,7 +32,7 @@ public:
 	bool Hole4 = false;
 	int bonus = 1;
 	int lives = 3;
-
+	bool jointOn = true;
 	uint bouncer;
 	uint NewBall;
 	uint enthole;

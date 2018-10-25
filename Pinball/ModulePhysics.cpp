@@ -280,34 +280,36 @@ update_status ModulePhysics::PostUpdate()
 			}
 		}
 	}
-	if (body_clicked != nullptr)
-	{
-		if (!createdJoint) {
-			b2MouseJointDef def;
-			def.bodyA = ground;
-			def.bodyB = body_clicked;
-			def.target = mouse_position;
-			def.dampingRatio = 0.5f;
-			def.frequencyHz = 2.0f;
-			def.maxForce = 100.0f * body_clicked->GetMass();
-			mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
-			createdJoint = true;
-		}
-		else
+	if (App->player->jointOn) {
+		if (body_clicked != nullptr)
 		{
-			mouse_joint->SetTarget(mouse_position);
-			App->renderer->DrawLine(METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().x), METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().y), App->input->GetMouseX(), App->input->GetMouseY(), 255, 0, 0);
+			if (!createdJoint) {
+				b2MouseJointDef def;
+				def.bodyA = ground;
+				def.bodyB = body_clicked;
+				def.target = mouse_position;
+				def.dampingRatio = 0.5f;
+				def.frequencyHz = 2.0f;
+				def.maxForce = 100.0f * body_clicked->GetMass();
+				mouse_joint = (b2MouseJoint*)world->CreateJoint(&def);
+				createdJoint = true;
+			}
+			else
+			{
+				mouse_joint->SetTarget(mouse_position);
+				App->renderer->DrawLine(METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().x), METERS_TO_PIXELS(mouse_joint->GetBodyB()->GetPosition().y), App->input->GetMouseX(), App->input->GetMouseY(), 255, 0, 0);
+			}
+			if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP || !App->player->jointOn)
+			{
+				world->DestroyJoint(mouse_joint);
+				mouse_joint = nullptr;
+				body_clicked = nullptr;
+				createdJoint = false;
+			}
+		}
 		}
 
-		if (App->input->GetMouseButton(SDL_BUTTON_LEFT) == KEY_UP)
-		{
-			world->DestroyJoint(mouse_joint);
-			mouse_joint = nullptr;
-			body_clicked = nullptr;
-			createdJoint = false;
-		}
-
-	}
+	
 	return UPDATE_CONTINUE;
 }
 
@@ -397,6 +399,13 @@ void ModulePhysics::SpeedBall(PhysBody * Pbody)
 	{
 		Pbody->body->SetLinearVelocity(Pbody->MaxSpeed);
 	}
+}
+void ModulePhysics::ResetJoint()
+{
+
+
+
+
 }
 // TODO 3
 void ModulePhysics::BeginContact(b2Contact* contact)
@@ -874,6 +883,7 @@ void ModulePhysics::CreateSensors()
 	App->scene_intro->Space = CreateCircleSensor(450, 425, 1);
 	App->scene_intro->Space2 = CreateCircleSensor(450, 390, 1);
 	App->scene_intro->barrier = CreateCircleSensor(345, 20, 1);
+	App->scene_intro->Joint = CreateCircleSensor(210, 80, 3);
 }
 
 void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right, bool Up)

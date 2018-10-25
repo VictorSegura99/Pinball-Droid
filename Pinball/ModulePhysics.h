@@ -61,8 +61,9 @@ public:
 	void CreateFlipper(PhysBody* pbodyA, PhysBody* pbodyB, bool Right, bool Up);
 	void DestroyBody(PhysBody* body);
 	void SpeedBall(PhysBody* body);
+	void ResetJoint();
 
-private:
+public:
 
 	
 	b2World* world;

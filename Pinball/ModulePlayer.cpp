@@ -157,6 +157,7 @@ update_status ModulePlayer::Update()
 	}
 		
 	if (BallPosition.x >= 169 && BallPosition.x <= 308 && BallPosition.y >= 766) {
+		jointOn = false;
 		SpawnNextBall();
 	}
 
@@ -177,6 +178,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		if (App->scene_intro->Left)
 			App->ui->Score += 5000 * bonus;
 		else App->ui->Score += 1000 * bonus;
+		jointOn = false;
 	}
 
 	if (bodyB == App->scene_intro->Hole2) {
@@ -189,8 +191,11 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		if (App->scene_intro->Right)
 			App->ui->Score += 2500 * bonus;
 		else App->ui->Score += 500 * bonus;
-		
+		jointOn = false;
 	}
+	/*if (bodyB == App->scene_intro->Joint) {
+		jointOn = true;
+	}*/
 	if (bodyB == App->scene_intro->Hole3) {
 		Hole3 = true;
 		DesappearBall = true;
@@ -201,6 +206,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		if (App->scene_intro->Up)
 			App->ui->Score += 10000 * bonus;
 		else App->ui->Score += 1000 * bonus;
+		jointOn = false;
 	}
 	if (bodyB == App->scene_intro->Hole4) {
 		Hole4 = true;
@@ -211,6 +217,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->ui->Score += 20000 * bonus;
 		App->scene_intro->BallInHole = true;
 		App->audio->PlayFx(enthole);
+		jointOn = false;
 	}
 	if (bodyB == App->scene_intro->BouncyL) {
 		ball->body->ApplyLinearImpulse({ 2,-2.5f }, { 0,0 }, false, false);

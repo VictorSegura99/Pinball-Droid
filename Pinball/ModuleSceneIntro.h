@@ -72,6 +72,7 @@ public:
 	PhysBody* Space;
 	PhysBody* Space2;
 	PhysBody* barrier;
+	PhysBody* Joint;
 
 	SDL_Texture* up;
 	SDL_Texture* right;
