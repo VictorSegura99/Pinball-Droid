@@ -148,6 +148,7 @@ public:
 
 	
 	uint bonus_fx;
+	uint song;
 	uint time = 0;
 	uint TimeUp = 0;
 	uint TimeRight = 0;
