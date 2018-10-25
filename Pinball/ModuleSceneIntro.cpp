@@ -390,6 +390,6 @@ void ModuleSceneIntro::ControlBall()
 		UpFlipper->body->ApplyTorque(-500, true);
 	}
 	if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) && space)
-		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true, false);
+		App->player->ball->body->ApplyLinearImpulse({ 0, -0.8f }, { 0,0 }, true, false);
 
 }
