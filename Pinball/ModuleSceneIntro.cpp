@@ -393,3 +393,21 @@ void ModuleSceneIntro::ControlBall()
 		App->player->ball->body->ApplyLinearImpulse({ 0, -0.8f }, { 0,0 }, true, false);
 
 }
+
+void ModuleSceneIntro::LightsOff()
+{
+	OnLight1 = false;
+	OnLight2 = false;
+	OnLight3 = false;
+	OnLight4 = false;
+	OnLight5 = false;
+	OnLight6 = false;
+	OnLight7 = false;
+	OnLight8 = false;
+	OnLight9 = false;
+	OnLight10 = false;
+
+	Circleup1 = false;
+	Circleup2 = false;
+	Circleup3 = false;
+}

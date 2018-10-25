@@ -8,6 +8,7 @@
 #include "ModulePhysics.h"
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
+#include "ModuleSceneIntro.h"
 
 
 

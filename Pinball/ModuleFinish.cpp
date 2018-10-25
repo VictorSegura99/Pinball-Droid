@@ -11,6 +11,7 @@
 #include "ModuleFinish.h"
 #include "ModuleFonts.h"
 #include "ModuleUi.h"
+#include "ModuleSceneIntro.h"
 
 
 
@@ -91,7 +92,7 @@ update_status ModuleFinish::Update()
 		App->fonts->BlitText(170, 390, App->ui->font, App->ui->score);
 	}
 	else App->fonts->BlitText(210, 390, App->ui->font, App->ui->score);
-
+	App->physics->debug = false;
 
 	return UPDATE_CONTINUE;
 }

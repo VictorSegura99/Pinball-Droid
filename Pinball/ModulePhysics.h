@@ -64,11 +64,13 @@ public:
 
 private:
 
-	bool debug;
+	
 	b2World* world;
 	b2Body* body_clicked = nullptr;
 	b2MouseJoint* mouse_joint;
 	b2Body* ground;
 	bool clicked;
 	bool createdJoint = false;
+public:
+	bool debug;
 };

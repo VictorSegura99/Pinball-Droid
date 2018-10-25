@@ -21,6 +21,7 @@ public:
 	void ControlTime();
 	void BlitAll();
 	void ControlBall();
+	void LightsOff();
 
 public:
 	
@@ -118,6 +119,7 @@ public:
 	bool OnLight8 = false;
 	bool OnLight9 = false;
 	bool OnLight10 = false;
+
 
 	bool Circleup1 = false;
 	bool Circleup2 = false;
