@@ -110,6 +110,7 @@ void ModulePlayer::StartBall()
 void ModulePlayer::SpawnNextBall()
 {
 	lives--;
+	App->physics->DestroyBody(App->scene_intro->Barrier2);
 	App->scene_intro->LightsOff();
 	App->scene_intro->space = true;
 	App->scene_intro->contbonus = 0;

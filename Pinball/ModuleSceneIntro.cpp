@@ -193,13 +193,9 @@ update_status ModuleSceneIntro::Update()
 	BlitAll();
 	ControlTime();
 	ControlBall();
-	if (BArrier && Barrier2 == nullptr) {
-		App->renderer->Blit(BARRIER2, 385, 4, NULL, 1.0f);
+	if (BArrier && Barrier2 == nullptr && !Barrier2Created) {
 		Barrier2 = App->physics->CreateRectangle(388, 18, 5, 28);
-	}
-	else if (Barrier2 != nullptr) {
-		App->physics->DestroyBody(Barrier2);
-		Barrier2 = nullptr;
+		Barrier2Created = true;
 	}
 	return UPDATE_CONTINUE;
 }
@@ -269,7 +265,8 @@ void ModuleSceneIntro::BlitAll()
 		App->renderer->Blit(PINBALLDROID, -1, 0, NULL);
 	else App->renderer->Blit(background, -1, 0, NULL);
 		
-	
+	if (Barrier2Created) 
+		App->renderer->Blit(BARRIER2, 385, 4, NULL, 1.0f);
 
 	LeftFlipper->GetPosition(x, y);
 	App->renderer->Blit(flipper2, x - 43, y - 20, NULL, 1.0f, LeftFlipper->GetRotation());

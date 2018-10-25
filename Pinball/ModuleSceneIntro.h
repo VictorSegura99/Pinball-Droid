@@ -130,6 +130,8 @@ public:
 	bool Circleup3 = false;
 	bool ActiveBonus = false;
 
+	bool Barrier2Created = false;
+
 	bool ActiveHole1 = false;
 	bool ActiveHole2 = false;
 	bool ActiveHole3 = false;
