@@ -158,7 +158,10 @@ update_status ModulePlayer::Update()
 	}
 		
 	if (BallPosition.x >= 169 && BallPosition.x <= 308 && BallPosition.y >= 766) {
-		jointOn = false;
+		if (App->physics->MouseJoint != nullptr) {
+			jointOn = false;
+		}
+
 		SpawnNextBall();
 	}
 
