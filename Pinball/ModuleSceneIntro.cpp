@@ -198,19 +198,19 @@ void ModuleSceneIntro::ContinueAfterHole()
 
 void ModuleSceneIntro::ControlTime()
 {
-	if (TimeUp >= 500 && TimeUp > 0) {
+	if (TimeUp >= 2000 && TimeUp > 0) {
 		TimeUp = 0;
 		Up = false;
 	}
-	if (TimeLeft >= 500 && TimeLeft > 0) {
+	if (TimeLeft >= 2000 && TimeLeft > 0) {
 		TimeLeft = 0;
 		Left = false;
 	}
-	if (TimeRight >= 500 && TimeRight > 0) {
+	if (TimeRight >= 2000 && TimeRight > 0) {
 		TimeRight = 0;
 		Right = false;
 	}
-	if (TimeLight1 >= 500 && TimeLight1 > 0) {
+	if (TimeLight1 >= 2000 && TimeLight1 > 0) {
 		TimeLight1 = 0;
 		OnLight1 = false;
 	}

@@ -138,12 +138,8 @@ update_status ModulePlayer::Update()
 	if (BallPosition.x >= 169 && BallPosition.x <= 308 && BallPosition.y >= 766) {
 		SpawnNextBall();
 	}
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN) {
-		App->scene_intro->pinball = 0;
-		App->finish->Enable();
-		App->fade->FadeToBlack(this, (Module*)App->finish, 0.0f);
-	}
-	App->physics->SpeedBall(ball);
+
+	//App->physics->SpeedBall(ball);
 	return UPDATE_CONTINUE;
 }
 
@@ -156,7 +152,9 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole1 = true;
-		App->ui->Score += 1000 * bonus;
+		if (App->scene_intro->Left)
+			App->ui->Score += 5000 * bonus;
+		else App->ui->Score += 1000 * bonus;
 	}
 
 	if (bodyB == App->scene_intro->Hole2) {
@@ -165,7 +163,10 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole2 = true;
-		App->ui->Score += 1000 * bonus;
+		if (App->scene_intro->Right)
+			App->ui->Score += 2500 * bonus;
+		else App->ui->Score += 500 * bonus;
+		
 	}
 	if (bodyB == App->scene_intro->Hole3) {
 		Hole3 = true;
@@ -173,7 +174,9 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole3 = true;
-		App->ui->Score += 1000 * bonus;
+		if (App->scene_intro->Up)
+			App->ui->Score += 10000 * bonus;
+		else App->ui->Score += 1000 * bonus;
 	}
 	if (bodyB == App->scene_intro->Hole4) {
 		Hole4 = true;
@@ -181,7 +184,7 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->scene_intro->BallIsStopped = true;
 		App->scene_intro->time = SDL_GetTicks();
 		App->scene_intro->ActiveHole4 = true;
-		App->ui->Score += 1000 * bonus;
+		App->ui->Score += 20000 * bonus;
 	}
 	if (bodyB == App->scene_intro->BouncyL) {
 		ball->body->ApplyLinearImpulse({ 2,-2.5f }, { 0,0 }, false, false);
