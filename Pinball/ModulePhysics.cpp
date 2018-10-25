@@ -879,7 +879,8 @@ void ModulePhysics::CreateSensors()
 	App->scene_intro->CircleUp3 = CreateCircleSensor(349, 70, 6);
 	App->scene_intro->SensorUp = CreateCircleSensor(84, 20, 6);
 	App->scene_intro->SensorUp2 = CreateCircleSensor(20, 230, 6);
-
+	App->scene_intro->Space = CreateCircleSensor(450, 425, 1);
+	App->scene_intro->Space2 = CreateCircleSensor(450, 390, 1);
 }
 
 void ModulePhysics::CreateFlipper(PhysBody* BodyA, PhysBody* BodyB, bool Right, bool Up)

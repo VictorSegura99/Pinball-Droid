@@ -98,6 +98,7 @@ void ModulePlayer::StartBall()
 void ModulePlayer::SpawnNextBall()
 {
 	lives--;
+	App->scene_intro->space = true;
 	int bonus = 1;
 	App->physics->DestroyBody(ball);
 	App->scene_intro->ActiveBonus = false;
@@ -276,5 +277,11 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 		App->ui->Score += 200 * bonus;
 		vec = ball->body->GetLinearVelocity();
 		ball->body->ApplyLinearImpulse(-vec, { 0,0 }, true, false);
+	}
+	if (bodyB == App->scene_intro->Space) {
+		App->scene_intro->space = true;
+	}
+	if (bodyB == App->scene_intro->Space2) {
+		App->scene_intro->space = false;
 	}
 }

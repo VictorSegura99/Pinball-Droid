@@ -329,14 +329,12 @@ void ModuleSceneIntro::BlitAll()
 
 void ModuleSceneIntro::ControlBall()
 {
-
 	if (App->input->GetKey(SDL_SCANCODE_M) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
 		RightFlipper->body->ApplyTorque(500, true);
 	if (App->input->GetKey(SDL_SCANCODE_Z) == KEY_REPEAT || App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT) {
 		LeftFlipper->body->ApplyTorque(-500, true);
 		UpFlipper->body->ApplyTorque(-500, true);
 	}
-	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT | App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT)
+	if ((App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT | App->input->GetKey(SDL_SCANCODE_DOWN) == KEY_REPEAT) && space)
 		App->player->ball->body->ApplyLinearImpulse({ 0, -0.5f }, { 0,0 }, true, false);
-
 }

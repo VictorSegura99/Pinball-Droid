@@ -67,6 +67,8 @@ public:
 	PhysBody* CircleUp3;
 	PhysBody* SensorUp;
 	PhysBody* SensorUp2;
+	PhysBody* Space;
+	PhysBody* Space2;
 
 	SDL_Texture* up;
 	SDL_Texture* right;
@@ -121,6 +123,8 @@ public:
 	bool ActiveHole2 = false;
 	bool ActiveHole3 = false;
 	bool ActiveHole4 = false;
+
+	bool space = true;
 
 	bool Right = false;
 	bool Left = false;
