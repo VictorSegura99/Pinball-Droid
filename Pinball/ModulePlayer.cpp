@@ -101,6 +101,7 @@ void ModulePlayer::SpawnNextBall()
 	App->scene_intro->LightsOff();
 	App->scene_intro->space = true;
 	App->scene_intro->contbonus = 0;
+	App->scene_intro->BArrier = false;
 	int bonus = 1;
 	App->physics->DestroyBody(ball);
 	App->scene_intro->ActiveBonus = false;
@@ -285,5 +286,8 @@ void ModulePlayer::OnCollision(PhysBody * bodyA, PhysBody * bodyB)
 	}
 	if (bodyB == App->scene_intro->Space2) {
 		App->scene_intro->space = false;
+	}
+	if (bodyB == App->scene_intro->barrier) {
+		App->scene_intro->BArrier = true;
 	}
 }

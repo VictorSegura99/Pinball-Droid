@@ -62,6 +62,7 @@ bool ModuleSceneIntro::Start()
 	bonusx8 = App->textures->Load("pinball/x8 Bonus.png");
 	bonusx10 = App->textures->Load("pinball/x10 Bonus.png");
 	bonusHeld = App->textures->Load("pinball/Held Bonus.png");
+	BARRIER2 = App->textures->Load("pinball/Barrier2.png");
 	bonus_fx = App->audio->LoadFx("pinball/bonus.wav");
 	App->physics->CreatePinballWalls();
 	App->physics->CreateSensors();
@@ -117,6 +118,7 @@ bool ModuleSceneIntro::CleanUp()
 	App->textures->Unload(bonusx8);
 	App->textures->Unload(bonusx10);
 	App->textures->Unload(bonusHeld);
+	App->textures->Unload(BARRIER2);
 	App->audio->CleanUp();
 
 	return true;
@@ -160,6 +162,7 @@ update_status ModuleSceneIntro::Update()
 		App->physics->DestroyBody(Barrier);
 		Barrier = nullptr;
 	}
+	
 	if (Circleup1 && Circleup2 && Circleup3) {
 		contbonus++;
 		ActiveBonus = true;
@@ -188,7 +191,14 @@ update_status ModuleSceneIntro::Update()
 	BlitAll();
 	ControlTime();
 	ControlBall();
-
+	if (BArrier && Barrier2 == nullptr) {
+		App->renderer->Blit(BARRIER2, 385, 4, NULL, 1.0f);
+		Barrier2 = App->physics->CreateRectangle(388, 18, 5, 28);
+	}
+	else if (Barrier2 != nullptr) {
+		App->physics->DestroyBody(Barrier2);
+		Barrier2 = nullptr;
+	}
 	return UPDATE_CONTINUE;
 }
 
