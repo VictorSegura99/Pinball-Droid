@@ -7,7 +7,7 @@ Developers:
 -Víctor Segura Blanco (Github: https://github.com/VictorSegura99).
 -Oriol Capdevila Salinas(Github: https://github.com/OriolCS2).
 
-Our Repository: https://github.com/VictorSegura99/Pinball-Droid
+Our Repository: https://github.com/VictorSegura99/Victor_Segura_Oriol_Capdevila
 
 Original Game: : https://www.classicgame.com/game/Pinball+Droid.
 
