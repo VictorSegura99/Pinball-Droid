@@ -24,7 +24,7 @@ public:
 	bool Save(pugi::xml_node&) const;
 	bool Load(pugi::xml_node&);
 
-	Entity* AddEntity(Entity::EntityTypes type);
+	//Entity* AddEntity(Entity::EntityTypes type);
 
 	bool DeleteEntity(Entity* entity);
 	void DeleteEntities();

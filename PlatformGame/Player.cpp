@@ -14,6 +14,7 @@
 #include "j1Map.h"
 #include "j1Window.h"
 #include "EntityManager.h"
+#include "Entity.h"
 
 Player::Player() : Entity(Entity::EntityTypes::PLAYER)
 {

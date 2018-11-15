@@ -1,12 +1,12 @@
 #ifndef _PLAYER_H_
 #define _PLAYER_H_
 
-#include "Entity.h"
 #include "p2List.h"
 #include "p2Point.h"
 #include "j1Module.h"
 #include "j1Timer.h"
 #include "PugiXml/src/pugixml.hpp"
+#include "Entity.h"
 
 struct SDL_Texture;
 struct SDL_Rect;
@@ -87,7 +87,7 @@ public:
 	void SetCamera();
 
 
-private:
+public:
 	bool cameraon = false;
 	float auxGravity;
 	//float TIME;

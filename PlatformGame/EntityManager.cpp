@@ -14,8 +14,9 @@
 #include "j1Window.h"
 #include "EntityManager.h"
 #include "Player.h"
+#include "Entity.h"
 
-EntityManager::EntityManager()
+EntityManager::EntityManager() : j1Module()
 {
 	name.create("EntityManager");
 	
@@ -161,7 +162,7 @@ bool EntityManager::Load(pugi::xml_node & file)
 }
 
 
-Entity * EntityManager::AddEntity(Entity::EntityTypes type)
+/*Entity * EntityManager::AddEntity(Entity::EntityTypes type)
 {
 	static_assert(Entity::EntityTypes::NO_TYPE == (Entity::EntityTypes)3, "code needs update");
 	
@@ -182,7 +183,7 @@ Entity * EntityManager::AddEntity(Entity::EntityTypes type)
 	return NewEntity;
 	
 }
-
+*/
 bool EntityManager::DeleteEntity(Entity * entity)
 {
 	entity->CleanUp();
