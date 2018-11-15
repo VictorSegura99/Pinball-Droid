@@ -29,7 +29,7 @@ j1App::j1App(int argc, char* args[]) : argc(argc), args(args)
 	scene = new j1Scene();
 	map = new j1Map();
 	collision = new j1Collision();
-	entitymanager = new EntityManager();
+	entitymanager = new j1Entities();
 	choose = new j1Choose();
 
 	// Ordered for awake / Start / Update

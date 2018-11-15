@@ -3,44 +3,51 @@
 
 #include "p2Point.h"
 #include "p2Animation.h"
-#include "p2Log.h"
-#include "j1Map.h"
-#include "j1App.h"
-#include "EntityManager.h"
 
+struct SDL_Texture;
+struct Collider;
 
-class Entity  {
-public:
-
-	enum class EntityTypes {
-	
-		NPC,
-		PLAYER,
-		MOVING_PLATFORM,
-
-		NO_TYPE,
-	};
+class Entity
+{
+private:
+	SDL_Rect last_frame = { 0,0,0,0 };
+protected:
+	Animation* animation = nullptr;
+	Collider* collider = nullptr;
+	int lives = 0;
+	uint currentTime = 0u;
+	uint lastTime = 0u;
+	bool key_entities_speed = false;
 
 public:
+	fPoint position = fPoint(0, 0);
+	int type = 0;
+	bool to_destroy = false;
 
-	Entity();
-	Entity(EntityTypes type);
+public:
+	Entity(int x, int y);
 	virtual ~Entity();
 
-	virtual bool Start();
-	virtual bool Awake(pugi::xml_node & config);
-	virtual bool PreUpdate();
-	virtual bool Update(float dt);
-	virtual bool PostUpdate();
-	virtual bool CleanUp();
-	virtual bool Save(pugi::xml_node&) const;
-	virtual bool Load(pugi::xml_node&);
+	const Collider* GetCollider() const;
 
-public:
+	virtual void Update(float dt) {};
+	virtual void Shoot(float dt) {};
+	virtual void Draw(SDL_Texture* sprites);
+	virtual void OnCollision(Collider* collider);
+	virtual uint getLives() { return 0; };
+	virtual void SetEntitiesSpeed(float dt) {};
 
-	EntityTypes type;
+	virtual void LoadAnimation(pugi::xml_node animation_node, Animation* animation) {};
 
+	virtual bool Load(pugi::xml_node&)
+	{
+		return true;
+	}
 
+	virtual bool Save(pugi::xml_node&) const
+	{
+		return true;
+	}
 };
 
 #endif

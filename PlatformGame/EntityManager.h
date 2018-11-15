@@ -2,36 +2,56 @@
 #define __ENTITYMANAGER_H__
 
 #include "j1Module.h"
-#include "p2List.h"
-#include "p2Point.h"
-#include "Player.h"
+#include "p2Animation.h"
+#include "p2DynArray.h"
 
+enum EntityType
+{
+	BAT,
+	SLIME,
+	PLAYER,
+	COIN,
 
+	NO_TYPE
+};
 
 class Entity;
+class Player;
 
-class EntityManager : public j1Module {
+class j1Entities : public j1Module
+{
 public:
-	EntityManager();
-	~EntityManager();
+
+	j1Entities();
+	~j1Entities();
+
+	bool Awake(pugi::xml_node& conf);
 
 	bool Start();
-	bool Awake(pugi::xml_node & config);
+
 	bool PreUpdate();
+
 	bool Update(float dt);
-	bool PostUpdate();
-	bool CleanUp();
-	bool Save(pugi::xml_node&) const;
+
 	bool Load(pugi::xml_node&);
 
-	//Entity* AddEntity(Entity::EntityTypes type);
+	bool Save(pugi::xml_node&) const;
 
-	bool DeleteEntity(Entity* entity);
-	void DeleteEntities();
+	bool CleanUp();
 
-	
-public:
-	p2List<Entity*> Entities;
+	void OnCollision(Collider* c1, Collider* c2);
+
+	Player* GetPlayer()const;
+
+	bool SpawnEntity(int x, int y, EntityType type);
+
+private:
+
+	p2DynArray<Entity*> entities;
+
+	SDL_Texture* entity_sprites = nullptr;
+
+	p2SString spritesheetName;
 
 };
 

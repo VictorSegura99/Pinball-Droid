@@ -1,1011 +1,546 @@
 #include "p2Defs.h"
 #include "p2Log.h"
-#include "p2Point.h"
 #include "j1App.h"
-#include "Player.h"
-#include "j1Textures.h"
+#include "j1Input.h"
 #include "j1Render.h"
-#include "j1input.h"
+#include "j1Textures.h"
 #include "j1Map.h"
-#include "j1Scene.h"
 #include "j1Collision.h"
 #include "j1Audio.h"
-#include "j1Choose.h"
-#include "j1Map.h"
-#include "j1Window.h"
 #include "EntityManager.h"
-#include "Entity.h"
+#include "j1Timer.h"
 
-Player::Player() : Entity(Entity::EntityTypes::PLAYER)
-{
+#include "Player.h"
 
-}
+#define PLAYER_SPEED 40.0f
+#define JUMP_SPEED 40.0f
+#define GRAVITY 60.0f
 
-Player::~Player() {}
 
-bool Player::Awake(pugi::xml_node& config)
-{
-	LOG("Init SDL player");
-	sprites_name[0] = config.child("sprites").text().as_string();
-	sprites_name[1] = config.child("sprites2").text().as_string();
-	sprites_name[2] = config.child("sprites3").text().as_string();
-	JumpFx = config.child("JumpFx").text().as_string();
-	WaterFx = config.child("WaterFx").text().as_string();
-	DeathFx = config.child("DeathFx").text().as_string();
-	DeathFx2 = config.child("DeathFx2").text().as_string();
-	LadderFx = config.child("LadderFx").text().as_string();
-	LaserFx = config.child("LaserFx").text().as_string();
-	DashFx = config.child("DashFx").text().as_string();
-	finalmapplayer = config.child("finalmapplayer").attribute("value").as_int();
-	finalmap = config.child("finalmap").attribute("value").as_int();
-	startmap2 = config.child("startmap2").attribute("value").as_int();
-	maxYcam = config.child("maxYcam").attribute("value").as_int();
-	minYcam = config.child("minYcam").attribute("value").as_int();
-	lowcam = config.child("lowcam").attribute("value").as_int();
-	gravity = config.child("gravity").attribute("value").as_float();
-	positionWinMap1 = config.child("positionWinMap1").attribute("value").as_int();
-	startpointcameramap2 = config.child("startpointcameramap2").attribute("value").as_int();
-	SpeedSwimLeftRight = config.child("SpeedSwimLeftRight").attribute("value").as_float();
-	SpeedSwimUp = config.child("SpeedSwimUp").attribute("value").as_float();
-	SpeedClimb = config.child("SpeedClimb").attribute("value").as_float();
-	SpeedWalk = config.child("SpeedWalk").attribute("value").as_float();
-	playerHeight = config.child("playerHeight").attribute("value").as_int();
-	SpeedSwimDown = config.child("SpeedSwimDown").attribute("value").as_float();
-	JumpTime = config.child("JumpTime").attribute("value").as_int();
-	JumpSpeed = config.child("JumpSpeed").attribute("value").as_float();
-	AuxJumpSpeed = config.child("AuxJumpSpeed").attribute("value").as_float();
-	playerwidth = config.child("playerwidth").attribute("value").as_int();
-	playerheight = config.child("playerheight").attribute("value").as_int();
-	laserR.velocity.x = config.child("laservelocityR").attribute("value").as_float();
-	laserL.velocity.x = config.child("laservelocityL").attribute("value").as_float();
-	laserL.timelife = config.child("lasertimelife").attribute("value").as_int();
-	laserR.timelife = config.child("lasertimelife").attribute("value").as_int();
-	BottomLeft.speed = config.child("BottomSpeed").attribute("value").as_float();
-	BottomRight.speed = config.child("BottomSpeed").attribute("value").as_float();
+Player::Player(int x, int y) : Entity(x, y) {
 
-	for (int numplayer = 0; numplayer < 3; ++numplayer) {
-		idle[numplayer] = LoadPushbacks(numplayer, config, "idle");
-		idle2[numplayer] = LoadPushbacks(numplayer, config, "idle2");
-		GoRight[numplayer] = LoadPushbacks(numplayer, config, "GoRight");
-		GoLeft[numplayer] = LoadPushbacks(numplayer, config, "GoLeft");
-		jumpR[numplayer] = LoadPushbacks(numplayer, config, "jumpR");
-		jumpL[numplayer] = LoadPushbacks(numplayer, config, "jumpL");
-		Climb[numplayer] = LoadPushbacks(numplayer, config, "Climb");
-		ClimbIdle[numplayer] = LoadPushbacks(numplayer, config, "ClimbIdle");
-		SwimRight[numplayer] = LoadPushbacks(numplayer, config, "SwimRight");
-		SwimLeft[numplayer] = LoadPushbacks(numplayer, config, "SwimLeft");
-		Death[numplayer] = LoadPushbacks(numplayer, config, "Death");
-		if (numplayer == 0) {
-			BottomLeft.anim = LoadPushbacks(numplayer, config, "BottomLeft");
-			BottomRight.anim = LoadPushbacks(numplayer, config, "BottomRight");
-			doubleJump = LoadPushbacks(numplayer, config, "doubleJump");
-		}
-		if (numplayer == 1) {
-			laserR.anim = LoadPushbacks(numplayer, config, "LaserRight");
-			laserL.anim = LoadPushbacks(numplayer, config, "LaserLeft");
-		}
-		if (numplayer == 2) {
-			dashR.StartDash = LoadPushbacks(numplayer, config, "StartDashRight");
-			dashR.FinishDash = LoadPushbacks(numplayer, config, "FinishDashRight");
-			dashR.Dashing = LoadPushbacks(numplayer, config, "DashingRight");
-			dashL.StartDash = LoadPushbacks(numplayer, config, "StartDashLeft");
-			dashL.FinishDash = LoadPushbacks(numplayer, config, "FinishDashLeft");
-			dashL.Dashing = LoadPushbacks(numplayer, config, "DashingLeft");
-		}
+	bool ret = true;
+	player_appeared = false;
+
+	//TODO : this looks ugly but it seems the only way :'c
+	pugi::xml_document	config_file;
+	pugi::xml_node* node = &App->LoadConfig(config_file); //todo: make a method to get the root without passing the xml_document
+	node = &node->child("entities").child("player");
+
+	//read fxs from node
+	player_jump_fx = App->audio->LoadFx(node->child("fxPlayerJump").attribute("name").as_string());
+	player_dead_fx = App->audio->LoadFx(node->child("fxPlayerDead").attribute("name").as_string());
+	player_life_reward_fx = App->audio->LoadFx(node->child("fxPlayerLifeReward").attribute("name").as_string());
+
+	//read animation from node
+	for (pugi::xml_node animations = node->child("animations").child("animation"); animations && ret; animations = animations.next_sibling("animation"))
+	{
+		p2SString tmp(animations.attribute("name").as_string());
+
+		if (tmp == "right_idle")
+			LoadAnimation(animations, &right_idle);
+		else if (tmp == "left_idle")
+			LoadAnimation(animations, &left_idle);
+		else if (tmp == "right_run")
+			LoadAnimation(animations, &right_run);
+		else if (tmp == "left_run")
+			LoadAnimation(animations, &left_run);
+		else if (tmp == "right_jump")
+			LoadAnimation(animations, &right_jump);
+		else if (tmp == "left_jump")
+			LoadAnimation(animations, &left_jump);
+		else if (tmp == "right_dead")
+			LoadAnimation(animations, &right_death_blink);
+		else if (tmp == "left_dead")
+			LoadAnimation(animations, &left_death_blink);
+		else if (tmp == "right_shoot")
+			LoadAnimation(animations, &right_shoot);
+		else if (tmp == "left_shoot")
+			LoadAnimation(animations, &left_shoot);
+
 	}
 
-	bool ret = true;
-	return ret;
+	if (lives_implement_load != 0)
+		p_lives = lives_implement_load;
+	if (score_implement_load != 0)
+		score = score_implement_load;
+	if (time_implement_load != 0)
+		timer = time_implement_load;
+
+	LOG("Creating player collider");
+	collider = App->collision->AddCollider({ 0, 0, 16, 12 }, COLLIDER_TYPE::COLLIDER_PLAYER, (j1Module*)App->entitymanager);
+
+	if (collider == nullptr)
+		LOG("Error adding player collider");
+
+	//todo: need to set it? the scene does it already
+
+	animation = &right_idle;
+	LOG("TIMER: %i", timer);
 }
 
-bool Player::Start()
+void Player::LoadAnimation(pugi::xml_node animation_node, Animation* animation)
 {
-
 	bool ret = true;
 
-	auxGravity = gravity;
-	jumpfx = App->audio->LoadFx(JumpFx.GetString());
-	waterfx = App->audio->LoadFx(WaterFx.GetString());
-	deathfx = App->audio->LoadFx(DeathFx.GetString());
-	deathfx2 = App->audio->LoadFx(DeathFx2.GetString());
-	ladderfx = App->audio->LoadFx(LadderFx.GetString());
-	laserfx = App->audio->LoadFx(LaserFx.GetString());
-	dashfx = App->audio->LoadFx(DashFx.GetString());
+	for (pugi::xml_node frame = animation_node.child("frame"); frame && ret; frame = frame.next_sibling("frame"))
+		animation->PushBack({ frame.attribute("x").as_int() , frame.attribute("y").as_int(), frame.attribute("width").as_int(), frame.attribute("height").as_int() });
 
-	position.x = initialmap1.x;
-	position.y = initialmap1.y;
-
-	laserR.life = laserR.timelife;
-	laserL.life = laserL.timelife;
-
-	return ret;
+	animation->speed = animation_node.attribute("speed").as_float();
+	animation->loop = animation_node.attribute("loop").as_bool();
 }
-bool Player::PreUpdate() //Here we preload the input functions to determine the state of the player
+
+Player::~Player()
 {
-	if (!NoInput) {
-		if (!dashing) {
-			WalkLeft = App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT;
-			WalkRight = App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT;
-		}
-		GoUp = App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT;
-		GoDown = App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT;
-		Hability = App->input->GetKey(SDL_SCANCODE_J) == KEY_DOWN;
-		if (!God)
-			Jump = App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_DOWN;
-		else Jump = App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT;
-		if (!WalkLeft && !WalkRight && !CanSwim && !CanClimb)
-			Idle = true;
-		else
-			Idle = false;
+	LOG("Freeing the player");
+
+	LOG("Unloading player sound fx");
+	lives_implement_load = p_lives;
+	score_implement_load = score;
+	time_implement_load = timer;
+}
+
+// Called each loop iteration
+void Player::Update(float dt)
+{
+	if (player_appeared == false)
+	{
+		real_timer.Start();
+		player_appeared = true;
+		timer = real_timer.Read();
+		LOG("TIMER: %i", timer);
+	}
+
+	timer = real_timer.Read();
+	//LOG("timer: %i", timer);
+	current_dt = dt;
+	current_state = PlayerState::ST_UNKNOWN;
+
+	if (dt > 0)
+	{
+		if (!key_entities_speed)
+			SetEntitiesSpeed(dt);
+
+		SetPlayerAnimationsSpeed(dt);
+	}
+
+	if (!isDead)
+	{ //MOVEMENT / GRAVITY FUNCTIONALITY
+
+		if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+			god_mode = !god_mode;
 		if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
-			God = !God;
+		{
+			god_mode_fly = !god_mode_fly;
+
+			if (!god_mode_fly)
+				god_mode = false;
+		}
+
+
+		if (god_mode_fly && !god_mode)
+			god_mode = true;
+
+
+		if (score % 10 == 0 && score != last_score && App->entitymanager->GetPlayer()->p_lives != 6)
+		{
+			App->entitymanager->GetPlayer()->p_lives++;
+			App->audio->PlayFx(player_life_reward_fx);
+		}
+
+		last_score = score;
+
+		if (!god_mode_fly)
+		{
+
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_DOWN && !didDoubleJump)
+			{
+				if (!isJumping)
+				{
+					App->audio->PlayFx(player_jump_fx);
+					isJumping = true;
+				}
+				else
+				{
+					App->audio->PlayFx(player_jump_fx);
+					didDoubleJump = true;
+				}
+				jumpTimer = SDL_GetTicks();
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			{
+				this->position.x += canGoRight();
+				SetPlayerStates(ST_RUN_RIGHT, LAST_ST_RUN_RIGHT);
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			{
+				this->position.x -= canGoLeft();
+				SetPlayerStates(ST_RUN_LEFT, LAST_ST_RUN_LEFT);
+			}
+
+			bool isGettingHigh = false;
+
+
+			if (currentTime <= jumpTimer + 500 && isJumping)
+				isGettingHigh = true;
+
+			if (!isGettingHigh)
+			{
+				if (float gravity = gravityHaveToWork())
+				{
+					this->position.y += gravity;
+					isJumping = true;
+				}
+			}
+
+			if (isJumping && isGettingHigh)
+				this->position.y -= canGoUp();
+		}
+		else
+		{
+			if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT)
+			{
+				SetPlayerStates(ST_IDLE_RIGHT, LAST_ST_IDLE_RIGHT);
+				this->position.x += ceil(PLAYER_SPEED * current_dt);
+			}
+
+			if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT)
+			{
+				SetPlayerStates(ST_IDLE_LEFT, LAST_ST_IDLE_LEFT);
+				this->position.x -= ceil(PLAYER_SPEED * current_dt);
+			}
+			if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT)
+				this->position.y -= ceil(PLAYER_SPEED * current_dt);
+			if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT)
+				this->position.y += ceil(PLAYER_SPEED * current_dt);
+
+		}
+
 	}
-	return true;
+
+
+	//SEARCH THE STATE AND SET THE ANIMATION
+	SetPlayerAnimation(current_state, last_state);
+
+	//DEAD ANIMATION WITH TIMER
+	if (isDead && currentTime < deadTime + 1000)
+	{
+		if (last_state == LAST_ST_RUN_RIGHT)
+			animation = &right_death_blink;
+		else
+			animation = &left_death_blink;
+	}
+	else if (isDead)
+	{
+		p_lives--;
+		isDead = false;
+		collider->type = COLLIDER_PLAYER;
+	}
+
+	// Draw everything --------------------------------------
+	SDL_Rect r = animation->GetCurrentFrame(dt);
+
+	// Update player collider
+	collider->SetPos(position.x, position.y - r.h);
+	collider->rect.w = r.w;
+	collider->rect.h = r.h;
+
+	/*
+	if (!App->render->Blit(graphics, (int)position.x, (int)position.y - r.h, &r)) {
+	LOG("Cannot blit the texture in j1Player %s\n", SDL_GetError());
+	}
+	*/
+
+	currentTime = SDL_GetTicks();
 }
-bool Player::Update(float dt)
+
+void Player::OnCollision(Collider* collider) {
+
+}
+
+float Player::gravityHaveToWork()
 {
-	DT = dt;
-	//position.y -=gravity;
-	//Gravity(dt);
-	if (!TouchingGround) {
-		acceleration.y = gravity * dt;
-		LOG("Acceleration %f", acceleration.y);
+
+	fPoint tmpPosLeft;
+	tmpPosLeft.x = position.x;
+	tmpPosLeft.y = position.y - 1;
+
+
+	fPoint tmpPosRight;
+	tmpPosRight.x = position.x + collider->rect.w - 1;
+	tmpPosRight.y = position.y - 1;
+
+
+
+	return ceil(GRAVITY*current_dt);
+}
+
+float Player::canGoLeft()
+{
+	bool ret = true;
+
+	fPoint tmpPosUp;
+	tmpPosUp.x = position.x;
+	tmpPosUp.y = position.y - collider->rect.h;
+
+
+	fPoint tmpPosDown;
+	tmpPosDown.x = position.x;
+	tmpPosDown.y = position.y - 1;
+
+
+	return ceil(PLAYER_SPEED*current_dt);
+}
+
+float Player::canGoUp()
+{
+	bool ret = true;
+
+	fPoint tmpPosLeft;
+	tmpPosLeft.x = position.x;
+	tmpPosLeft.y = position.y - collider->rect.h;
+
+	
+
+	fPoint tmpPosRight;
+	tmpPosRight.x = position.x + collider->rect.w - 1;
+	tmpPosRight.y = position.y - collider->rect.h;
+
+
+	return ceil(JUMP_SPEED*current_dt);
+}
+
+bool Player::PlayerCanShootRight()
+{
+	return (last_state == PlayerLastState::LAST_ST_RUN_RIGHT
+		|| last_state == PlayerLastState::LAST_ST_IDLE_RIGHT
+		|| last_state == PlayerLastState::LAST_ST_SHOOT_RIGHT);
+}
+
+bool Player::PlayerCanShootLeft()
+{
+	return (last_state == PlayerLastState::LAST_ST_RUN_LEFT
+		|| last_state == PlayerLastState::LAST_ST_IDLE_LEFT
+		|| last_state == PlayerLastState::LAST_ST_SHOOT_LEFT);
+}
+
+float Player::canGoRight()
+{
+	fPoint tmpPosUp;
+	tmpPosUp.x = position.x + collider->rect.w - 1;
+	tmpPosUp.y = position.y - collider->rect.h;
+
+
+	fPoint tmpPosDown;
+	tmpPosDown.x = position.x + collider->rect.w - 1;
+	tmpPosDown.y = position.y - 1;
+
+
+	return ceil(PLAYER_SPEED*current_dt);
+}
+
+float Player::DistanceToWall(SDL_Rect wall, SDL_Rect player, Direction direction)
+{
+	switch (direction)
+	{
+	case Direction::RIGHT:
+		return player.x + player.w - wall.x;
+		break;
+	case Direction::LEFT:
+		return wall.x + wall.w - player.x;
+		break;
+	case Direction::UP:
+		return player.y - wall.y;
+		break;
+	case Direction::DOWN:
+		return player.y + player.h - wall.y;
+		break;
+	case Direction::NO_DIR:
+	default:
+		LOG("YOU ARE DOING IT WRONG!");
+		break;
+	}
+}
+
+
+void Player::SetPlayerAnimation(PlayerState current_state, PlayerLastState last_state)
+{
+	switch (current_state)
+	{
+	case Player::ST_UNKNOWN:
+		switch (last_state)
+		{
+		case Player::LAST_ST_UNKNOWN:
+			break;
+		case Player::LAST_ST_IDLE_RIGHT:
+			break;
+		case Player::LAST_ST_IDLE_LEFT:
+			break;
+		case Player::LAST_ST_RUN_RIGHT:
+			if (isJumping)
+				animation = &right_jump;
+			else
+				animation = &right_idle;
+			break;
+		case Player::LAST_ST_RUN_LEFT:
+			if (isJumping)
+				animation = &left_jump;
+			else
+				animation = &left_idle;
+			break;
+		case Player::LAST_ST_SHOOT_RIGHT:
+			if (isJumping)
+				animation = &right_jump;
+			else
+				animation = &right_idle;
+			break;
+		case Player::LAST_ST_SHOOT_LEFT:
+			if (isJumping)
+				animation = &left_jump;
+			else
+				animation = &left_idle;
+			break;
+		default:
+			break;
+		}
+		break;
+	case Player::ST_IDLE_RIGHT:
+		break;
+	case Player::ST_IDLE_LEFT:
+		break;
+	case Player::ST_RUN_RIGHT:
+		if (isJumping)
+			animation = &right_jump;
+		else
+			animation = &right_run;
+		break;
+	case Player::ST_RUN_LEFT:
+		if (isJumping)
+			animation = &left_jump;
+		else
+			animation = &left_run;
+		break;
+	case Player::ST_SHOOT_RIGHT:
+		if (isJumping)
+			animation = &right_jump;
+		else
+			animation = &right_shoot;
+		break;
+	case Player::ST_SHOOT_LEFT:
+		if (isJumping)
+			animation = &left_jump;
+		else
+			animation = &left_shoot;
+		break;
+	default:
+		break;
+	}
+}
+
+void Player::SetPlayerStates(PlayerState current_state, PlayerLastState last_state)
+{
+	this->current_state = current_state;
+	this->last_state = last_state;
+}
+
+void Player::SetPlayerAnimationsSpeed(float dt)
+{
+	right_idle.speed = right_idle_vel * dt;
+	left_idle.speed = left_idle_vel * dt;
+	right_run.speed = right_run_vel * dt;;
+	left_run.speed = left_run_vel * dt;;
+	right_jump.speed = right_jump_vel * dt;
+	left_jump.speed = left_jump_vel * dt;
+	right_death_blink.speed = right_death_blink_vel * dt;
+	left_death_blink.speed = left_death_blink_vel * dt;
+	right_shoot.speed = right_shoot_vel * dt;
+	left_shoot.speed = left_shoot_vel * dt;
+}
+
+bool Player::Load(pugi::xml_node& load)
+{
+	bool ret = true;
+
+	if (!load.child("position").empty())
+	{
+		position_implement_load.x = load.child("position").attribute("x").as_float();
+		position_implement_load.y = load.child("position").attribute("y").as_float() - 2.0f;
+	}
+
+	if (!load.child("info").empty()) {
+		lives_implement_load = load.child("info").attribute("lives").as_int();
+		score_implement_load = load.child("info").attribute("score").as_int();
+		time_implement_load = load.child("info").attribute("time").as_int();
+	}
+
+	return ret;
+}
+
+void Player::ImplementLoad()
+{
+	p_lives = lives_implement_load;
+	score = score_implement_load;
+	position.x = position_implement_load.x;
+	position.y = position_implement_load.y;
+
+	real_timer.Start();
+	player_appeared = true;
+	timer = real_timer.Read();
+	LOG("TIMER: %i", timer);
+}
+
+bool Player::Save(pugi::xml_node& save) const
+{
+	bool ret = true;
+
+	if (save.child("position").empty())
+	{
+		pugi::xml_node&  tmpsave = save.append_child("position");
+		tmpsave.append_attribute("x").set_value(position.x);
+		tmpsave.append_attribute("y").set_value(position.y);
 	}
 	else
-		acceleration.y = 0;
-	position.x += velocity.x;
-	position.y -= velocity.y + acceleration.y;
-	LOG("Gravity: %.6f", gravity);
-	if (!dashing) {
-		if (NumPlayer == 0)
-			DoubleJump(dt);
-		GoJump(dt);
-		GoSwim(dt);
-		GoClimb(dt);
-		Move_Left_Right(dt);
-		if (NumPlayer == 1)
-			ShootLaser(dt);
+	{
+		save.child("position").attribute("x").set_value(position.x);
+		save.child("position").attribute("y").set_value(position.y);
 	}
-	if (NumPlayer == 2)
-		DoDash(dt);
-	if (NumPlayer == 0)
-		BottomFall(dt);
-	Camera(dt);
 
-	if (death && !God) {
-		death = false;
-		//App->audio->PlayFx(deathfx2);
-		Die();
+	if (save.child("info").empty())
+	{
+		pugi::xml_node&  tmpsave = save.append_child("info");
+		tmpsave.append_attribute("lives").set_value(p_lives);
+		tmpsave.append_attribute("score").set_value(score);
+		tmpsave.append_attribute("time").set_value(timer);
 	}
-	if (fall && !God) {
-		fall = false;
-		App->audio->PlayFx(deathfx2);
-		Fall();
+	else
+	{
+		save.child("info").attribute("lives").set_value(p_lives);
+		save.child("info").attribute("score").set_value(score);
+		save.child("info").attribute("time").set_value(timer);
 	}
-	if (God)
-		CanJump = true;
 
-	coll->SetPos(position.x, position.y);
-	//App->render->DrawQuad(rect, 150, 150, 150, 255, true, false);
-	if (App->collision->debug)
-		App->render->DrawQuad(CamRect, 150, 150, 150);
-	if (current_animation == &dashR.FinishDash) {
-		App->render->Blit(texture, position.x - playerwidth, position.y, &(current_animation->GetCurrentFrame(dt)));
-	}
-	else App->render->Blit(texture, position.x, position.y, &(current_animation->GetCurrentFrame(dt)));
-
-	TouchingGround = false;
-
-	return true;
+	return ret;
 }
 
-bool Player::PostUpdate()
+void Player::ResetData()
 {
-	/*if (App->input->GetKey(SDL_SCANCODE_Y) == KEY_DOWN) {
-	App->scene->active = !App->scene->active;
-	App->player->active = !App->player->active;
-	App->collision->active = !App->collision->active;
-	App->map->active = !App->map->active;
-	App->render->camera.x = 0;
-	App->render->camera.y = 0;
-	App->choose->GameOn = false;
-	}*/
-	if (App->input->GetKey(SDL_SCANCODE_1) == KEY_DOWN) {
-		ChangePlayer(0);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_2) == KEY_DOWN) {
-		ChangePlayer(1);
-	}
-	if (App->input->GetKey(SDL_SCANCODE_3) == KEY_DOWN) {
-		ChangePlayer(2);
-	}
-	return true;
-}
-bool Player::Load(pugi::xml_node& player)
-{
-	position.x = player.child("position").attribute("x").as_float();
-	position.y = player.child("position").attribute("y").as_float();
-
-
-	App->map->ChangeMap(App->scene->map_name[App->scene->KnowMap]);
-
-
-	return true;
-}
-bool Player::Save(pugi::xml_node& player) const
-{
-	player.append_child("position").append_attribute("x") = position.x;
-	player.child("position").append_attribute("y") = position.y;
-
-
-	return true;
-}
-bool Player::CleanUp()
-{
-	App->tex->UnLoad(texture);
-	App->tex->UnLoad(ParticlesTex);
-	NextMap = false;
-	death = false;
-	fall = false;
-	God = false;
-	//Death[NumPlayer].current_frame = 0.0f;
-	//Death[NumPlayer].loops = 0;
-	if (coll)
-		coll->to_delete = true;
-	return true;
+	lives_implement_load = 0;
+	score_implement_load = 0;
+	time_implement_load = 0;
 }
 
-void Player::OnCollision(Collider * c1, Collider * c2) //this determine what happens when the player touch a type of collider
+void Player::SetEntitiesSpeed(float dt)
 {
-	switch (c2->type) {
-	case COLLIDER_GROUND:
-		if (position.y < c2->rect.y + c2->rect.h) {
-			velocity.y = 0;
-			TouchingGround = true;
-			CanJump = true;
-			CanJump2 = false;
-			CanSwim = false;
-			GoDown = false;
-			CanClimb = false;
-			CanDash = true;
-			BottomLeft.IsFalling = false;
-			BottomRight.IsFalling = false;
-			Falling = false;
-			FallingJump2 = false;
-			cameraon = true;
-			CanDoAnotherJump = true;
-			if (current_animation == &jumpR[NumPlayer])
-				current_animation = &idle[NumPlayer];
-			if (current_animation == &jumpL[NumPlayer])
-				current_animation = &idle2[NumPlayer];
-		}
-		break;
-	case COLLIDER_WALL_UP:
-		AnimDoubleJump = false;
-		velocity.y = 0;
-		IsJumping = false;
-		if (Jump2Complete)
-			IsJumping2 = false;
-		Jump2Complete = false;
-		GoUp = false;
-		break;
-	case COLLIDER_WALL_LEFT:
+	right_idle_vel = right_idle.speed;
+	left_idle_vel = left_idle.speed;
+	right_jump_vel = right_jump.speed;
+	left_jump_vel = left_jump.speed;
+	right_run_vel = right_run.speed;
+	left_run_vel = left_run.speed;
+	right_death_blink_vel = right_death_blink.speed;
+	left_death_blink_vel = left_death_blink.speed;
 
-		if (!CanSwim && !CanClimb && WalkLeft)
-			position.x += SpeedWalk * DT;
-		if (CanSwim && WalkLeft)
-			position.x += SpeedSwimLeftRight * DT;
-		if (CanClimb && WalkLeft)
-			position.x += SpeedWalk * DT;
-		if (dashing) {
-			dashing = false;
-			current_animation = &GoLeft[NumPlayer];
-		}
-		break;
-	case COLLIDER_WALL_RIGHT:
-		if (!CanSwim && !CanClimb && WalkRight)
-			position.x -= SpeedWalk * DT;
-		if (CanSwim && WalkRight)
-			position.x -= SpeedSwimLeftRight * DT;
-		if (CanClimb && WalkRight)
-			position.x -= SpeedWalk * DT;
-		if (dashing) {
-			dashing = false;
-			current_animation = &GoRight[NumPlayer];
-		}
-
-		break;
-	case COLLIDER_PLATFORM:
-		if (position.y + 70 < c2->rect.y)
-		{
-			velocity.y = 0;
-			//IsJumping = false;
-			//IsJumping2 = false;
-			TouchingGround = true;
-			CanDoAnotherJump = true;
-			CanJump = true;
-			CanClimb = false;
-			FallingJump2 = false;
-			CanJump2 = false;
-			GoDown = false;
-			CanSwim = false;
-			CanDash = true;
-			Falling = false;
-			BottomLeft.IsFalling = false;
-			BottomRight.IsFalling = false;
-			if (!dashing)
-				if (current_animation == &GoRight[NumPlayer] || current_animation == &jumpR[NumPlayer])
-					current_animation = &idle[NumPlayer];
-				else if (current_animation == &GoLeft[NumPlayer] || current_animation == &jumpL[NumPlayer])
-					current_animation = &idle2[NumPlayer];
-		}
-
-		break;
-	case COLLIDER_CLIMB:
-		App->audio->PlayFx(ladderfx);
-		IsJumping = false;
-		IsJumping2 = false;
-		CanDoAnotherJump = false;
-		Falling = false;
-		TouchingGround = true;
-		AnimDoubleJump = false;
-		CanClimb = true;
-		CanJump = true;
-		CanJump2 = false;
-		velocity.y = 0;
-		if (current_animation == &jumpR[NumPlayer] || current_animation == &jumpL[NumPlayer])
-			current_animation = &ClimbIdle[NumPlayer];
-		break;
-	case COLLIDER_WATER:
-		App->audio->PlayFx(waterfx);
-		CanSwim = true;
-		TouchingGround = true;
-		CanClimb = false;
-		velocity.y = 0;
-		break;
-	case COLLIDER_NONE:
-		CanClimb = false;
-		CanSwim = false;
-		break;
-	case COLLIDER_SPIKES:
-		velocity.y = 0;
-		TouchingGround = true;
-		WalkLeft = false;
-		WalkRight = false;
-		GoUp = false;
-		GoDown = false;
-		CanJump = false;
-		CanJump2 = false;
-		death = true;
-		if (!God)
-			NoInput = true;
-		break;
-	case COLLIDER_FALL:
-		WalkLeft = false;
-		WalkRight = false;
-		GoUp = false;
-		GoDown = false;
-		fall = true;
-		if (!God)
-			NoInput = true;
-		break;
-	case COLLIDER_ROPE:
-		TouchingGround = true;
-		CanClimb = true;
-		CanJump = true;
-		CanJump2 = false;
-		velocity.y = 0;
-		break;
-	case COLLIDER_WIN:
-		TouchingGround = true;
-		App->scene->active = false;
-		//active = false;
-		App->collision->active = false;
-		App->map->active = false;
-		App->choose->start = false;
-		App->render->camera.x = 0;
-		App->render->camera.y = 0;
-		App->choose->GameOn = false;
-		break;
-	}
-}
-
-void Player::Die()//What happens when the player die
-{
-	current_animation = &Death[NumPlayer];
-	//App->audio->PlayFx(deathfx);
-	if (Death[NumPlayer].SeeCurrentFrame() == 1)
-		App->audio->PlayFx(deathfx2);
-	if (Death[NumPlayer].Finished()) {
-		if (App->scene->KnowMap == 0) {
-			App->map->ChangeMap(App->scene->map_name[App->scene->KnowMap]);
-		}
-		if (App->scene->KnowMap == 1) {
-			App->map->ChangeMap(App->scene->map_name[App->scene->KnowMap]);
-		}
-		Spawn();
-	}
-}
-
-void Player::Fall()//What happens when the player falls
-{
-	if (App->scene->KnowMap == 0) {
-		App->map->ChangeMap(App->scene->map_name[App->scene->KnowMap]);
-	}
-	if (App->scene->KnowMap == 1) {
-		App->map->ChangeMap(App->scene->map_name[App->scene->KnowMap]);
-	}
-	Spawn();
-}
-
-void Player::Spawn()
-{
-	NoInput = false;
-	CanJump = true;
-	CanClimb = false;
-	CanSwim = false;
-	Death[NumPlayer].current_frame = 0.0f;
-	Death[NumPlayer].loops = 0;
-	current_animation = &idle[NumPlayer];
-	if (App->scene->KnowMap == 0) {
-		position.x = initialmap1.x;
-		position.y = initialmap1.y;
-	}
-	if (App->scene->KnowMap == 1) {
-		position.x = initialmap2.x;
-		position.y = initialmap2.y;
-	}
-	Death[NumPlayer].current_frame = 0.0f;
-	Death[NumPlayer].loops = 0;
-}
-Animation Player::LoadPushbacks(int playernumber, pugi::xml_node& config, p2SString NameAnim) const
-{
-	p2SString XML_Name_Player_Anims;
-	SDL_Rect rect;
-	Animation anim;
-	switch (playernumber) {
-	case 0:
-		XML_Name_Player_Anims = "AnimationsPlayerYellow";
-		break;
-	case 1:
-		XML_Name_Player_Anims = "AnimationsPlayerPink";
-		break;
-	case 2:
-		XML_Name_Player_Anims = "AnimationsPlayerBlue";
-		break;
-	}
-
-	for (pugi::xml_node frames = config.child(XML_Name_Player_Anims.GetString()).child(NameAnim.GetString()).child("frame"); frames; frames = frames.next_sibling("frame")) {
-		rect.x = frames.attribute("x").as_int();
-		rect.y = frames.attribute("y").as_int();
-		rect.w = frames.attribute("w").as_int();
-		rect.h = frames.attribute("h").as_int();
-		anim.PushBack({ rect.x,rect.y,rect.w,rect.h });
-	}
-	anim.speed = config.child(XML_Name_Player_Anims.GetString()).child(NameAnim.GetString()).attribute("speed").as_float();
-	anim.loop = config.child(XML_Name_Player_Anims.GetString()).child(NameAnim.GetString()).attribute("loop").as_bool();
-
-	return anim;
-}
-
-void Player::ChangePlayer(const int playernumber)
-{
-	if (NumPlayer != playernumber) {
-		App->tex->UnLoad(texture);
-		texture = App->tex->Load(sprites_name[playernumber].GetString());
-		App->collision->ColliderCleanUpPlayer();
-		NumPlayer = playernumber;
-		current_animation = &idle[NumPlayer];
-		switch (playernumber) {
-		case 0:
-			coll = App->collision->AddCollider({ 0, 0, playerwidth, playerheight }, COLLIDER_PLAYER);
-			break;
-		case 1:
-			position.y -= 17;
-			coll = App->collision->AddCollider({ 0, 0, 67, 93 }, COLLIDER_PLAYER);
-			break;
-		case 2:
-			position.y -= 17;
-			coll = App->collision->AddCollider({ 0, 0, 67, 93 }, COLLIDER_PLAYER);
-			break;
-		}
-	}
-}
-
-void Player::GoJump(float dt)
-{
-	if (Jump && CanJump && !CanSwim && !God && !IsJumping) { //If you clicked the jump button and you are able to jump(always except you just jumpt) you can jump
-		IsJumping = true;
-		TouchingGround = false;
-		Time = 0;
-		JumpSpeed = AuxJumpSpeed;
-		starttime = SDL_GetTicks();
-	}
-	if (IsJumping) { //if you are able to jump, determine the animation and direction of the jump
-					 //Time = Time * dt;
-
-		float TIME = SDL_GetTicks();
-		Time += 1;
-		LOG("TIME %f", TIME);
-		CanJump = false;
-		if (TIME - starttime == 0)
-			App->audio->PlayFx(jumpfx);
-		if (TIME - starttime > 20 && TIME - starttime < 300) {
-			JumpSpeed -= 2750.0f *dt;
-		}
-		if (TIME - starttime <= 300 && WalkRight) {
-			current_animation = &jumpR[NumPlayer];
-			position.y -= JumpSpeed * dt;
-		}
-		else if (TIME - starttime <= 300 && WalkLeft) {
-			current_animation = &jumpL[NumPlayer];
-			position.y -= JumpSpeed * dt;
-		}
-		else if (TIME - starttime <= 300) {
-			if (current_animation == &idle[NumPlayer])
-				current_animation = &jumpR[NumPlayer];
-			if (current_animation == &idle2[NumPlayer])
-				current_animation = &jumpL[NumPlayer];
-			position.y -= JumpSpeed * dt;
-		}
-		if (TIME - starttime >= 300) {
-			IsJumping = false;
-			CanJump2 = true;
-			CanJump = false;
-			Falling = true;
-			JumpSpeed = AuxJumpSpeed;
-			Time = 0;
-			if (current_animation == &jumpR[NumPlayer]) {
-				current_animation = &idle[NumPlayer];
-			}
-			else current_animation = &idle2[NumPlayer];
-		}
-	}
-
-	if (God && Jump) { //if you are in god mode and jump, you can fly
-					   //App->audio->PlayFx(jumpfx);
-		position.y -= JumpSpeed * dt;
-	}
-}
-
-void Player::GoSwim(float dt)
-{
-	if (CanSwim) {
-		if (current_animation == &SwimLeft[NumPlayer]) {
-			current_animation = &SwimLeft[NumPlayer];
-		}
-		else {
-			current_animation = &SwimRight[NumPlayer];
-		}
-	}
-	if (CanSwim && GoUp) { //Can Swim determine if you are in a water collider, if you are, it's true
-		position.y -= SpeedSwimUp * dt;
-	}
-	if (CanSwim && GoDown) {
-		position.y -= -SpeedSwimDown * dt;
-	}
-
-}
-
-void Player::GoClimb(float dt)
-{
-	if (CanClimb && GoUp) {
-		position.y -= SpeedClimb * dt;
-		current_animation = &Climb[NumPlayer];
-	}
-	if (CanClimb && GoDown) {
-		position.y -= -SpeedClimb * dt;
-		current_animation = &Climb[NumPlayer];
-	}
-	if (CanClimb && !GoUp && !GoDown)
-		current_animation = &ClimbIdle[NumPlayer];
-
-}
-
-void Player::Move_Left_Right(float dt)
-{
-	if (!BottomLeft.IsFalling && !BottomRight.IsFalling) {
-		if (WalkRight) { //This determine the movement to the right, depending on the state of the player
-			if (!IsJumping && !CanSwim && !CanClimb) {
-				dashR.ResetDashAnims();
-				dashL.ResetDashAnims();
-				position.x += SpeedWalk * dt;
-				current_animation = &GoRight[NumPlayer];
-			}
-			if (IsJumping) {
-				position.x += SpeedWalk * dt;
-			}
-			if (CanSwim && !CanClimb) { //Can Climb determine if you are in a climb collider, if you are, it's true
-				position.x += SpeedSwimLeftRight * dt;
-				current_animation = &SwimRight[NumPlayer];
-			}
-			if (CanClimb)
-				position.x += SpeedWalk * dt;
-			if (Falling)
-				current_animation = &jumpR[NumPlayer];
-		}
-		if (WalkLeft) { //This determine the movement to the left, depending on the state of the player
-			if (!IsJumping && !CanSwim && !CanClimb) {
-				dashR.ResetDashAnims();
-				dashL.ResetDashAnims();
-				position.x -= SpeedWalk * dt;
-				current_animation = &GoLeft[NumPlayer];
-			}
-			if (IsJumping) {
-				position.x -= SpeedWalk * dt;
-			}
-			if (CanSwim && !CanClimb) {
-				position.x -= SpeedSwimLeftRight * dt;
-				current_animation = &SwimLeft[NumPlayer];
-			}
-			if (CanClimb)
-				position.x -= SpeedWalk * dt;
-			if (Falling)
-				current_animation = &jumpL[NumPlayer];
-		}
-		if (WalkRight && WalkLeft) {
-			if (!CanSwim)
-				current_animation = &idle[NumPlayer];
-			if (CanSwim)
-				current_animation = &SwimRight[NumPlayer];
-			if (CanClimb) {
-				current_animation = &Climb[NumPlayer];
-			}
-			if (Falling)
-				current_animation = &jumpR[NumPlayer];
-		}
-	}
-
-	if (Idle) {
-		if (!BottomLeft.IsFalling && NumPlayer == 0 && current_animation == &BottomLeft.anim)
-			current_animation = &idle2[NumPlayer];
-		if (!BottomRight.IsFalling && NumPlayer == 0 && current_animation == &BottomRight.anim)
-			current_animation = &idle[NumPlayer];
-		if (current_animation == &GoRight[NumPlayer])
-			current_animation = &idle[NumPlayer];
-		if (current_animation == &GoLeft[NumPlayer])
-			current_animation = &idle2[NumPlayer];
-		if (dashL.FinishDash.Finished()) {
-			current_animation = &idle2[NumPlayer];
-			dashL.ResetDashAnims();
-			dashR.ResetDashAnims();
-		}
-		if (dashR.FinishDash.Finished()) {
-			current_animation = &idle[NumPlayer];
-			dashR.ResetDashAnims();
-			dashL.ResetDashAnims();
-		}
-		if (Falling&&current_animation == &idle[NumPlayer])
-			current_animation = &jumpR[NumPlayer];
-		if (Falling&&current_animation == &idle2[NumPlayer])
-			current_animation = &jumpL[NumPlayer];
-	}
-}
-
-void Player::Camera(float dt)
-{
-	if (App->scene->KnowMap == 0 && position.x >= positionWinMap1) {//knowmap it's a varibable that let us know in which map we are. //Knowmap=0, level 1 //knowmap=2, level 2
-		NextMap = true;
-	}
-	if (position.x <= startmap2 && App->scene->KnowMap == 1) { //If player is in a position where the camera would print out of the map, camera stops
-		App->render->camera.x = startpointcameramap2;
-
-	}
-	else if (position.x >= finalmapplayer) {
-		App->render->camera.x = finalmap;
-	}
-	else {
-		App->render->camera.x = -position.x + (App->render->camera.w / 2);
-	}
-	if (position.y <= minYcam) { //If player is in a position where the camera would print out of the map, camera stops
-		App->render->camera.y = 0;
-	}
-	else if (position.y >= maxYcam) {
-		App->render->camera.y = lowcam;//lowcam is the bottom part of the map, when the player is too low, the camera follows a constant height to don't get out of the map
-	}
-	else {
-		App->render->camera.y = -position.y + (App->render->camera.h / 2);
-	}
-
-	/*if (CamRect.x + CamRect.w <= position.x + playerwidth) { //WHEN THE PLAYER MOVES RIGHT
-	CamRect.x += (SpeedWalk + 1000*dt) * dt;
-	App->render->camera.x -= (SpeedWalk + 2000 * dt) * dt;
-	//App->render->camera.x = -position.x + (App->render->camera.w / 2);
-	}
-	if (CamRect.x >= position.x) { //WHEN THE PLAYER MOVES LEFT
-	CamRect.x -= (SpeedWalk + 1000 * dt) * dt;
-	App->render->camera.x += (SpeedWalk + 1000 * dt) * dt;
-	//App->render->camera.x = -position.x + (App->render->camera.w / 2);
-	}
-	if (position.y <= CamRect.y && cameraon) { //WHEN THE PLAYER GOES UP
-	CamRect.y -= (JumpSpeed + 1000 * dt) * dt;
-	//App->render->camera.y += 100 * dt;
-	App->render->camera.y += (SpeedWalk + 1000 * dt) * dt;
-	}
-	if (position.y + playerHeight >= CamRect.y + CamRect.h) { //WHEN THE PLAYER GOES DOWN
-	//App->render->camera.y = -position.y + (App->render->camera.h / 2);
-	if (CanClimb)
-	CamRect.y += SpeedClimb * dt;
-	else CamRect.y -= gravity;
-	App->render->camera.y += (gravity);
-
-	}*/
-	if (-App->render->camera.x >= position.x) //PLAYER CAN NOT GO BACK
-		position.x += SpeedWalk * dt;
-
-
-
-
-
-
-	LOG("Position.y = %f", position.y);
-	float Cam = CamRect.y;
-	LOG("CamRect.y = %f", Cam);
-
-
-}
-
-void Player::DoDash(float dt)
-{
-	if ((current_animation == &GoRight[NumPlayer] || current_animation == &idle[NumPlayer] || current_animation == &jumpR[NumPlayer]) && Hability && CanDash) {
-		App->audio->PlayFx(dashfx);
-		JumpSpeed = AuxJumpSpeed;
-		dashing = true;
-		dashR.DashRight = true;
-	}
-	if ((current_animation == &GoLeft[NumPlayer] || current_animation == &idle2[NumPlayer] || current_animation == &jumpL[NumPlayer]) && Hability && CanDash) {
-		App->audio->PlayFx(dashfx);
-		JumpSpeed = AuxJumpSpeed;
-		dashing = true;
-		dashL.DashLeft = true;
-	}
-	if (dashing && dashR.DashRight) {
-		position.y += gravity;
-		if (dashR.StartDash.current_frame == 0) {
-			//	position.x -= 60;
-			current_animation = &dashR.StartDash;
-		}
-		if (dashR.StartDash.Finished()) {
-			++dashR.DashCont;
-			current_animation = &dashR.Dashing;
-			position.x += 1800 * dt;
-			if (dashR.DashCont >= dashR.DashTime) {
-				position.x -= 1600 * dt;
-				current_animation = &dashR.FinishDash;
-				if (dashR.FinishDash.Finished()) {
-					dashR.DashCont = 0;
-					dashing = false;
-					IsJumping = false;
-					CanJump = false;
-					CanDash = false;
-				}
-
-			}
-		}
-	}
-	if (dashing && dashL.DashLeft) {
-		position.y += gravity;
-		if (dashL.StartDash.current_frame == 0) {
-			//	position.x -= 60;
-			current_animation = &dashL.StartDash;
-		}
-		if (dashL.StartDash.Finished()) {
-			++dashL.DashCont;
-			current_animation = &dashL.Dashing;
-
-			position.x -= 1800 * dt;
-			if (dashL.DashCont >= dashL.DashTime) {
-				position.x += 1600 * dt;
-				current_animation = &dashL.FinishDash;
-				if (dashL.FinishDash.Finished()) {
-					dashL.DashCont = 0;
-					dashing = false;
-					IsJumping = false;
-					CanJump = false;
-					CanDash = false;
-				}
-
-			}
-		}
-	}
-
-}
-
-
-void Player::ShootLaser(float dt)
-{
-	if ((current_animation == &GoRight[NumPlayer] || current_animation == &idle[NumPlayer] || current_animation == &jumpR[NumPlayer]) && (Hability && !laserR.IsShooting)) {
-		laserR.StartShooting = true;
-		App->audio->PlayFx(laserfx);
-	}
-	if (laserR.StartShooting) {
-		laserR.StartShooting = false;
-		laserR.IsShooting = true;
-		if (laserR.coll != nullptr) {
-			laserR.coll->to_delete = true;
-		}
-
-		laserR.position.x = position.x;
-		laserR.position.y = position.y;
-
-		laserR.coll = App->collision->AddCollider(laserR.anim.GetCurrentFrame(dt), COLLIDER_PARTICLE);
-
-	}
-	if (laserR.IsShooting) {
-		if (laserR.life < laserR.time) {
-			laserR.life = laserR.timelife;
-			laserR.IsShooting = false;
-			laserR.coll->to_delete = true;
-		}
-		laserR.life--;
-		laserR.position.x += laserR.velocity.x * dt;
-		laserR.coll->SetPos(laserR.position.x - 10, laserR.position.y + 22);
-		App->render->Blit(texture, laserR.position.x - 10, laserR.position.y + 22, &(laserR.anim.GetCurrentFrame(dt)));
-	}
-
-	if ((current_animation == &GoLeft[NumPlayer] || current_animation == &idle2[NumPlayer] || current_animation == &jumpL[NumPlayer]) && (Hability && !laserL.IsShooting)) {
-		laserL.StartShooting = true;
-		App->audio->PlayFx(laserfx);
-	}
-	if (laserL.StartShooting) {
-		laserL.StartShooting = false;
-		laserL.IsShooting = true;
-		if (laserL.coll != nullptr) {
-			laserL.coll->to_delete = true;
-		}
-
-		laserL.position.x = position.x;
-		laserL.position.y = position.y;
-
-		laserL.coll = App->collision->AddCollider(laserL.anim.GetCurrentFrame(dt), COLLIDER_PARTICLE);
-	}
-	if (laserL.IsShooting) {
-		if (laserL.life < laserL.time) {
-			laserL.life = laserL.timelife;
-			laserL.IsShooting = false;
-			laserL.coll->to_delete = true;
-		}
-		laserL.life--;
-		laserL.position.x += laserL.velocity.x * dt;
-		laserL.coll->SetPos(laserL.position.x - 10, laserL.position.y + 22);
-		App->render->Blit(texture, laserL.position.x - 10, laserL.position.y + 22, &(laserL.anim.GetCurrentFrame(dt)));
-	}
-}
-
-void Player::DoubleJump(float dt)
-{
-	if (CanJump2 && Jump && !IsJumping && CanDoAnotherJump) {
-		AnimDoubleJump = true;
-		IsJumping2 = true;
-		Falling = false;
-		Jump2Complete = true;
-		Time = 0;
-		starttime = SDL_GetTicks();
-		JumpSpeed = AuxJumpSpeed;
-	}
-	if (Jump && IsJumping && !CanJump2 && CanDoAnotherJump) {
-		AnimDoubleJump = true;
-		IsJumping = false;
-		CanJump2 = true;
-		Falling = false;
-		CanJump = false;
-		Jump2Complete = true;
-		Time = 0;
-		starttime = SDL_GetTicks();
-		JumpSpeed = AuxJumpSpeed;
-		IsJumping2 = true;
-	}
-	if (AnimDoubleJump) {
-		if (current_animation == &jumpL[NumPlayer] || current_animation == &GoLeft[NumPlayer])
-			App->render->Blit(texture, position.x + 13, position.y + playerHeight, &(doubleJump.GetCurrentFrame(dt)));
-		if (current_animation == &jumpR[NumPlayer] || current_animation == &GoRight[NumPlayer])
-			App->render->Blit(texture, position.x + 13, position.y + playerHeight, &(doubleJump.GetCurrentFrame(dt)), SDL_FLIP_HORIZONTAL);
-	}
-	if (IsJumping2) { //if you are able to jump, determine the animation and direction of the jump
-		CanDoAnotherJump = false;
-		Time += 100 * dt;
-		float TIME = SDL_GetTicks();
-		if (TIME - starttime == 0)
-			App->audio->PlayFx(jumpfx);
-		if (TIME - starttime > 20 && TIME - starttime < 300) {
-			JumpSpeed -= 2750.0f *dt;
-		}
-		if (TIME - starttime <= 300 && WalkRight) {
-			current_animation = &jumpR[NumPlayer];
-			position.y -= JumpSpeed * dt;
-		}
-		else if (TIME - starttime <= 300 && WalkLeft) {
-			current_animation = &jumpL[NumPlayer];
-			position.y -= JumpSpeed * dt;
-		}
-		else if (TIME - starttime <= 300) {
-			if (current_animation == &idle[NumPlayer])
-				current_animation = &jumpR[NumPlayer];
-			if (current_animation == &idle2[NumPlayer])
-				current_animation = &jumpL[NumPlayer];
-			position.y -= JumpSpeed * dt;
-		}
-		if (TIME - starttime >= 300) {
-			FallingJump2 = true;
-			AnimDoubleJump = false;
-			IsJumping2 = false;
-			CanJump2 = false;
-			Falling = true;
-			JumpSpeed = AuxJumpSpeed;
-			Jump2Complete = false;
-		}
-	}
-}
-
-void Player::BottomFall(float dt)
-{
-	if (Hability && IsJumping2) {
-		if (current_animation == &GoRight[NumPlayer] || current_animation == &idle[NumPlayer] || current_animation == &jumpR[NumPlayer]) {
-			AnimDoubleJump = false;
-			BottomRight.anim.loops = 0;
-			BottomRight.anim.current_frame = 0.0f;
-			BottomRight.IsFalling = true;
-		}
-		else if (current_animation == &GoLeft[NumPlayer] || current_animation == &idle2[NumPlayer] || current_animation == &jumpL[NumPlayer]) {
-			AnimDoubleJump = false;
-			BottomLeft.anim.loops = 0;
-			BottomLeft.anim.current_frame = 0.0f;
-			BottomLeft.IsFalling = true;
-		}
-
-		IsJumping2 = false;
-		CanJump2 = false;
-	}
-	if (Hability && FallingJump2) {
-		if (current_animation == &GoRight[NumPlayer] || current_animation == &idle[NumPlayer] || current_animation == &jumpR[NumPlayer]) {
-			BottomRight.anim.loops = 0;
-			BottomRight.anim.current_frame = 0.0f;
-			BottomRight.IsFalling = true;
-		}
-		else if (current_animation == &GoLeft[NumPlayer] || current_animation == &idle2[NumPlayer] || current_animation == &jumpL[NumPlayer]) {
-			BottomLeft.anim.loops = 0;
-			BottomLeft.anim.current_frame = 0.0f;
-			BottomLeft.IsFalling = true;
-		}
-		IsJumping2 = false;
-		CanJump2 = false;
-	}
-	if (BottomLeft.IsFalling) {
-		current_animation = &BottomLeft.anim;
-		position.y += BottomLeft.speed * dt;
-	}
-	if (BottomRight.IsFalling) {
-		current_animation = &BottomRight.anim;
-		position.y += BottomRight.speed * dt;
-	}
-
-}
-
-void Player::Gravity(float dt)
-{
-	gravity = auxGravity;
-	gravity = gravity * dt;
-	position.y -= gravity;
-}
-
-void Player::SetCamera()
-{
-	App->render->camera.x = -300;
-	CamRect.x = 580;
-	CamRect.y = 480;
-	CamRect.w = 300;
-	CamRect.h = playerHeight + playerHeight;
-}
-
-void Dash::ResetDashAnims()
-{
-	StartDash.current_frame = 0.0f;
-	StartDash.loops = 0;
-
-	FinishDash.current_frame = 0.0f;
-	FinishDash.loops = 0;
-
-	DashLeft = false;
-	DashRight = false;
-	DashCont = 0;
+	key_entities_speed = true;
 }

@@ -16,7 +16,7 @@ class j1Audio;
 class j1Scene;
 class j1Map;
 class j1Collision;
-class EntityManager;
+class j1Entities;
 class j1Choose;
 
 class j1App
@@ -90,7 +90,7 @@ public:
 	j1Scene*			scene;
 	j1Map*				map;
 	j1Collision*		collision;
-	EntityManager*		entitymanager;
+	j1Entities*			entitymanager;
 	j1Choose*			choose;
 
 private:
